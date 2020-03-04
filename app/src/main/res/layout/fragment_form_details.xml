@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.studyform.details.DetailsActivity">
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorAppBackground"
+            app:layout_constraintBottom_toTopOf="@+id/tableRow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".ui.studyform.details.DetailsActivity">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtHeader"
+                    style="@style/txtHeaderTitle"
+                    android:layout_marginBottom="@dimen/dimen_15"
+                    android:text="@string/study_form_details_title"/>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/study_form_details_title_layout"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_15"
+                    android:layout_marginEnd="@dimen/dimen_15"
+                    android:background="@drawable/card_background"
+                    android:hint="@string/title" android:paddingStart="@dimen/dimen_5"
+                    android:paddingEnd="@dimen/dimen_5"
+                    android:textColorHint="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/study_form_details_title"
+                        style="@style/txtTitle"
+                        android:layout_marginBottom="@dimen/dimen_5"
+                        android:background="@null"
+                        android:enabled="false"
+                        android:paddingStart="@dimen/dimen_10"
+                        android:paddingTop="@dimen/dimen_5"
+                        android:paddingEnd="@dimen/dimen_10"
+                />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/study_form_details_desc_layout"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_15"
+                    android:layout_marginTop="@dimen/dimen_10" android:layout_marginEnd="@dimen/dimen_15"
+                    android:background="@drawable/card_background" android:hint="@string/description"
+                    android:paddingStart="@dimen/dimen_5"
+                    android:paddingEnd="@dimen/dimen_5"
+                    android:textColorHint="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/study_form_details_desc"
+                        style="@style/txt_cardDesc"
+                        android:textSize="@dimen/text_size_15"
+                        android:layout_marginBottom="@dimen/dimen_5"
+                        android:background="@null" android:enabled="false"
+                        android:paddingStart="@dimen/dimen_10"
+                        android:paddingTop="@dimen/dimen_5"
+                        android:paddingEnd="@dimen/dimen_10"
+                />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/studyFormDetails_variableLabel"
+                    style="@style/txtLabelHeader"
+                    android:paddingStart="@dimen/padding_25"
+                    android:paddingLeft="@dimen/dimen_15"
+                    android:paddingEnd="@dimen/dimen_15"
+                    android:paddingRight="@dimen/dimen_15"
+                    android:text="@string/variables" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvStudyFormsVariable"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dimen_15"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:layout_marginEnd="@dimen/dimen_15"
+                    android:layout_marginBottom="@dimen/dimen_10"
+                    app:layoutManager="LinearLayoutManager"
+                    tools:listitem="@layout/row_study_form_variable" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <TableRow
+            android:id="@+id/tableRow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+                android:id="@+id/btn_confirm"
+                style="@style/bottomBtn"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+                android:id="@+id/btn_AddMore"
+                style="@style/bottomBtn"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:text="@string/add_more_variable"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+    </TableRow>
+</androidx.constraintlayout.widget.ConstraintLayout>

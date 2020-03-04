@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="35dp"
+              android:layout_margin="@dimen/padding_25"
+>
+   <Button
+            android:layout_marginTop="@dimen/dimen_15"
+            style="@style/loginBtn" android:padding="@dimen/dimen_5"
+            android:text="@string/study_form_create_scratch"
+            android:id="@+id/pop_create_scratch"/>
+    <TextView
+            android:text="@string/or" android:gravity="center_horizontal" android:textColor="@color/black"
+            android:layout_width="match_parent" android:padding="@dimen/padding_20" android:textSize="@dimen/text_size_18"
+            android:layout_height="wrap_content" android:textAllCaps="true"/>
+    <Button
+            style="@style/loginBtn"
+            android:text="@string/create_new_form_template" android:id="@+id/pop_create_existing"
+            android:padding="@dimen/dimen_5"
+
+    />
+
+    <TextView
+            android:text="@string/or" android:gravity="center_horizontal" android:textColor="@color/black"
+            android:layout_width="match_parent" android:padding="@dimen/padding_20" android:textSize="@dimen/text_size_18"
+            android:layout_height="wrap_content" android:textAllCaps="true"
+    />
+    <Button
+            style="@style/loginBtn"
+            android:id="@+id/pop_import_online" android:padding="@dimen/dimen_5" android:text="@string/import_study_form"
+            android:layout_marginBottom="@dimen/dimen_15"
+    />
+</LinearLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/card_background"
+              android:layout_marginBottom="@dimen/dimen_10"
+             android:gravity="center_vertical"
+              android:padding="@dimen/dimen_5"
+>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            style="@style/txtTitle"
+            android:id="@+id/studyFormDetails_rowVariableTxt" android:maxLines="4"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/dimen_5" android:layout_weight="1" android:textSize="@dimen/text_size_15"
+            android:text="@string/variable"/>
+
+    <ImageView
+            android:id="@+id/imgVariableInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_info" />
+
+</LinearLayout>

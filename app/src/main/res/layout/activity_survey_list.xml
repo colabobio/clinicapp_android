@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtSurveyListHeader"
+            style="@style/txtHeaderTitle"
+            android:textSize="@dimen/text_size_17"
+            android:layout_alignParentTop="true"
+            android:text="@string/survey_list_title" />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvStudyData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/txtSurveyListHeader"
+            android:background="@color/colorAppBackground"
+            android:padding="@dimen/dimen_10"
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".ui.studydata.list.SurveyListActivity"
+            tools:listitem="@layout/row_study_data" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/dimen_15"
+            android:layout_marginBottom="@dimen/dimen_15"
+            android:padding="@dimen/dimen_5"
+            android:src="@mipmap/ic_add_white_18dp"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:fabSize="normal" />
+
+    <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+    />
+    <TextView
+            android:id="@+id/emptyView"  style="@style/txtLabelHeader_noMargin"
+            android:layout_width="wrap_content" android:layout_centerInParent="true"
+            android:layout_margin="@dimen/dimen_15"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="@string/empty_survey_warning"
+            android:visibility="gone"
+
+    />
+
+
+</RelativeLayout>

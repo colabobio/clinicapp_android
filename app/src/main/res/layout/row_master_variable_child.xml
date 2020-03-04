@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtVariableLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:maxLines="2"
+            android:layout_marginBottom="@dimen/dimen_10"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_14"
+            android:layout_weight="0.9"
+            android:paddingStart="@dimen/dimen_15"
+            android:paddingEnd="@dimen/dimen_15"
+            android:visibility="gone" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/chkVariableSelected"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_7"
+            android:layout_marginBottom="@dimen/dimen_7"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:textSize="@dimen/text_size_14"
+            android:layout_weight="0.9" android:focusable="false"
+            android:paddingStart="@dimen/dimen_7" android:paddingEnd="@dimen/dimen_7"
+            />
+
+    <ImageView
+            android:id="@+id/imgVariableInfo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|end"
+            android:layout_marginEnd="7dp"
+            android:layout_weight="0.1"
+            android:scaleType="center"
+            android:contentDescription="@null"
+            android:src="@mipmap/ic_info" />
+
+</LinearLayout>

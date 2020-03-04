@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   tools:context=".ui.studydata.survey.SurveyActivity"
+
+>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtHeader"
+            style="@style/txtHeaderTitle"
+            android:layout_marginStart="@dimen/dimen_15"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:layout_marginEnd="@dimen/dimen_15"
+            android:text="@string/complete_survey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+
+    <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtHeader"
+                app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <include android:id="@+id/complete_surveyNoteLayout" layout="@layout/survey_notes" android:layout_width="match_parent"
+                android:layout_height="match_parent" android:visibility="gone"/>
+        <include layout="@layout/survey_complete" android:layout_width="match_parent"
+                 android:layout_height="match_parent" android:visibility="gone" />
+    </FrameLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

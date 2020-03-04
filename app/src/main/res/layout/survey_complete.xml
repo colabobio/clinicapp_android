@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:background="@color/colorAppBackground"
+                                                   tools:context=".ui.studydata.survey.SurveyActivity"
+
+>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/complete_txtHeader"
+            style="@style/txtHeaderTitle"
+            android:layout_marginStart="@dimen/dimen_15"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:layout_marginEnd="@dimen/dimen_15"
+            android:text="@string/complete_survey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_15"
+            android:background="@drawable/card_background"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/complete_txtHeader"
+    >
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_thanks"
+                android:layout_margin="@dimen/padding_20"
+                android:adjustViewBounds="false"
+                android:scaleType="center"
+        />
+
+        <androidx.appcompat.widget.AppCompatTextView
+                style="@style/txtLabelHeader"
+                android:layout_marginTop="@dimen/padding_20"
+                android:layout_marginBottom="@dimen/dimen_10"
+                android:gravity="center"
+                android:text="@string/thank_you_msg"
+
+        />
+    </LinearLayout>
+
+    <Button
+            android:id="@+id/complete_surveyOkBtn"
+            style="@style/bottomBtn"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:text="@string/ok"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

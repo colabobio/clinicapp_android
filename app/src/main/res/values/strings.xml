@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">ClinicApp</string>
+    <string name="snack_bar_text">Sample Default value</string>
+
+    <!-- Home screen -->
+    <string name="home_screen_title">My Studies</string>
+    <string name="study_form_details_title">Study Form Details</string>
+    <string name="created_by">Created by: %1$s</string>
+    <string name="created_on">Created on: %1$s</string>
+    <string name="last_modified">Last modified: %1$s</string>
+    <string name="allow">Allow</string>
+
+    <!-- Variable Selection screen -->
+    <string name="study_form_create_scratch">Create New Study Form</string>
+    <string name="or">Or</string>
+    <string name="variable_description">"Description: %1$s"</string>
+    <string name="variable_type">"Type: %1$s"</string>
+    <string name="variable_when_asked">"When asked: %1$s"</string>
+    <string name="when_asked_0">First consult</string>
+    <string name="when_asked_1">Recurrence</string>
+    <string name="when_asked_2">Final</string>
+    <string name="variable_is_mandatory">"Is mandatory: %1$s"</string>
+    <string name="variable_is_searchable">"Is Searchable: %1$s"</string>
+
+    <!-- Survey list screen -->
+    <string name="survey_list_title">My Surveys - %1$s</string>
+    <string name="study_data_new_patient">New</string>
+    <string name="study_data_followup">Follow-up</string>
+    <string name="study_data_final_outcome">Final Outcome</string>
+
+    <!-- Patient list screen -->
+    <string name="patient_list_title">Select Patient</string>
+
+    <!-- profile screen -->
+    <string name="username">User Name : </string>
+    <string name="first_name">First Name : </string>
+    <string name="last_name">Last Name: </string>
+    <string name="email">Email : </string>
+    <string name="gender">Gender : </string>
+    <string name="work_location">Address :</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="others">Other</string>
+    <string name="update">Update</string>
+
+    <string name="enter_study_form_info">Enter Study Form Information</string>
+    <string name="continue_str">Continue</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_view_master">View Master Variables</string>
+    <string name="menu_manual_sync">Sync with Server</string>
+    <string name="menu_user_profile">User Profile</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="add_more_variable">Update Variables</string>
+    <string name="description">"Description:"</string>
+
+    <!-- Error messages -->
+    <string name="error_no_variable_selected">Please select at least one variable to create study form.</string>
+    <string name="error_no_title_description">Please enter title/description.</string>
+    <string name="error_duplicate_title">Sorry, title already in use.</string>
+    <string name="encrypt_details">Bro@d!nstitudeClinic@00</string>
+
+    <string name="complete_study_form">Complete Study Form</string>
+    <string name="create_new_form_template">Create from Template Study Form </string>
+    <string name="search_study_forms">Search Study Forms</string>
+    <string name="search_study_data">Search Study Data</string>
+    <string name="search_patient">Search Patient</string>
+    <string name="search_online_study_forms">Search Online Study Forms </string>
+    <string name="select_template">Select template </string>
+    <string name="select_variables">Select Variables </string>
+    <string name="my_profile">My Profile</string>
+    <string name="view_variables">View Variables </string>
+    <string name="variables">Variables </string>
+    <string name="import_study_form">Import Online Study Form </string>
+    <string name="title">Title: </string>
+    <string name="network_error">Please check your Internet connection</string>
+    <string name="login_error">Oops… Looks like some issue with user sync up with server. Please retryOops… Looks like
+        some issue with user sync up with server. Please retry
+    </string>
+    <string name="login_different_user">Logging in as a different user will delete the local data collected by the previous user.</string>
+    <string name="error">Error</string>
+    <string name="ok">OK</string>
+    <string name="about_study_data">About Study Data</string>
+    <string name="question">Question</string>
+    <string name="previous">Previous</string>
+    <string name="complete_survey">Complete Survey</string>
+    <string name="thank_you_msg">Thank you for submitting the survey</string>
+    <string name="note">Note</string>
+    <string name="yes">Yes</string>
+    <string name="positive">Positive</string>
+    <string name="negative">Negative</string>
+    <string name="no">No</string>
+    <string name="todo">TODO</string>
+    <string name="app_version">Version 1.0</string>
+    <string name="study_survey">Study Survey</string>
+    <string name="unknown">Unknown</string>
+    <string name="search">Search</string>
+    <string name="variable">variable</string>
+    <string name="hint"> </string>
+    <string name="cancel">Cancel</string>
+
+    <string name="provide_inputs">Please provide your inputs</string>
+    <string name="admin_id">admin_ID</string>
+    <string name="logout_warning_msg">Your data is not synced. Sync before logging out to avoid data loss.</string>
+    <string name="normal_logout_warning_msg">Are you sure want to logout?</string>
+    <string name="manual_sync">Manual Sync Progress</string>
+
+    <string name="auth_error">Your session has expired please login again</string>
+    <string name="timeout_error">Failed to connect, might be taking time execute</string>
+    <string name="network_io_error">Network connection might be slow</string>
+    <string name="unknown_error">Something went wrong, please try again later</string>
+    <string name="unAuthorized_error">Authorized access</string>
+    <string name="already_import_error">Study form already imported</string>
+    <string name="warning">Warning</string>
+    <string name="sync_success">Sync successful</string>
+    <string name="empty_survey_warning">Fill out a survey for this study by pressing \"+\" button</string>
+    <string name="empty_forms_warning">Make your first study form by pressing the \"+\"  button</string>
+    <string name="empty_patient_warning">No surveys have been created for this study</string>
+    <string name="empty_import_forms_warning">No study forms found </string>
+    <string name="search_forms_tips">Use the search button to access online forms</string>
+    <string name="logout_option">LOGOUT without syncing</string>
+    <string name="permission_location_access">Do you want to go to app settings to allow permission to access current
+        location?
+    </string>
+    <string name="warning_sync_master_variable"> Sync variable before using study form</string>
+    <string name="no_result_found">No matching results found</string>
+
+</resources>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                                                   tools:context=".ui.home.HomeActivity"
+                                                   tools:showIn="@layout/app_bar_home"
+>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/formHeaderTxt"
+            style="@style/txtHeaderTitle"
+            android:text="@string/home_screen_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+    />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvStudyForms"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/colorAppBackground"
+            android:padding="@dimen/dimen_10"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/formHeaderTxt"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:context=".ui.studyform.ItemFragment"
+            tools:listitem="@layout/row_study_form"/>
+
+    <TextView
+            android:id="@+id/form_emptyView"
+            style="@style/txtLabelHeader_noMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_15"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="@string/empty_forms_warning"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+           />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_25"
+        android:orientation="vertical"
+        android:padding="35dp">
+
+    <Button
+            android:id="@+id/pop_create_new"
+            style="@style/loginBtn"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:text="@string/study_data_new_patient" />
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/padding_20"
+            android:text="@string/or"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18" />
+
+    <Button
+            android:id="@+id/pop_create_followup"
+            style="@style/loginBtn"
+            android:text="@string/study_data_followup" />
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/padding_20"
+            android:text="@string/or"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18" />
+
+    <Button
+            android:id="@+id/pop_create_final_outcome"
+            style="@style/loginBtn"
+            android:layout_marginBottom="@dimen/dimen_15"
+            android:text="@string/study_data_final_outcome" />
+</LinearLayout>

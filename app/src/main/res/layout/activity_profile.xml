@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+                                                   xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+
+        tools:context=".ui.profile.ProfileActivity">
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtProfileTitle"
+            style="@style/txtHeaderTitle"
+            android:text="@string/my_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+             />
+
+
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="1"
+            android:layout_margin="@dimen/dimen_10"
+            android:background="@drawable/card_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtProfileTitle"
+
+           >
+        <TableRow android:layout_width="match_parent" android:layout_height="wrap_content"
+         android:layout_marginBottom="@dimen/dimen_10"
+        >
+
+              <androidx.appcompat.widget.AppCompatTextView
+                      style="@style/txtLabelHeader_noMargin"
+                android:layout_width="wrap_content"
+                android:text="@string/username" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtUserName"
+                style="@style/edProfile"
+                android:enabled="false" />
+
+        </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/dimen_10">
+
+        <androidx.appcompat.widget.AppCompatTextView
+                style="@style/txtLabelHeader_noMargin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/first_name" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtUserFirstName"
+                style="@style/edProfile" />
+        </TableRow>
+
+        <TableRow android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/dimen_10">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+                style="@style/txtLabelHeader_noMargin"
+                android:layout_width="wrap_content"
+                android:text="@string/last_name" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtUserLastName"
+                style="@style/edProfile"
+                />
+        </TableRow>
+
+        <TableRow android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/dimen_10">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+                style="@style/txtLabelHeader_noMargin"
+                android:layout_width="wrap_content"
+                android:text="@string/email" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtUserEmail"
+                style="@style/edProfile"
+                android:enabled="false" />
+        </TableRow>
+
+        <TableRow android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_5"
+        android:layout_marginBottom="@dimen/dimen_10">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+                style="@style/txtLabelHeader_noMargin"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/gender" />
+
+
+
+        <RadioGroup
+                android:id="@+id/rgGender"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+            <RadioButton
+                    android:id="@+id/rbMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily ="sans-serif-condensed" android:textSize="@dimen/text_size_14"
+                    android:text="@string/male" />
+
+            <RadioButton
+                    android:id="@+id/rbFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_5"
+                    android:fontFamily ="sans-serif-condensed" android:textSize="@dimen/text_size_14"
+                    android:text="@string/female" />
+
+            <RadioButton
+                    android:id="@+id/rbOthers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_5" android:fontFamily ="sans-serif-condensed"
+                    android:text="@string/others" />
+        </RadioGroup>
+
+        </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/dimen_10">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/txtLabelHeader_noMargin"
+                    android:layout_width="wrap_content"
+                    android:paddingBottom="@dimen/dimen_10"
+                    android:text="@string/work_location" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edtUserWorkLocation"
+                    style="@style/edProfile"
+                    android:maxLines="5"
+            />
+        </TableRow>
+
+
+    </TableLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnUpdate"
+            style="@style/bottomBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/update" />
+</androidx.constraintlayout.widget.ConstraintLayout>

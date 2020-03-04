@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAppBackground">
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtStudyFormCreationTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/appbar_padding"
+            android:gravity="center"
+            android:text="@string/select_variables"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_16" />
+
+    <ExpandableListView
+            android:id="@+id/elvMasterVariablesMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/btnConfirm"
+            android:layout_below="@+id/txtStudyFormCreationTitle"
+            android:layout_marginStart="@dimen/dimen_10"
+            android:layout_marginEnd="@dimen/dimen_10"
+            android:layout_marginBottom="@dimen/dimen_5"
+            android:divider="@null" />
+
+    <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnConfirm"
+            style="@style/loginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/complete_study_form" />
+
+</RelativeLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtVariableLabel"
+            style="@style/txtLabelHeader_noMargin"
+            android:layout_marginBottom="@dimen/dimen_5"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:padding="@dimen/dimen_10"
+            android:textColor="@color/white"
+            />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtVariableDescription"
+            style="@style/txtLabelHeader"
+            android:layout_marginStart="@dimen/padding_20"
+            android:layout_marginEnd="@dimen/padding_20"
+            android:layout_marginBottom="@dimen/dimen_10" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtVariableType"
+            style="@style/txtLabelHeader"
+            android:layout_marginStart="@dimen/padding_20"
+            android:layout_marginEnd="@dimen/padding_20"
+            android:layout_marginBottom="@dimen/dimen_10" />
+
+    <TableLayout
+            android:id="@+id/tblCategoryOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_20"
+            android:layout_marginEnd="@dimen/padding_20"
+            android:visibility="gone" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtVariableWhenAsked"
+            style="@style/txtLabelHeader"
+            android:layout_marginStart="@dimen/padding_20"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_marginEnd="@dimen/padding_20"
+            android:layout_marginBottom="@dimen/dimen_5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtVariableIsMandatory"
+            style="@style/txtLabelHeader"
+            android:layout_marginStart="@dimen/padding_20"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_marginEnd="@dimen/padding_20"
+            android:layout_marginBottom="@dimen/dimen_5" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtVariableIsSearchable"
+            style="@style/txtLabelHeader"
+            android:layout_marginStart="@dimen/padding_20"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_marginEnd="@dimen/padding_20"
+            android:layout_marginBottom="@dimen/dimen_15" />
+</LinearLayout>

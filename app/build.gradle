@@ -1,0 +1,132 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.1"
+    defaultConfig {
+        applicationId "org.broadinstitute.clinicapp"
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions "default"
+    buildTypes {
+        release {
+
+            minifyEnabled true
+            proguardFile 'proguard/rxjava.pro'
+            proguardFile 'proguard/retrofit.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    productFlavors {
+        VM {
+            buildConfigField "String", "keycloakBaseUrl", '"http://10.53.16.16:8180/auth/realms/ClinicApp/protocol/openid-connect"'
+            buildConfigField "String", "apiBaseUrl", '"http://10.53.16.16:8044/services/clinicappmicroservice"'
+            buildConfigField "String", "host", '"10.53.16.16"'
+            buildConfigField "String", "clientId", '"web_app"'
+            buildConfigField "String", "redirectUri", '"clinicapp://oauthresponse"'
+            }
+        Cloud {
+            buildConfigField "String", "keycloakBaseUrl", '"http://34.70.60.18/auth/realms/ClinicApp/protocol/openid-connect"'
+            buildConfigField "String", "apiBaseUrl", '"http://35.222.143.29:8044/services/clinicappmicroservice"'
+            buildConfigField "String", "host", '"34.70.60.18"'
+            buildConfigField "String", "clientId", '"web_app"'
+            buildConfigField "String", "redirectUri", '"clinicapp://oauthresponse"'
+        }
+
+    }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+
+    // Add for using latest experimental build of Android Extensions
+    androidExtensions {
+        experimental = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$appCompat_version"
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+
+    // rxjava
+    implementation "io.reactivex.rxjava2:rxjava:2.2.4"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
+    implementation "io.reactivex.rxjava2:rxkotlin:2.2.0"
+
+//    // RxJava support for Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    // optional - RxJava support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
+
+    // Kotlin
+    implementation (name: 'android-database-sqlcipher-4.3.0', ext: 'aar')
+    implementation "androidx.sqlite:sqlite-ktx:$sqlite_version"
+
+    // Implementation of the AndroidX SQLite interfaces via the Android framework APIs.
+    implementation "androidx.sqlite:sqlite-framework:$sqlite_version"
+    // JWT
+    implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation 'com.brsanthu:migbase64:2.2'
+    // WorkManager
+    def work_version = "2.1.0"
+    // Kotlin + coroutines
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
+
+    implementation "androidx.appcompat:appcompat:$appCompat_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation "androidx.cardview:cardview:$materialVersion"
+    implementation'com.google.android.gms:play-services-location:17.0.0'
+
+    // Kotlin
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+    implementation "androidx.paging:paging-runtime:$paging_version" // For Kotlin use paging-runtime-ktx
+
+    // optional - RxJava support
+    implementation "androidx.paging:paging-rxjava2:$paging_version"
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test:core:$testCoreVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+}
