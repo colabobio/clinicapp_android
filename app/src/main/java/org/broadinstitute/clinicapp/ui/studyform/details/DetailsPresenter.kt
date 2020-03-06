@@ -1,7 +1,6 @@
 package org.broadinstitute.clinicapp.ui.studyform.details
 
 import android.content.Context
-import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.Observer
@@ -47,7 +46,6 @@ class DetailsPresenter(private var view: DetailsContract.View, val context: Cont
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ data ->
-                //Log.v("DetailsPresenter", "importStudyForm " + data.statusCode)
                 view.showProgress(false)
 
 
@@ -69,7 +67,6 @@ class DetailsPresenter(private var view: DetailsContract.View, val context: Cont
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ data ->
-                Log.v("DetailsPresenter", "data size" + data.size)
                 view.showVariables(data)
             },
                 { it.printStackTrace() }

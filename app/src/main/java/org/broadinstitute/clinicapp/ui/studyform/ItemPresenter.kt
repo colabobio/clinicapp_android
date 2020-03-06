@@ -9,6 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.data.source.ClinicRepository
+import org.broadinstitute.clinicapp.data.source.local.entities.MasterStudyForms
 import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
 
 
@@ -30,7 +31,6 @@ class ItemPresenter(private var view: ItemContract.View, val context: Context) :
    @SuppressLint("CheckResult")
     override
     fun getSearchedForms(query: String, offset: Int) {
-        Log.v("getSearchedForms", "offset :$offset")
        if(offset == 0) {
            repository.searchStudyFormsDBCount(query).toObservable().
                subscribeOn(Schedulers.io())
@@ -134,6 +134,51 @@ class ItemPresenter(private var view: ItemContract.View, val context: Context) :
             }
     }
 
+
+    override fun syncIndividualForm(formDetail: StudyFormDetail) {
+
+        if(formRequestQueue.contains(formDetail.masterStudyForms.tempMasterStudyFormsId)){
+            // Skip to send request -- temporary solution to check id in the formRequestQueue
+            Log.e("syncIndividualForm ", "already in queue" +  formDetail.masterStudyForms.tempMasterStudyFormsId)
+        }else {
+
+            val paginatedForms = arrayListOf<MasterStudyForms>()
+            val form = formDetail.masterStudyForms
+            form.studyFormVariables = formDetail.variables.filter {
+                !it.isServerUpdated
+            }
+
+            paginatedForms.add(form)
+            formRequestQueue.add(form.tempMasterStudyFormsId)
+
+            // Handle multiple click on sync button
+            compositeDisposable.add(repository.createStudyFormsFromAPI(paginatedForms)
+                .doOnSuccess{
+                    it.success?.forEach { tempId ->
+                        try {
+                            formRequestQueue.remove(tempId)
+                            repository.updateMasterStudyForm(tempId)
+                            repository.updateStudyFormVariables(tempId)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    // removed the form id queue
+                },
+
+                    {
+                        formRequestQueue.remove(formDetail.masterStudyForms.tempMasterStudyFormsId)
+                    }
+
+                )
+            )
+        }
+
+    }
 
     override fun unsubscribe() {
         compositeDisposable.clear()

@@ -159,7 +159,6 @@ class HomePresenter(
                         variable.masterStudyFormsIdFk = it.tempMasterStudyFormsId.toString()
                     }
                     repository.insertStudyFormVariables(it.studyFormVariables)
-                  //  Log.e("Forms variable", "size $variableId")
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -231,7 +230,9 @@ class HomePresenter(
                     if(totalCount == 0){
                         if (!isInitialLoad) {
                             source.onNext(SyncStats(true,"Master variable total count is empty"))
-                            getUnSyncedForms()
+                            //getUnSyncedForms() call sync study data
+                            getUnSyncedStudyData()
+
                         }
                         else {
                             checkStudyFormsInDB(isInitialLoad)
@@ -258,8 +259,8 @@ class HomePresenter(
                                 override fun onComplete() {
                                     if (!isInitialLoad) {
                                         source.onNext(SyncStats(true,"Master variable sync complete"))
-                                         getUnSyncedForms()
-
+                                        // getUnSyncedForms() call UnSync study Data
+                                        getUnSyncedStudyData()
                                     }
                                     else {
                                         checkStudyFormsInDB(isInitialLoad)
@@ -469,99 +470,49 @@ class HomePresenter(
         ).toObservable()
     }
 
-    // Create Sync call
+    override fun syncIndividualForm(formDetail: StudyFormDetail) {
 
-    override fun getUnSyncedForms() {
-        compositeDisposable.add(repository.getNewStudyFormsFromDB()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+        if(formRequestQueue.contains(formDetail.masterStudyForms.tempMasterStudyFormsId)){
+            // Skip to send request -- temporary solution to check id in the formRequestQueue
+            Log.e("syncIndividualForm ", "already in queue" +  formDetail.masterStudyForms.tempMasterStudyFormsId)
+        }else {
 
-            .subscribe({ forms ->
-                if (forms.isNotEmpty()) {
-                    getLimitedFormsObservable(forms)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io())
-                        .flatMap { paginatedForms -> getFormAPIResponseObservable(paginatedForms) }
-                        .observeOn(Schedulers.io())
-                        .subscribe(object : Observer<CreateStudyFormsResponse> {
-                            override fun onNext(response: CreateStudyFormsResponse) {
-                              //  Log.e("StudyForm Resp success ", "" + response.success?.size)
-                                response.success?.forEach { tempId ->
-                                    try {
-                                        repository.updateMasterStudyForm(tempId)
-                                        repository.updateStudyFormVariables(tempId)
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
-                                    }
-                                }
+            val paginatedForms = arrayListOf<MasterStudyForms>()
+            val form = formDetail.masterStudyForms
+            form.studyFormVariables = formDetail.variables.filter {
+                !it.isServerUpdated
+            }
 
-                                Log.e("StudyForm Resp success ", "" + response.failed?.size)
+            paginatedForms.add(form)
+            formRequestQueue.add(form.tempMasterStudyFormsId)
 
-                            }
-
-                            override fun onComplete() {
-                                Log.e("HomePresenter", "Study forms onComplete()")
-                                source.onNext(SyncStats(true,"Sync form Completed"))
-                                getUnSyncedStudyData()
-                            }
-
-                            override fun onError(e: Throwable) {
-                                source.onNext(SyncStats(false, CommonUtils.getErrorMessage(e)))
-
-                            }
-
-                            override fun onSubscribe(d: Disposable) {
-                            }
-
-                        })
-                } else {
-                    source.onNext(SyncStats(true,"Sync form not found in DB"))
-                    getUnSyncedStudyData()
+            // Handle multiple click on sync button
+            compositeDisposable.add(repository.createStudyFormsFromAPI(paginatedForms)
+                .doOnSuccess{
+                    it.success?.forEach { tempId ->
+                        try {
+                            formRequestQueue.remove(tempId)
+                            repository.updateMasterStudyForm(tempId)
+                            repository.updateStudyFormVariables(tempId)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
                 }
-            },
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    // removed the form id queue
+                },
 
-                { throwable ->
-                     source.onNext(SyncStats(false, CommonUtils.getErrorMessage(throwable)))
+                    {
+                        formRequestQueue.remove(formDetail.masterStudyForms.tempMasterStudyFormsId)
+                    }
 
-                }
-
+                )
             )
-        )
-    }
+        }
 
-    private fun getLimitedFormsObservable(forms: List<MasterStudyForms>): Observable<List<MasterStudyForms>> {
-
-        return Observable
-            .create(ObservableOnSubscribe<List<MasterStudyForms>> { emitter ->
-
-                val loopCount = ceil(forms.size.toDouble() / Constants.LIMIT.toDouble()).toInt()
-                var lowerLimit = 0
-                var upperLimit = Constants.LIMIT
-
-                for (index in 0 until loopCount) {
-                    val formsSublist = forms.subList(
-                        lowerLimit,
-                        if (upperLimit > forms.size) forms.size else upperLimit
-                    )
-                    for (form in formsSublist) {
-                        val variables =
-                            repository.getUpdatedFormVariables(form.tempMasterStudyFormsId!!)
-                        form.studyFormVariables = variables
-                    }
-                    if (!emitter.isDisposed) {
-                        emitter.onNext(formsSublist)
-                    }
-                    lowerLimit = upperLimit
-                    upperLimit = lowerLimit + Constants.LIMIT
-                }
-                if (!emitter.isDisposed) {
-                    emitter.onComplete()
-                }
-            }).subscribeOn(Schedulers.io())
-    }
-
-    private fun getFormAPIResponseObservable(forms: List<MasterStudyForms>): Observable<CreateStudyFormsResponse> {
-        return repository.createStudyFormsFromAPI(forms).toObservable()
     }
 
     private fun getUnSyncedStudyData() {
@@ -665,8 +616,7 @@ class HomePresenter(
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({ response ->
-                Log.e("StudyData Resp success ", "" + response.success?.size)
-                Log.e("StudyData Resp failed ", "" + response.failed?.size)
+
             },
 
                 { throwable ->

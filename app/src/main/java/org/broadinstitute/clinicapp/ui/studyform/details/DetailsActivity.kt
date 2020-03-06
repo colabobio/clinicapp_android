@@ -3,7 +3,6 @@ package org.broadinstitute.clinicapp.ui.studyform.details
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseActivity
@@ -31,7 +30,6 @@ class DetailsActivity : BaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setContentView(R.layout.activity_form_details)
         setUp()
-        Log.v("Calling Details", intent.extras?.get(Constants.BundleKey.CALL_DETAILS_STUDY_FORM_KEY).toString())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -58,7 +58,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/study_form_details_desc"
-                    style="@style/txt_cardDesc"
+                    style="@style/txt_formDetailsDesc"
                     android:textSize="@dimen/text_size_15"
                     android:layout_marginBottom="@dimen/dimen_10"
 

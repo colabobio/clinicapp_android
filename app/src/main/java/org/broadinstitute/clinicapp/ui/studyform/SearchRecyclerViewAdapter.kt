@@ -12,13 +12,14 @@ import kotlinx.android.synthetic.main.row_study_form.view.*
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
+import org.broadinstitute.clinicapp.ui.OnSyncInteractionListener
 import org.broadinstitute.clinicapp.ui.studyform.ItemFragment.OnListFragmentInteractionListener
 import org.broadinstitute.clinicapp.util.CommonUtils
 
 
 class SearchRecyclerViewAdapter(
     private var mValues: ArrayList<StudyFormDetail>,
-    private val mListener: OnListFragmentInteractionListener?,
+    private val mListener: OnListFragmentInteractionListener?, private val syncListener: OnSyncInteractionListener,
     private val fromScreen : String
 ) : RecyclerView.Adapter<SearchRecyclerViewAdapter.ViewHolder>() {
     private lateinit var context: Context
@@ -57,6 +58,11 @@ class SearchRecyclerViewAdapter(
                 else holder.mSyncView.setImageResource(R.drawable.ic_cloud_reload_sync)
             }else holder.mSyncView.setImageResource(R.drawable.ic_cloud_check_done)
 
+            holder.mSyncView.setOnClickListener {
+                if(!item.masterStudyForms.isServerUpdated){
+                    syncListener.onSyncClick(item)
+                }
+            }
         } else{
             holder.mSyncView.setImageResource(R.drawable.ic_cloud_check_done)
         }

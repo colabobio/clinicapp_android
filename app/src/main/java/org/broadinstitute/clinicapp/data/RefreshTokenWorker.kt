@@ -4,7 +4,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.work.*
 import androidx.work.ExistingPeriodicWorkPolicy.REPLACE
 import org.broadinstitute.clinicapp.ClinicApp
@@ -12,8 +11,10 @@ import org.broadinstitute.clinicapp.Config
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.api.ApiService
 import org.broadinstitute.clinicapp.api.KeycloakToken
-import org.broadinstitute.clinicapp.util.*
-import org.broadinstitute.clinicapp.util.TokenHelper.formatDate
+import org.broadinstitute.clinicapp.util.NetworkUtils
+import org.broadinstitute.clinicapp.util.PREFERENCE_CLINIC_APP
+import org.broadinstitute.clinicapp.util.SharedPreferenceUtils
+import org.broadinstitute.clinicapp.util.SharedPreferencesOAuth2Storage
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.util.*
@@ -36,7 +37,6 @@ class RefreshTokenWorker(context: Context, params: WorkerParameters): Worker(con
             var interval: Long
             if (expiresIn != null && expiresIn > 0) {
                 interval = (expiresIn/60)/2
-                Log.e("interval :", "interval ::$interval expiresIn  $expiresIn" )
                 if(interval < 16) interval = 15
                 val periodicWork =
                     PeriodicWorkRequest.Builder(RefreshTokenWorker::class.java, interval, MINUTES)
@@ -69,7 +69,6 @@ class RefreshTokenWorker(context: Context, params: WorkerParameters): Worker(con
 
         return try {
             if(NetworkUtils.isNetworkConnected(applicationContext)){
-                Log.v("RefreshTokenWorker", "doWork")
                 saveTokenToStorage(api.refreshAccessToken(storage.getStoredAccessToken()!!.refreshToken!!, Config.clientId)
                     .blockingFirst())
 
@@ -82,7 +81,6 @@ class RefreshTokenWorker(context: Context, params: WorkerParameters): Worker(con
             if(e is HttpException){
                 if(e.code() == 400){
                     val body = e.response().errorBody()
-                  //  Log.v("body", body?.string())
                     val mainObject = JSONObject(body?.string())
                     val error = mainObject.optString("error")
                     if(error.contains("invalid_grant")){
@@ -109,20 +107,6 @@ class RefreshTokenWorker(context: Context, params: WorkerParameters): Worker(con
             ClinicApp.applicationContext().getSharedPreferences(PREFERENCE_CLINIC_APP, Context.MODE_PRIVATE))
         pref.writeStringToPref(Constants.PrefKey.PREF_ACCESS_TOKEN, token.accessToken.toString())
         pref.writeLongToPref(Constants.PrefKey.PREF_ACCESS_TOKEN_EXPIRES,  token.expiresIn!!.toLong())
-
-        token.apply {
-            val principal = TokenHelper.parseJwtToken(token.accessToken)
-
-            val text =
-                "user: ${principal.name} ${principal.surname} (${principal.email})\n" +
-                    //   "id: ${principal.userId}\n"
-                    //  "available roles: ${principal.roles.joinToString(", ")}\n\n" +
-                    "token expires in: $expiresIn sec (${tokenExpirationDate!!.formatDate()})\n" +
-                    "refresh expires in: $refreshExpiresIn sec (${refreshTokenExpirationDate!!.formatDate()})\n\n" +
-                    "token: $accessToken\n\n" +
-                    "refreshToken: $refreshToken"
-            Log.v("Tag", "showDa$text")
-        }
 
         return token
     }

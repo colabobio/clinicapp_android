@@ -17,6 +17,6 @@ interface ItemContract {
         fun getSearchedFormsOnline(query: String, offset: Int, showProgress : Boolean, userD : String?)
 
         fun loadMoreStudyForms(fromScreen: String, searchCriteria: String, isNetwork: Boolean, userID : String?)
-
+        fun syncIndividualForm(formDetail: StudyFormDetail)
     }
 }

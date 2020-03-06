@@ -80,18 +80,7 @@ class FillStudiesFragment : BaseFragment() {
         val spannable = SpannableString("Patient ID - " + model.patient.value?.adminId)
         spannable.setSpan(RelativeSizeSpan(1f),0,spannable.length,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         view.fill_patientTxt.text = spannable
-//        view.goSubmit.setOnClickListener {
-//            showNoteScreen()
-//        }
-//
-//         // Initial call
-////         if(model.studyDataType.equals(UPDATE_STUDY_DATA)){
-////             view.goSubmit.setOnClickListener {
-////                 showNoteScreen()
-////             }
-////         }else {
-////             view.goSubmit.hide()
-////         }
+
 
         if(variableSize > 0 ) {
             showData(CallType.Initial)
@@ -202,7 +191,6 @@ class FillStudiesFragment : BaseFragment() {
             || type == CategoryType.intType || type == CategoryType.decType){
             inputREd.visibility = View.VISIBLE
         }else {
-
             // hide keyboard
             context?.let { hideKeyboard(it,inputREd) }
             inputREd.visibility = View.GONE
@@ -214,8 +202,6 @@ class FillStudiesFragment : BaseFragment() {
         binCatRadioLayout.removeAllViews()
         binCatRadioLayout.visibility = View.GONE
 
-//        inputREd.visibility = View.GONE
-//        inputREd.setText("")
         dateLayout.visibility = View.GONE
 
         var variableValue = model.variableValues[currentTempVariable].toString()
@@ -231,8 +217,6 @@ class FillStudiesFragment : BaseFragment() {
                 btnNext.isEnabled = true
             }
         }
-//        Log.v("type", variableInfo.type + " :: CallType ::" + callType + " :: currentIndex :: " + currentIndex +
-//         "isMandatory :: "  + variableInfo.isMandatory + " :: mul" + variableInfo.isMultiSelect)
 
         if(currentIndex == 0){
             btnPrevious.visibility = View.GONE
@@ -290,7 +274,6 @@ class FillStudiesFragment : BaseFragment() {
                 val b = variableInfo.isMultiSelect
 
                 val valuesList = if(variableValue.isNotBlank())variableValue.split("::") else arrayListOf()
-               // Log.v("cateSize", valuesList.size.toString())
                  catFrameLayout.setTag(currentCatTag, valuesList.size)
 
                 if(variableInfo.categoricalOpt1.isNotBlank()){
@@ -407,7 +390,6 @@ class FillStudiesFragment : BaseFragment() {
                     }
                 }
             }
-         //   Log.v("OnCheckedChange", catFrameLayout.getTag(currentCatTag).toString())
         }
         view.addView(c)
     }

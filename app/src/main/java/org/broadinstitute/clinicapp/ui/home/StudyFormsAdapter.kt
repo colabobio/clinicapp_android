@@ -13,11 +13,12 @@ import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.Constants.BundleKey.CALL_DETAILS_STUDY_FORM_KEY
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
+import org.broadinstitute.clinicapp.ui.OnSyncInteractionListener
 import org.broadinstitute.clinicapp.ui.studydata.list.SurveyListActivity
 import org.broadinstitute.clinicapp.ui.studyform.details.DetailsActivity
 import org.broadinstitute.clinicapp.util.CommonUtils
 
-class StudyFormsAdapter(val userId: String
+class StudyFormsAdapter(val userId: String, val syncInteractionListener: OnSyncInteractionListener
 ): PagedListAdapter<StudyFormDetail, StudyFormsAdapter.StudyFormViewHolder>(DiffCallback())
    {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudyFormViewHolder {
@@ -89,6 +90,10 @@ class StudyFormsAdapter(val userId: String
                     Constants.CallingPageValue.HOME_EDIT_STUDY_FORM
                 )
                 parent.context.startActivity(intent)
+            }
+
+            imgSync.setOnClickListener {
+                if(!masterStudyForm.isServerUpdated)syncInteractionListener.onSyncClick(detail)
             }
         }
     }

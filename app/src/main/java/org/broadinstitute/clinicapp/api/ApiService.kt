@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 import io.reactivex.Completable
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import org.broadinstitute.clinicapp.Config
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -42,14 +41,8 @@ interface ApiService {
 
     companion object {
 
-        private val interceptor: HttpLoggingInterceptor =
-            HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { mess -> println(mess) })
-                .setLevel(HttpLoggingInterceptor.Level.BODY)
-
-
         private val okHttpClient = OkHttpClient()
             .newBuilder()
-            .addInterceptor(interceptor)
             .build()
 
         val instance: ApiService by lazy {

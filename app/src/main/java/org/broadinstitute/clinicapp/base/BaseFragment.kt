@@ -37,7 +37,6 @@ abstract class BaseFragment : Fragment(), MvpView {
 
 
     override fun showLoading() {
-       // Log.v("BaseActivity", "showLoading")
         hideLoading()
         mProgressDialog = CommonUtils.showLoadingDialog(requireContext())
         mProgressDialog!!.show()

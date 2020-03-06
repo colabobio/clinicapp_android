@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseActivity
@@ -16,11 +15,6 @@ import org.broadinstitute.clinicapp.util.TokenHelper
 class SplashActivity : BaseActivity() {
 
     override fun setUp() {
-        if (TokenHelper.isRefreshTokenExpired(storage.getStoredAccessToken())) {
-            Log.v(this.localClassName, "Refresh token is expired")
-        } else {
-            Log.v(this.localClassName, "Refresh token is valid")
-        }
 
     }
 

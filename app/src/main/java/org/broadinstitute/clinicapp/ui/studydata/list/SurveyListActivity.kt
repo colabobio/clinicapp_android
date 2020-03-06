@@ -3,7 +3,6 @@ package org.broadinstitute.clinicapp.ui.studydata.list
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -151,7 +150,7 @@ class SurveyListActivity : BaseActivity(), SDListContract.View {
     }
 
     override fun showSnackBarMessage(message: String) {
-        Log.d("tag", message)
+
     }
 
     override fun showToastMessage(message: String) {

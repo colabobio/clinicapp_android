@@ -150,6 +150,8 @@ class DetailsFragment : BaseFragment(), DetailsContract.View {
                      studyFormDetail!!.masterStudyForms.description = txtDesc.text.toString().trim()
                      presenter.isDuplicateTitle(t)
                  } else{
+                     studyFormDetail!!.masterStudyForms.title = t
+                     studyFormDetail!!.masterStudyForms.description = txtDesc.text.toString().trim()
                      val transaction = this.activity?.supportFragmentManager?.beginTransaction()
                      transaction?.addToBackStack(null)
                      transaction?.add(
