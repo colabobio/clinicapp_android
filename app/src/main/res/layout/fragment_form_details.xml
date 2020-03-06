@@ -64,13 +64,14 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/study_form_details_desc"
-                        style="@style/txt_cardDesc"
+                        style="@style/txt_formDetailsDesc"
                         android:textSize="@dimen/text_size_15"
                         android:layout_marginBottom="@dimen/dimen_5"
                         android:background="@null" android:enabled="false"
                         android:paddingStart="@dimen/dimen_10"
                         android:paddingTop="@dimen/dimen_5"
                         android:paddingEnd="@dimen/dimen_10"
+                        android:maxLines="100"
                 />
 
             </com.google.android.material.textfield.TextInputLayout>

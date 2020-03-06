@@ -1,12 +1,11 @@
-# clinicapp_android
-CLINICapp Android app
+## ClinicApp
 
 Introduction
 ------------
 The application uses Clean Architecture based on MVP.
 The application is written entirely in Kotlin.
 
-Android Jetpack is used as an Architecture components is Room, Work manager,Paging, Lifecycles, Material design, ViewModel, LiveData,
+Android Jetpack is used as an Architecture components is Room, Work manager,Paging, Material design, ViewModel, and LiveData,
 
 The application does network HTTP requests via Retrofit and GSON. For UI update and database operation we used RxJava library. 
 
@@ -16,6 +15,24 @@ Getting Started
 ---------------
     This project uses the Gradle build system. To build this project, use the
     `gradlew build` command or use "Import Project" in Android Studio.
+
+Screenshots
+-----------
+
+![Splash](screenshots/splash.png "Splash")
+![Study Form](screenshots/Study_form.png "Home")
+![Form Details](screenshots/FormDetails.png "Form Details")
+![Form option](screenshots/Form_option.png "Form Creation option")
+![Form template option](screenshots/template_form.png "Create from Template")
+![Metadata variable](screenshots/variables.png "Variables")
+![Drawer option](screenshots/drawer_option.png "Home drawer option")
+![Survey list](screenshots/survey_list.png "Study data list")
+![Survey option](screenshots/Survey_option.png "Study data creation")
+![About survey](screenshots/survey_about.png "About Study Data")
+![Filling Survey](screenshots/survey_answer.png "Filling study data")
+![Notes](screenshots/note.png "Note")
+![Thanks](screenshots/thank-screen.png "Thank you")
+
 
 
 Libraries Used
@@ -44,4 +61,4 @@ Application Development Environment
 ---------------
     Android Studio 3.4.1
     Target & Compiled Android SDK: 28
-
+    Java 1.8

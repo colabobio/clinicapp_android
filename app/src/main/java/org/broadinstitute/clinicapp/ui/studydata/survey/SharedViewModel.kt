@@ -1,7 +1,6 @@
 package org.broadinstitute.clinicapp.ui.studydata.survey
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -131,7 +130,6 @@ class SharedViewModel : ViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ data ->
-                Log.v("Study data", "data size" + data.size)
                 list = data as ArrayList<StudyFormVariablesDao.StudyFormWithVariable>
 
             },

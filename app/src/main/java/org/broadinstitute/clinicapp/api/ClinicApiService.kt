@@ -7,7 +7,6 @@ import io.reactivex.Single
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
-import okhttp3.logging.HttpLoggingInterceptor
 import org.broadinstitute.clinicapp.Config
 import org.broadinstitute.clinicapp.data.source.local.entities.MasterStudyForms
 import org.broadinstitute.clinicapp.data.source.local.entities.User
@@ -91,13 +90,9 @@ interface ClinicApiService {
         fun create(tokenPrf: SharedPreferencesOAuth2Storage?): ClinicApiService {
             storage = tokenPrf
 
-            val interceptor: HttpLoggingInterceptor =
-                HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { mess -> println(mess) })
-                    .setLevel(HttpLoggingInterceptor.Level.BODY)
 
             val client = OkHttpClient.Builder()
                 .addInterceptor(OAuthInterceptor("Bearer"))
-                .addNetworkInterceptor(interceptor)
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)

@@ -52,7 +52,7 @@ class SurveyListPresenter(
 
     override fun getStudyDataByFormIdFromAPI(userId: String, studyFormId: String) {
         if (NetworkUtils.isNetworkConnected(context)) {
-            view.showProgress(true)
+            view.showProgressBar(true)
             compositeDisposable.add(repository.getStudyDataOnline(
                 userId,
                 studyFormId,
@@ -77,12 +77,12 @@ class SurveyListPresenter(
                 .observeOn(AndroidSchedulers.mainThread())
 
                 .subscribe({
-                    view.showProgress(false)
+                    view.showProgressBar(false)
                     getStudyDataFromDB(studyFormId, "")
                 },
 
                     { throwable ->
-                        view.showProgress(false)
+                        view.showProgressBar(false)
                         throwable.message?.let { view.showSnackBarMessage(CommonUtils.getErrorMessage(throwable)) }
                     }
 
@@ -111,12 +111,12 @@ class SurveyListPresenter(
     }
 
     override fun getStudyDataFromDB(studyFormId: String, search: String) {
-        view.showProgress(true)
+        view.showProgressBar(true)
         compositeDisposable.add(getStudyDataObservable(
             "",
             studyFormId
         ).subscribe({
-            view.showProgress(false)
+            view.showProgressBar(false)
             if (it.isNotEmpty()) {
                 view.showEmptyWarning(false)
                  view.showStudyData(it)
@@ -125,7 +125,7 @@ class SurveyListPresenter(
             }
         },
             {
-                view.showProgress(false)
+                view.showProgressBar(false)
 
             }
         )

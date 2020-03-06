@@ -2,7 +2,6 @@ package org.broadinstitute.clinicapp.ui.login
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
@@ -63,7 +62,7 @@ class LoginPresenter(
                     view.reloadLoginPage()
                 }
                 ) {
-                    //t.message?.let { it1 -> view.showSnackBarMessage(it1) }
+
                 }
         }
 
@@ -90,7 +89,6 @@ class LoginPresenter(
             when (it) {
                 is HttpException -> {
                     val v: HttpException = it
-                  //  Log.v("keycloak error", v.response().errorBody()?.string())
                     if (v.code() == 500) {
                         logoutUser(Config.clientId)
                     }
@@ -123,7 +121,6 @@ class LoginPresenter(
             "",
             ""
         )
-           Log.v("create user", user.toString())
         view.showProgress(true)
         api.createUser(user)
             .subscribeOn(Schedulers.io())

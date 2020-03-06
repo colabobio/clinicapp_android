@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.webkit.*
 import org.broadinstitute.clinicapp.Config
 import org.broadinstitute.clinicapp.Constants
@@ -16,7 +15,6 @@ import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseActivity
 import org.broadinstitute.clinicapp.ui.home.HomeActivity
 import org.broadinstitute.clinicapp.util.CommonUtils
-import org.broadinstitute.clinicapp.util.TokenHelper.formatDate
 import org.broadinstitute.clinicapp.util.TokenHelper.parseJwtToken
 
 class LoginActivity : BaseActivity(), LoginContract.View {
@@ -46,7 +44,6 @@ class LoginActivity : BaseActivity(), LoginContract.View {
             this,storage,pref
         )
         presenter.attach(this)
-        Log.v("AuthUrl", authCodeUrl.toString())
         myWebView.webViewClient = MyWebViewClient(this)
 
         if (isNetworkConnected) myWebView.loadUrl(authCodeUrl.toString())
@@ -152,16 +149,6 @@ class LoginActivity : BaseActivity(), LoginContract.View {
             val principal = parseJwtToken(accessToken!!)
 
             val lastLoginUser = pref.readStringFromPref(Constants.PrefKey.PREF_USER_NAME)
-            Log.v("Login","lastLogin : $lastLoginUser")
-
-            val text =
-                "user: ${principal.name} ${principal.surname} (${principal.email})\n" +
-                    //    "id: ${principal.userId}\n"
-                    //    "available roles: ${principal.roles.joinToString(", ")}\n\n" +
-                        "token expires in: $expiresIn sec (${tokenExpirationDate!!.formatDate()})\n" +
-                        "refresh expires in: $refreshExpiresIn sec (${refreshTokenExpirationDate!!.formatDate()})\n\n" +
-                        "token: $accessToken\n\n" +
-                        "refreshToken: $refreshToken"
 
             val userName = principal.preferred_username.toString()
             val name = principal.name.toString()
@@ -182,24 +169,19 @@ class LoginActivity : BaseActivity(), LoginContract.View {
                 }
             }
             else {
-
                 presenter.createNewUser(userName, email, name, surname, token.accessToken.toString())
             }
-            Log.v("Tag", "showDa$text")
         }
     }
 
     class MyWebViewClient(private val loginActivity: LoginActivity) : WebViewClient() {
 
         override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-            Log.v("Url", "Data ::$url")
             if (Uri.parse(url).host == "10.0.2.2" ||  (Uri.parse(url).host == Config.host)) {
-                Log.v("Url", "Data ::$url")
                 return false
             }else
                 if (url != null && url.toString().startsWith(Config.redirectUri)) {
                     val code = Uri.parse(url).getQueryParameter("code")
-                    Log.v("Url", "code ::$code")
                     loginActivity.authenticate(Uri.parse(url))
                 }
             return true

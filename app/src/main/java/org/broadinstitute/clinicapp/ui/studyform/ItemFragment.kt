@@ -14,10 +14,11 @@ import org.broadinstitute.clinicapp.Constants.CallingPageValue.CREATE_FROM_TEMPL
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseFragment
 import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
+import org.broadinstitute.clinicapp.ui.OnSyncInteractionListener
 import org.broadinstitute.clinicapp.util.CommonUtils
 
 
-class ItemFragment : BaseFragment(), ItemContract.View
+class ItemFragment : BaseFragment(), ItemContract.View, OnSyncInteractionListener
 {
     private var fromScreen: String = Constants.BundleKey.EXISTING_STUDY_FORM_KEY
     private var listener: OnListFragmentInteractionListener? = null
@@ -53,7 +54,7 @@ class ItemFragment : BaseFragment(), ItemContract.View
         val recyclerView = view.item_recyclerView
 
         // Set the adapter
-        adapter = SearchRecyclerViewAdapter(presenter.mValues, listener, fromScreen)
+        adapter = SearchRecyclerViewAdapter(presenter.mValues, listener, this, fromScreen)
         view.item_recyclerView.adapter = adapter
         emptyView = view.form_emptyView
         if (recyclerView is RecyclerView) {
@@ -118,7 +119,13 @@ class ItemFragment : BaseFragment(), ItemContract.View
         fun onListFragmentInteraction(item: StudyFormDetail)
     }
 
-     companion object {
+    override fun onSyncClick(item: StudyFormDetail) {
+        if(isNetworkConnected)presenter.syncIndividualForm(item)
+        else showSnackBarMessage(getString(R.string.network_error))
+    }
+
+
+    companion object {
 
         const val ARG_SEARCH_TYPE = "search-type"
 

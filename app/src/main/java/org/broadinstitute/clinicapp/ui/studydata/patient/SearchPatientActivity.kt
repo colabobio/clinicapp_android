@@ -3,7 +3,6 @@ package org.broadinstitute.clinicapp.ui.studydata.patient
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.ImageView
@@ -107,7 +106,6 @@ class SearchPatientActivity : BaseActivity(), PatientListContract.View {
     }
 
     override fun showSnackBarMessage(message: String) {
-        Log.d("tag", message)
     }
 
     override fun showToastMessage(message: String) {

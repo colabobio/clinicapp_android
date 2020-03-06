@@ -13,7 +13,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -46,6 +45,7 @@ import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.api.ApiService
 import org.broadinstitute.clinicapp.base.BaseActivity
 import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
+import org.broadinstitute.clinicapp.ui.OnSyncInteractionListener
 import org.broadinstitute.clinicapp.ui.login.LoginActivity
 import org.broadinstitute.clinicapp.ui.profile.ProfileActivity
 import org.broadinstitute.clinicapp.ui.studyform.CreateFormActivity
@@ -54,7 +54,7 @@ import org.broadinstitute.clinicapp.util.CommonUtils
 
 
 class HomeActivity : BaseActivity(), HomeContract.View,
-    NavigationView.OnNavigationItemSelectedListener {
+    NavigationView.OnNavigationItemSelectedListener, OnSyncInteractionListener {
 
     companion object {
         private const val REQUEST_LOCATION_PERMISSION_ID = 1
@@ -106,7 +106,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 
         val linearLayoutManager = LinearLayoutManager(this)
         rvStudyForms.layoutManager = linearLayoutManager
-        listAdapter = StudyFormsAdapter(userId)
+        listAdapter = StudyFormsAdapter(userId, this)
         rvStudyForms.adapter = listAdapter
         setUp()
     }
@@ -164,6 +164,12 @@ class HomeActivity : BaseActivity(), HomeContract.View,
         }
 
     }
+
+    override fun onSyncClick(item: StudyFormDetail) {
+        if(isNetworkConnected)presenter.syncIndividualForm(item)
+        else showSnackBarMessage(getString(R.string.network_error))
+    }
+
 
     private fun getLocation() {
         if (isLocationEnabled() &&
@@ -402,12 +408,11 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 
     @SuppressLint("SetTextI18n")
     override fun updateProgress(show: Boolean, syncMessage: String) {
-        Log.v("updateProgress", "" + syncMessage)
-
         if (syncDialog != null && syncDialog?.isShowing!!) {
             val progressBar = syncDialog?.findViewById<ProgressBar>(R.id.pb_loading)
             val initialProgress = progressBar?.progress
-            progressBar?.progress = initialProgress?.plus(20)!!
+            // Remove study forms sync from Global sync so we increase progress limit 20 to 25, now its call in 4 steps
+            progressBar?.progress = initialProgress?.plus(25)!!
 
             if (initialProgress > 80) {
                 syncDialog?.dismiss()

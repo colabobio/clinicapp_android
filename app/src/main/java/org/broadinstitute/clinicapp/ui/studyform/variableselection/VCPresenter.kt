@@ -1,10 +1,6 @@
 package org.broadinstitute.clinicapp.ui.studyform.variableselection
 
 import android.content.Context
-import android.util.Log
-import org.broadinstitute.clinicapp.data.source.local.entities.MasterStudyForms
-import org.broadinstitute.clinicapp.data.source.local.entities.MasterVariables
-import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormVariables
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.Observer
@@ -14,6 +10,9 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import org.broadinstitute.clinicapp.data.source.ClinicRepository
+import org.broadinstitute.clinicapp.data.source.local.entities.MasterStudyForms
+import org.broadinstitute.clinicapp.data.source.local.entities.MasterVariables
+import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormVariables
 
 
 class VCPresenter(private var view: VCContract.View, val context: Context) : VCContract.Presenter {
@@ -102,8 +101,7 @@ class VCPresenter(private var view: VCContract.View, val context: Context) : VCC
                 studyFormVariablesList.forEach { variable ->
                     variable.masterStudyFormsIdFk = masterStudyForms.tempMasterStudyFormsId!!
                 }
-                val ids = repository.insertStudyFormVariables(studyFormVariablesList)
-                Log.d("VCPresenter", "Form variables inserted " + ids.size)
+             repository.insertStudyFormVariables(studyFormVariablesList)
             }
 
             .subscribeOn(Schedulers.io())
