@@ -89,7 +89,8 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$room_version"
 
     // Kotlin
-    implementation (name: 'android-database-sqlcipher-4.3.0', ext: 'aar')
+//    implementation (name: 'android-database-sqlcipher-4.3.0', ext: 'aar')
+    implementation "net.zetetic:android-database-sqlcipher:4.5.0"
     implementation "androidx.sqlite:sqlite-ktx:$sqlite_version"
 
     // Implementation of the AndroidX SQLite interfaces via the Android framework APIs.
