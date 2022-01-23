@@ -24,16 +24,26 @@ class SplashActivity : BaseActivity() {
         setContentView(R.layout.activity_splash)
         setUp()
 
+//        Handler().postDelayed({
+//            intent = if (!storage.hasAccessToken() ||(TokenHelper.isTokenExpired(storage.getStoredAccessToken()) && isNetworkConnected)) {
+//                Intent(this, LoginActivity::class.java)
+//            } else {
+//                Intent(this, HomeActivity::class.java)
+//                      .putExtra(Constants.BundleKey.HOME_ACTIVITY_KEY, Constants.BundleKey.HOME_CALL_FROM_SPLASH)
+//            }
+//            startActivity(intent)
+//            finish()
+//        }, 2000)
+
         Handler().postDelayed({
-            intent = if (!storage.hasAccessToken() ||(TokenHelper.isTokenExpired(storage.getStoredAccessToken()) && isNetworkConnected)) {
-                Intent(this, LoginActivity::class.java)
-            } else {
-                Intent(this, HomeActivity::class.java)
-                      .putExtra(Constants.BundleKey.HOME_ACTIVITY_KEY, Constants.BundleKey.HOME_CALL_FROM_SPLASH)
-            }
+            pref.writeBooleanToPref(Constants.PrefKey.PREF_USER_CREATED, true)
+            intent = Intent(this, HomeActivity::class.java)
+                .putExtra(Constants.BundleKey.HOME_ACTIVITY_KEY, Constants.BundleKey.HOME_CALL_FROM_LOGIN)
             startActivity(intent)
             finish()
         }, 2000)
+
+
     }
 
    }
