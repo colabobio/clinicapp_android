@@ -25,7 +25,7 @@ class SearchPatientActivity : BaseActivity(), PatientListContract.View {
     private var type: Int = 0
 
     override fun setUp() {
-        studyFormDetail = intent.getParcelableExtra(Constants.BundleKey.STUDY_FORM_DETAIL_KEY)
+        studyFormDetail = intent.getParcelableExtra(Constants.BundleKey.STUDY_FORM_DETAIL_KEY)!!
         type = intent.getIntExtra(Constants.BundleKey.CREATE_STUDY_DATA_KEY, 0)
 
         presenter.getPatients("", studyFormDetail.masterStudyForms.tempMasterStudyFormsId!!)
