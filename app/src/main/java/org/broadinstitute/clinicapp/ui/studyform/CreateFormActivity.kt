@@ -51,9 +51,11 @@ class CreateFormActivity : BaseActivity(),
 
                 else -> {
                     isSearchEnable = true
-                    transaction.add(R.id.fragment_parentLayout, ItemFragment.newInstance(key))
+                    transaction.add(R.id.fragment_parentLayout, ItemFragment.newInstance(key.toString()))
 
-                    callingPage = key
+                    if (key != null) {
+                        callingPage = key
+                    }
                 }
             }
 

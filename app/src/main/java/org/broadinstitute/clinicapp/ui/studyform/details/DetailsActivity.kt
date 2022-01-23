@@ -17,7 +17,7 @@ class DetailsActivity : BaseActivity() {
             transaction.add(
                 R.id.flAddMoreVars,
                 DetailsFragment.newInstance(
-                    intent.getParcelableExtra(Constants.BundleKey.STUDY_FORM_DETAIL_KEY),
+                    intent.getParcelableExtra(Constants.BundleKey.STUDY_FORM_DETAIL_KEY)!!,
                     intent.extras?.get(Constants.BundleKey.CALL_DETAILS_STUDY_FORM_KEY).toString()
                 )
             )
