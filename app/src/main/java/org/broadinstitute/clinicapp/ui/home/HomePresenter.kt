@@ -7,6 +7,7 @@ import androidx.collection.arraySetOf
 import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.RxPagedListBuilder
+import com.google.gson.Gson
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.data.source.local.dao.SyncStatusDao
 import org.broadinstitute.clinicapp.data.source.local.entities.*
@@ -24,6 +25,7 @@ import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.data.source.ClinicRepository
 import org.json.JSONArray
 import java.io.IOException
+import kotlin.concurrent.thread
 import kotlin.math.ceil
 
 
@@ -294,12 +296,29 @@ class HomePresenter(
 
         } else {
 
-            val jsonFileString = context?.let { getJsonDataFromAsset(it, "variableListData.json") }
-            val jsonArr = JSONArray(jsonFileString)
-            for (docs in 0 until jsonArr.length()) {
-                val jsonObj = jsonArr.getJSONObject(docs)
-                Log.d("JSON VALUE", jsonObj.toString())
+            thread(start = true) {
+                var gson = Gson()
+                val jsonFileString = context?.let { getJsonDataFromAsset(it, "variableListData.json") }
+                val jsonArr = JSONArray(jsonFileString)
+
+                val varList = mutableListOf<MasterVariables>()
+                for (docs in 0 until jsonArr.length()) {
+                    val jsonObj = jsonArr.getJSONObject(docs)
+                    var masterVar = gson.fromJson(jsonObj.toString(), MasterVariables::class.java)
+                    varList.add(masterVar)
+                    Log.d("JSON VALUE", masterVar.toString())
+                }
+
+                repository.insertMasterVariables(varList)
+                val lastModified = repository.getLastModifiedForMV()
+                repository.insertSyncStatus(
+                    SyncStatus(
+                        tableName = "MasterVariables",
+                        lastSyncTime = lastModified
+                    )
+                )
             }
+
         }
 
     }
