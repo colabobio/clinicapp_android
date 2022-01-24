@@ -22,6 +22,8 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.data.source.ClinicRepository
+import org.json.JSONArray
+import java.io.IOException
 import kotlin.math.ceil
 
 
@@ -290,8 +292,27 @@ class HomePresenter(
 
             )
 
+        } else {
+
+            val jsonFileString = context?.let { getJsonDataFromAsset(it, "variableListData.json") }
+            val jsonArr = JSONArray(jsonFileString)
+            for (docs in 0 until jsonArr.length()) {
+                val jsonObj = jsonArr.getJSONObject(docs)
+                Log.d("JSON VALUE", jsonObj.toString())
+            }
         }
 
+    }
+
+    private fun getJsonDataFromAsset(context: Context, fileName: String): String? {
+        val jsonString: String
+        try {
+            jsonString = context.assets.open(fileName).bufferedReader().use { it.readText() }
+        } catch (ioException: IOException) {
+            ioException.printStackTrace()
+            return null
+        }
+        return jsonString
     }
 
     private fun insertMasterVariable(response: MasterVariablesResponse) {
