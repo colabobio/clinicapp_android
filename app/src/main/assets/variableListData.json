@@ -1,0 +1,96 @@
+﻿[
+    {
+        "id": "1",
+        "variableCategory": "admin",
+        "variableName" : "admin_ID",
+        "label": "Patient ID",
+        "description" : "unique identifier (automatically generated using sequential numbering + a user-code prefix)",
+        "type" : "int",
+        "whenAsked" : "0",
+        "binaryOptions" : "0"
+    },
+
+    {
+        "id": "2",
+        "variableCategory": "date",
+        "variableName" : "date_consult_d[]",
+        "label": "Date of day x consult",
+        "description" : "all variables should be generated with a suffix that represents the day post first consulation. D0 = the first consult. D21 = 21 days after the first consult",
+        "type" : "date",
+        "whenAsked" : "1",
+        "binaryOptions" : "0"
+    },
+
+    {
+        "id": "3",
+        "variableCategory": "date",
+        "variableName" : "date_edd_method",
+        "label": "Method of estimating EDD",
+        "description" : "",
+        "type" : "date",
+        "whenAsked" : "1",
+        "binaryOptions" : "0",
+        "categoricalOpt1" : "Unknown",
+        "categoricalOpt2" : "Early ultrasound",
+        "categoricalOpt3" : "Late ultrasound",
+        "categoricalOpt4" : "Last menstrual period",
+        "categoricalOpt5" : "Conception date"
+    },
+
+    {
+        "id": "4",
+        "variableCategory": "history",
+        "variableName" : "hist_bloodgrp",
+        "label": "Blood group",
+        "description" : "",
+        "type" : "cat",
+        "whenAsked" : "0",
+        "binaryOptions" : "0",
+        "isMultiSelect": "true",
+        "categoricalOpt1" : "A",
+        "categoricalOpt2" : "B",
+        "categoricalOpt3" : "AB",
+        "categoricalOpt4" : "0"
+    },
+
+    {
+        "id": "5",
+        "variableCategory": "history",
+        "variableName" : "hist_pmct",
+        "label": "Enrolled in PMCT",
+        "description" : "Prevention of mother-to-child transmission of HIV",
+        "type" : "cat",
+        "whenAsked" : "0",
+        "binaryOptions" : "0",
+        "categoricalOpt1" : "HIV negative",
+        "categoricalOpt2" : "HIV+ and enrolled",
+        "categoricalOpt3" : "HIV+ and not enrolled"
+    },
+
+    {
+        "id": "6",
+        "variableCategory": "outcome",
+        "variableName" : "out_birth_viable",
+        "label": "Viability of newborn",
+        "description" : "Miscarriage = IUD before 20w gestataion, Stillborn= IUD after 20w gestation, Perinatal death=demise within 7d , neonatal death=demise within 28w",
+        "type" : "cat",
+        "whenAsked" : "2",
+        "binaryOptions" : "0",
+        "categoricalOpt1" : "Miscarriage (<20w)",
+        "categoricalOpt2" : "Stillborn (>20w)",
+        "categoricalOpt3" : "Perinatal death (7d)",
+        "categoricalOpt4" : "Neonatal death (28w)",
+        "categoricalOpt5" : "Live"
+    },
+
+    {
+        "id": "7",
+        "variableCategory": "sign",
+        "variableName" : "sign_edema",
+        "label": "Edema",
+        "description" : "Miscarriage = IUD before 20w gestataion, Stillborn= IUD after 20w gestation, Perinatal death=demise within 7d , neonatal death=demise within 28w",
+        "type" : "bin",
+        "whenAsked" : "1",
+        "binaryOptions" : "1"
+    }
+]
