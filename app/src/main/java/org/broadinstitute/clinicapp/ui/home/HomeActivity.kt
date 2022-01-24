@@ -343,10 +343,10 @@ class HomeActivity : BaseActivity(), HomeContract.View,
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_logout -> {
-                if(isNetworkConnected)presenter.checkUnSyncData()
-                else onError(R.string.network_error)
-            }
+//            R.id.nav_logout -> {
+//                if(isNetworkConnected)presenter.checkUnSyncData()
+//                else onError(R.string.network_error)
+//            }
             R.id.nav_view_mv -> {
                 intent = Intent(this, ViewVariablesActivity::class.java)
                 startActivity(intent)
@@ -360,10 +360,10 @@ class HomeActivity : BaseActivity(), HomeContract.View,
                     onError(getString(R.string.network_error))
                 }
             }
-            R.id.nav_profile -> {
-                intent = Intent(this, ProfileActivity::class.java)
-                startActivity(intent)
-            }
+//            R.id.nav_profile -> {
+//                intent = Intent(this, ProfileActivity::class.java)
+//                startActivity(intent)
+//            }
 
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
