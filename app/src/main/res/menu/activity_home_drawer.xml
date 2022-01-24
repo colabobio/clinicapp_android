@@ -4,10 +4,10 @@
       tools:showIn="navigation_view">
 
     <group android:checkableBehavior="none">
-        <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_logout"
-                android:title="@string/menu_logout"/>
+<!--        <item-->
+<!--                android:id="@+id/nav_logout"-->
+<!--                android:icon="@drawable/ic_logout"-->
+<!--                android:title="@string/menu_logout"/>-->
         <item
                 android:id="@+id/nav_view_mv"
                 android:icon="@drawable/ic_view"
@@ -16,10 +16,10 @@
                 android:id="@+id/nav_manual_sync"
                 android:icon="@drawable/ic_sync"
                 android:title="@string/menu_manual_sync"/>
-        <item
-                android:id="@+id/nav_profile"
-                android:icon="@drawable/ic_user_profile"
-                android:title="@string/menu_user_profile"/>
+<!--        <item-->
+<!--                android:id="@+id/nav_profile"-->
+<!--                android:icon="@drawable/ic_user_profile"-->
+<!--                android:title="@string/menu_user_profile"/>-->
     </group>
 
  
