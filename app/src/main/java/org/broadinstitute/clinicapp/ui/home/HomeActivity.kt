@@ -80,7 +80,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
         supportActionBar?.setDisplayShowTitleEnabled(false)
         presenter = HomePresenter(this, this, pref)
 
-//        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 //        if (checkAndRequestPermissions()) {
 //            getLocation()
 //        }
