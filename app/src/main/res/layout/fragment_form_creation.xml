@@ -16,15 +16,15 @@
             android:textSize="@dimen/text_size_16" />
 
     <ExpandableListView
-            android:id="@+id/elvMasterVariablesMain"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/btnConfirm"
-            android:layout_below="@+id/txtStudyFormCreationTitle"
-            android:layout_marginStart="@dimen/dimen_10"
-            android:layout_marginEnd="@dimen/dimen_10"
-            android:layout_marginBottom="@dimen/dimen_5"
-            android:divider="@null" />
+        android:id="@+id/elvMasterVariablesMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btnConfirm"
+        android:layout_below="@+id/txtStudyFormCreationTitle"
+        android:layout_marginStart="@dimen/dimen_10"
+        android:layout_marginEnd="@dimen/dimen_10"
+        android:layout_marginBottom="@dimen/dimen_5"
+        android:divider="@null" />
 
     <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnConfirm"

@@ -169,17 +169,7 @@ class VCFragment : BaseFragment(), VCContract.View, OnInfoSelectedListener,
 
         val view = inflater.inflate(R.layout.fragment_form_creation, container, false)
 
-        listAdapter =
-            VCExpandableAdapter(
-                activity!!,
-                isReadOnly,
-                categoryList,
-                selectedVariables,
-                mvMap,
-                this,
-                this,
-                callingPage
-            )
+        listAdapter = VCExpandableAdapter(activity!!, isReadOnly, categoryList, selectedVariables, mvMap, this, this, callingPage)
         view.elvMasterVariablesMain.setAdapter(listAdapter)
 
         if (isReadOnly) {
