@@ -298,7 +298,7 @@ class HomePresenter(
 
             thread(start = true) {
                 var gson = Gson()
-                val jsonFileString = context?.let { getJsonDataFromAsset(it, "variableListData.json") }
+                val jsonFileString = context?.let { getJsonDataFromAsset(it, "variableListDataMain1.json") }
                 val jsonArr = JSONArray(jsonFileString)
 
                 val varList = mutableListOf<MasterVariables>()

@@ -2,6 +2,7 @@ package org.broadinstitute.clinicapp.ui.studyform.variableselection
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -117,7 +118,9 @@ class VCFragment : BaseFragment(), VCContract.View, OnInfoSelectedListener,
         this.mvMap = mvMap
         this.categoryList = catList
         this.categoryList.sort()
-        listAdapter.setLists(this.mvMap, this.categoryList, this.selectedVariables)
+        if (selectedVariables.isNotEmpty()) {
+            listAdapter.setLists(this.mvMap, this.categoryList, this.selectedVariables)
+        }
         if (catList.isNotEmpty()) {
             view?.elvMasterVariablesMain?.expandGroup(0)
         }
@@ -207,7 +210,6 @@ class VCFragment : BaseFragment(), VCContract.View, OnInfoSelectedListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         arguments?.let {
             studyFormTitle = it.getString(ARG_STUDY_FORM_TITLE).toString()

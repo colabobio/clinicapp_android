@@ -7,6 +7,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -109,6 +110,7 @@ class VCExpandableAdapter(
 
         val viewHolderChild: ViewHolderChild
         val masterVariable = masterVariablesMap[categories[parent]]!![child]
+        Log.d("CHILDREN VARIABLES HAVE ARRIVED!!!", masterVariable.toString() )
 
         if (mView == null) {
             mView = inflater.inflate(R.layout.row_master_variable_child, null)
@@ -146,11 +148,12 @@ class VCExpandableAdapter(
             )
         }
         viewHolderChild.chkVariableLabel!!.setOnCheckedChangeListener { _, isChecked ->
-
+            Log.d("CHILD", "CHILDREN HAVE BEEN CLICKED!!!" )
             onVariableSelectedListener.onVariableSelected(
                 masterVariable,
                 isChecked
             )
+            Log.d("CHILD MASTER VARIABLE HAS BEEN CHECKED!!!", masterVariable.toString() )
             notifyDataSetChanged()
         }
         if (masterVariable.variableName.equals(
@@ -165,7 +168,6 @@ class VCExpandableAdapter(
             context.getString(R.string.admin_id),
             ignoreCase = true
         )
-
         viewHolderChild.chkVariableLabel!!.isChecked = selectedVariables.contains(masterVariable.id)
 
         return mView
