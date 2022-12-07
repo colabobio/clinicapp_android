@@ -29,12 +29,8 @@ import kotlin.concurrent.thread
 import kotlin.math.ceil
 
 
-class HomePresenter(
-    private var view: HomeContract.View,
-    val context: Context,
-    private val preferenceUtils: SharedPreferenceUtils
-) :
-    HomeContract.Presenter {
+class HomePresenter(private var view: HomeContract.View,val context: Context,private val preferenceUtils: SharedPreferenceUtils) : HomeContract.Presenter
+{
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val repository = ClinicRepository.getInstance(context)
