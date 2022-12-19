@@ -8,11 +8,11 @@ apply plugin: 'kotlin-kapt'
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         applicationId "org.broadinstitute.clinicapp"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -61,6 +61,7 @@ android {
     androidExtensions {
         experimental = true
     }
+    namespace 'org.broadinstitute.clinicapp'
 }
 
 dependencies {
