@@ -29,9 +29,9 @@ buildscript {
         sqliteVersion = '2.2.0'
         roomVersion = '2.4.3'
         workVersion = '2.7.1'
-        rxjavaVersion = '3.1.5'
-        rxandroidVersion = '3.0.2'
-        rxkotlinVersion = '3.0.1'
+        rxjavaVersion = '2.2.21'
+        rxandroidVersion = '2.1.1'
+        rxkotlinVersion = '2.4.0'
 
         // Testing dependencies
         junitVersion = '4.13.2'
