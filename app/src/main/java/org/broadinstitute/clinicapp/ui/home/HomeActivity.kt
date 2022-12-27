@@ -144,6 +144,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
         requestCode: Int,
         permissions: Array<String>, grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             REQUEST_LOCATION_PERMISSION_ID -> {
 
@@ -221,8 +222,8 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            val mLastLocation: Location = locationResult.lastLocation
-            saveLocation(mLastLocation.latitude, mLastLocation.longitude)
+            val mLastLocation: Location? = locationResult.lastLocation
+            mLastLocation?.let { saveLocation(it.latitude, mLastLocation.longitude) }
         }
     }
 
