@@ -80,7 +80,7 @@ class RefreshTokenWorker(context: Context, params: WorkerParameters): Worker(con
 
             if(e is HttpException){
                 if(e.code() == 400){
-                    val body = e.response().errorBody()
+                    val body = e.response()?.errorBody()
                     val mainObject = JSONObject(body?.string())
                     val error = mainObject.optString("error")
                     if(error.contains("invalid_grant")){
