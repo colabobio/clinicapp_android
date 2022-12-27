@@ -78,18 +78,17 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
 
     // rxjava
-    implementation "io.reactivex.rxjava3:rxjava:$rxjavaVersion"
-    implementation "io.reactivex.rxjava3:rxandroid:$rxandroidVersion"
-    implementation "io.reactivex.rxjava3:rxkotlin:$rxkotlinVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlinVersion"
 
-//    // RxJava support for Room
+    // RxJava support for Room
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
-    // optional - RxJava support for Room
-    implementation "androidx.room:room-rxjava3:$roomVersion"
+    // optional - RxJava3 support for Room
+    implementation "androidx.room:room-rxjava2:$roomVersion"
 
     // Kotlin
-//    implementation (name: 'android-database-sqlcipher-4.3.0', ext: 'aar')
     implementation "net.zetetic:android-database-sqlcipher:$sqlcipherVersion"
     implementation "androidx.sqlite:sqlite-ktx:$sqliteVersion"
 
