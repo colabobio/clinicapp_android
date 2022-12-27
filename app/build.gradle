@@ -8,11 +8,11 @@ apply plugin: 'kotlin-kapt'
 
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     defaultConfig {
         applicationId "org.broadinstitute.clinicapp"
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -66,9 +66,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.appcompat:appcompat:$appCompat_version"
-    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.core:core-ktx:$corektxVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
 
     //Retrofit
@@ -78,56 +78,55 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
 
     // rxjava
-    implementation "io.reactivex.rxjava2:rxjava:2.2.4"
-    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
-    implementation "io.reactivex.rxjava2:rxkotlin:2.2.0"
+    implementation "io.reactivex.rxjava3:rxjava:$rxjavaVersion"
+    implementation "io.reactivex.rxjava3:rxandroid:$rxandroidVersion"
+    implementation "io.reactivex.rxjava3:rxkotlin:$rxkotlinVersion"
 
 //    // RxJava support for Room
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
     // optional - RxJava support for Room
-    implementation "androidx.room:room-rxjava2:$room_version"
+    implementation "androidx.room:room-rxjava3:$roomVersion"
 
     // Kotlin
 //    implementation (name: 'android-database-sqlcipher-4.3.0', ext: 'aar')
-    implementation "net.zetetic:android-database-sqlcipher:4.5.0"
-    implementation "androidx.sqlite:sqlite-ktx:$sqlite_version"
+    implementation "net.zetetic:android-database-sqlcipher:$sqlcipherVersion"
+    implementation "androidx.sqlite:sqlite-ktx:$sqliteVersion"
 
     // Implementation of the AndroidX SQLite interfaces via the Android framework APIs.
-    implementation "androidx.sqlite:sqlite-framework:$sqlite_version"
+    implementation "androidx.sqlite:sqlite-framework:$sqliteVersion"
     // JWT
     implementation "com.google.code.gson:gson:$gsonVersion"
-    implementation 'com.brsanthu:migbase64:2.2'
+    implementation "com.brsanthu:migbase64:$migbase64Version"
     // WorkManager
-    def work_version = "2.1.0"
     // Kotlin + coroutines
-    implementation "androidx.work:work-runtime-ktx:$work_version"
+    implementation "androidx.work:work-runtime-ktx:$workVersion"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleExtensionsVersion"
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
 
-    implementation "androidx.appcompat:appcompat:$appCompat_version"
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
     implementation "com.google.android.material:material:$materialVersion"
-    implementation "androidx.cardview:cardview:$materialVersion"
-    implementation'com.google.android.gms:play-services-location:17.0.0'
+    implementation "androidx.cardview:cardview:$cardviewVersion"
+    implementation "com.google.android.gms:play-services-location:$playServicesLocationVersion"
 
     // Kotlin
-    implementation "androidx.fragment:fragment-ktx:$fragment_version"
-    implementation "androidx.paging:paging-runtime:$paging_version" // For Kotlin use paging-runtime-ktx
+    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+    implementation "androidx.paging:paging-runtime:$pagingVersion" // For Kotlin use paging-runtime-ktx
 
     // optional - RxJava support
-    implementation "androidx.paging:paging-rxjava2:$paging_version"
+    implementation "androidx.paging:paging-rxjava2:$pagingVersion"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test:core:$testCoreVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.ext:junit:$testExtJunit"
 }
