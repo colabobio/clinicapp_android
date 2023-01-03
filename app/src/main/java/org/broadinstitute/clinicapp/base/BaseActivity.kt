@@ -1,3 +1,8 @@
+/**
+ *  Part of ClinicApp
+ *
+ */
+
 package org.broadinstitute.clinicapp.base
 
 import android.app.Dialog
@@ -25,7 +30,11 @@ import org.broadinstitute.clinicapp.util.NetworkUtils
 import org.broadinstitute.clinicapp.util.SharedPreferenceUtils
 import org.broadinstitute.clinicapp.util.SharedPreferencesOAuth2Storage
 
-
+/**
+ * The base activity of the app
+ *
+ * ...
+ */
 abstract class BaseActivity : AppCompatActivity(), MvpView {
 
     private var mProgressDialog: Dialog? = null
@@ -43,6 +52,10 @@ abstract class BaseActivity : AppCompatActivity(), MvpView {
 
     }
 
+
+    /**
+     * Shows the loading screen.
+     */
     override fun showLoading() {
         hideLoading()
         mProgressDialog = CommonUtils.showLoadingDialog(this)
