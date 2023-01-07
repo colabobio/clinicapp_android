@@ -52,6 +52,7 @@ import org.broadinstitute.clinicapp.ui.studyform.CreateFormActivity
 import org.broadinstitute.clinicapp.ui.viewvariables.ViewVariablesActivity
 import org.broadinstitute.clinicapp.util.CommonUtils
 
+//NOT MASTER BRANCH
 
 class HomeActivity : BaseActivity(), HomeContract.View,
     NavigationView.OnNavigationItemSelectedListener, OnSyncInteractionListener {
