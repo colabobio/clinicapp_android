@@ -63,11 +63,13 @@ class InfoFragment : BaseFragment(), InfoContract.View {
     private var callingPage: String = CREATE_FROM_SCRATCH_STUDY_FORM
     private lateinit var presenter: InfoPresenter
 
+    //Gets the values assigned from companion object i.e "ARG_STUDY_FORM_DETAILS" and "ARG_CALLING_PAGE" to "studyFormDetail" and "callingPage" respectively
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         presenter = InfoPresenter(this, requireContext())
 
+        //adds values to
         arguments?.let {
             studyFormDetail = it.getParcelable(ARG_STUDY_FORM_DETAILS)
             callingPage = it.getString(ARG_CALLING_PAGE).toString()
@@ -86,12 +88,13 @@ class InfoFragment : BaseFragment(), InfoContract.View {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_info, container, false)
-        //checks to make sure that the study title and description fields aren't null
+        //checks to make sure that the studyFormDetail isn't null
         if (studyFormDetail != null) {
             view.Info_titleTxt.setText(studyFormDetail!!.masterStudyForms.title)
             view.Info_titleDesc.setText(studyFormDetail!!.masterStudyForms.description)
         }
 
+        //Called after the Continue button is clicked to create the study form from scratch
         view.btn_continue.setOnClickListener {
                 context?.let { it1 -> hideKeyboard(it1, view) }
             //checks to make sure that the bodies/fields of the study title and description aren't empty
@@ -114,7 +117,7 @@ class InfoFragment : BaseFragment(), InfoContract.View {
     }
 
 
-
+    //Creates a new instance by adding passed values from "CreateFormActivity" class to ARG_STUDY_FORM_DETAILS and ARG_CALLING_PAGE
     companion object {
         /**
          * Use this factory method to create a new instance of

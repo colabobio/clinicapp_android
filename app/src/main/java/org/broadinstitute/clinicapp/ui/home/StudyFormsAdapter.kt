@@ -21,10 +21,12 @@ import org.broadinstitute.clinicapp.util.CommonUtils
 class StudyFormsAdapter(val userId: String, val syncInteractionListener: OnSyncInteractionListener
 ): PagedListAdapter<StudyFormDetail, StudyFormsAdapter.StudyFormViewHolder>(DiffCallback())
    {
+       // Method to create the view (uses the parent view)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudyFormViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return StudyFormViewHolder(layoutInflater, parent)
     }
+
 
      override fun onBindViewHolder(holder: StudyFormViewHolder, position: Int) {
         val masterStudyForm: StudyFormDetail? = getItem(position)
@@ -47,6 +49,7 @@ class StudyFormsAdapter(val userId: String, val syncInteractionListener: OnSyncI
         private var imgEdit: AppCompatImageView = itemView.findViewById(R.id.imgEditStudyForm)
         private var imgSync: AppCompatImageView = itemView.findViewById(R.id.imgSyncStatus)
 
+        //binds items gotten from the studyForm to the recycler view (each study form is uniquely binded)
         fun bind(detail: StudyFormDetail) {
 
             val masterStudyForm = detail.masterStudyForms
@@ -72,6 +75,7 @@ class StudyFormsAdapter(val userId: String, val syncInteractionListener: OnSyncI
                 imgSync.setImageResource(R.drawable.ic_cloud_reload_sync)
             }
 
+            //Called if image edit is clicked
             imgEdit.setOnClickListener {
                 val intent = Intent(parent.context, DetailsActivity::class.java)
                 intent.putExtra(Constants.BundleKey.STUDY_FORM_DETAIL_KEY, detail)
@@ -82,6 +86,7 @@ class StudyFormsAdapter(val userId: String, val syncInteractionListener: OnSyncI
                 parent.context.startActivity(intent)
             }
 
+            //Called if an item is clicked then "SurveyListActivity" class is called
             itemView.setOnClickListener {
                 val intent = Intent(parent.context, SurveyListActivity::class.java)
                 intent.putExtra(Constants.BundleKey.STUDY_FORM_DETAIL_KEY, detail)
@@ -92,6 +97,7 @@ class StudyFormsAdapter(val userId: String, val syncInteractionListener: OnSyncI
                 parent.context.startActivity(intent)
             }
 
+            //Called if image sync is clicked
             imgSync.setOnClickListener {
                 if(!masterStudyForm.isServerUpdated)syncInteractionListener.onSyncClick(detail)
             }

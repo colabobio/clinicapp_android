@@ -34,8 +34,10 @@ class CreateFormActivity : BaseActivity(),
         val transaction = this.supportFragmentManager.beginTransaction()
 
         if (intent.hasExtra(CREATE_STUDY_FORM_KEY)) {
+            //Checks to see if the intent has the key "CREATE_STUDY_FORM_KEY" then calls the corresponding value in the key value pair
             when (val key = intent.getStringExtra(CREATE_STUDY_FORM_KEY)) {
 
+                //When the value for the key is "CREATE_FROM_SCRATCH_STUDY_FORM"
                 CREATE_FROM_SCRATCH_STUDY_FORM -> {
                     var studyFormDetail: StudyFormDetail? = null
                     if (intent.hasExtra(Constants.BundleKey.STUDY_FORM_DETAIL_KEY)) {
@@ -50,6 +52,7 @@ class CreateFormActivity : BaseActivity(),
                     callingPage = key
                 }
 
+                //When the value for the key is others
                 else -> {
                     isSearchEnable = true
                     transaction.add(R.id.fragment_parentLayout, ItemFragment.newInstance(key.toString()))

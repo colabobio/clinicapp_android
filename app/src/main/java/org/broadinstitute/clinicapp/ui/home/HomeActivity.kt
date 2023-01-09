@@ -85,7 +85,10 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 //        if (checkAndRequestPermissions()) {
 //            getLocation()
 //        }
-
+        /**
+         * THIS IS WHERE WE BEGIN!!!
+         * This showCreationFormDialog() function is called when floating action button shows.
+         */
         fab.setOnClickListener {
             showCreationFormDialog()
         }
@@ -105,6 +108,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 
         navView.setNavigationItemSelectedListener(this)
 
+        //ADAPTER THAT SHOWS THE LIST OF STUDY FORMS in a RECYCLER VIEW STRUCTURE
         val linearLayoutManager = LinearLayoutManager(this)
         rvStudyForms.layoutManager = linearLayoutManager
         listAdapter = StudyFormsAdapter(userId, this)
