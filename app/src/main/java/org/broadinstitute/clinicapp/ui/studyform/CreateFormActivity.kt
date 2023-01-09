@@ -19,6 +19,7 @@ class CreateFormActivity : BaseActivity(),
     private var isSearchEnable = false
     private var callingPage = CREATE_STUDY_FORM_KEY
 
+    //creates the basic fragment that's shown when started
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayShowTitleEnabled(false)

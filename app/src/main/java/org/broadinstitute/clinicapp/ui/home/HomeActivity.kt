@@ -245,6 +245,10 @@ class HomeActivity : BaseActivity(), HomeContract.View,
     }
 
 
+    /**
+     * This showCreationFormDialog() function is responsible for displaying the view to the corresponding user
+     * click on the options the floating action button shows.
+     */
     @SuppressLint("InflateParams")
     private fun showCreationFormDialog() {
 
@@ -257,22 +261,26 @@ class HomeActivity : BaseActivity(), HomeContract.View,
         //login button click of custom layout
         mDialogView.pop_create_scratch.setOnClickListener {
             mAlertDialog.dismiss()
+            //intent created for when user clicks on "Create New Study Form" from the floating action button
             intent = Intent(this, CreateFormActivity::class.java)
                 .putExtra(
                     Constants.BundleKey.CREATE_STUDY_FORM_KEY,
                     Constants.CallingPageValue.CREATE_FROM_SCRATCH_STUDY_FORM
                 )
 
+            //passes intent to the startActivity() function that's responsible for displaying the corresponding view
             startActivity(intent)
         }
         //cancel button click of custom layout
         mDialogView.pop_create_existing.setOnClickListener {
+            //intent created for when user clicks on "Create from Template Study Form" from the floating action button
             intent = Intent(this, CreateFormActivity::class.java)
                 .putExtra(
                     Constants.BundleKey.CREATE_STUDY_FORM_KEY,
                     Constants.CallingPageValue.CREATE_FROM_TEMPLATE_STUDY_FORM
                 )
 
+            //passes intent to the startActivity() function that's responsible for displaying the corresponding view
             startActivity(intent)
             mAlertDialog.dismiss()
         }
@@ -285,12 +293,14 @@ class HomeActivity : BaseActivity(), HomeContract.View,
             mDialogView.pop_import_online.isEnabled = false
         }
         mDialogView.pop_import_online.setOnClickListener {
+            //intent created for when user clicks on "Import Online Study Form" from the floating action button
             intent = Intent(this, CreateFormActivity::class.java)
                 .putExtra(
                     Constants.BundleKey.CREATE_STUDY_FORM_KEY,
                     Constants.CallingPageValue.IMPORT_FROM_ONLINE_STUDY_FORM
                 )
 
+            //passes intent to the startActivity() function that's responsible for displaying the corresponding view
             startActivity(intent)
             mAlertDialog.dismiss()
         }

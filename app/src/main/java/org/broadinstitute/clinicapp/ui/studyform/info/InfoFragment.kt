@@ -74,12 +74,19 @@ class InfoFragment : BaseFragment(), InfoContract.View {
         }
     }
 
+    /**
+     * This is the onCreateView() function that's responsible for creating a view corresponding to
+     * user input into the title and description fields of creating a study form.
+     *
+     * @Return a view
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_info, container, false)
+        //checks to make sure that the study title and description fields aren't null
         if (studyFormDetail != null) {
             view.Info_titleTxt.setText(studyFormDetail!!.masterStudyForms.title)
             view.Info_titleDesc.setText(studyFormDetail!!.masterStudyForms.description)
@@ -87,17 +94,22 @@ class InfoFragment : BaseFragment(), InfoContract.View {
 
         view.btn_continue.setOnClickListener {
                 context?.let { it1 -> hideKeyboard(it1, view) }
+            //checks to make sure that the bodies/fields of the study title and description aren't empty
             if (view.Info_titleTxt.text.toString().trim().isEmpty() || view.Info_titleDesc.text.toString().trim().isEmpty()) {
+                //if so, throw an error
                 Snackbar.make(
                     it,
                     getString(R.string.error_no_title_description),
                     Snackbar.LENGTH_SHORT
                 ).show()
             } else {
+                //check to make sure that a duplicate title doesn't already exist
+                //if a duplicate title exists, isDuplicateTitle() will throw an error
                 presenter.isDuplicateTitle(view.Info_titleTxt.text.toString())
             }
         }
 
+        //returns correct, corresponding view
         return view
     }
 
