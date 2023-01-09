@@ -76,7 +76,7 @@ class FillStudiesFragment : BaseFragment() {
         }
 
 
-
+        //Shows the patient ID information
         val spannable = SpannableString("Patient ID - " + model.patient.value?.adminId)
         spannable.setSpan(RelativeSizeSpan(1f),0,spannable.length,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         view.fill_patientTxt.text = spannable

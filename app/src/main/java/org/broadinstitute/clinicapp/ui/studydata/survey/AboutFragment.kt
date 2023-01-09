@@ -33,6 +33,7 @@ class AboutFragment : BaseFragment(){
 
         val view = inflater.inflate(R.layout.fragment_about_study_form, container, false)
 
+        //shows after opening a study data
         view.txtHeader.text = getString(R.string.about_study_data)
         view.btn_confirm.visibility = View.VISIBLE
         progressBar = view.aboutProgressBar
@@ -42,6 +43,7 @@ class AboutFragment : BaseFragment(){
             view.study_form_details_desc.text = studyFormDetail?.masterStudyForms?.description
         }
 
+        //After clicking the confirm button to fill study information in the "FillStudiesFragment" class
         view.btn_confirm.setOnClickListener {
             val transaction = this.activity?.supportFragmentManager?.beginTransaction()
             transaction?.add(R.id.flAddMoreVars, FillStudiesFragment.newInstance(),"Fill_data")
