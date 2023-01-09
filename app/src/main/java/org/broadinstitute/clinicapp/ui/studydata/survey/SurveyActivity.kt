@@ -26,7 +26,9 @@ class SurveyActivity : BaseActivity() {
 
     override fun setUp() {
 
+        //Assigns the value of "STUDY_FORM_DETAIL_KEY" which is "studyFormDetail" to variable "form"
         form = intent.getParcelableExtra(Constants.BundleKey.STUDY_FORM_DETAIL_KEY)
+        //Assigns "CREATE_STUDY_DATA_KEY" to value "type"
         val type: Int = intent.getIntExtra(Constants.BundleKey.CREATE_STUDY_DATA_KEY,0)
         val masterID: MasterStudyData? = intent.getParcelableExtra(Constants.BundleKey.MASTER_STUDY_DATA_KEY)
         val patient: Patient? = intent.getParcelableExtra(Constants.BundleKey.PATIENT_KEY)

@@ -51,6 +51,7 @@ class SurveyListActivity : BaseActivity(), SDListContract.View {
         listAdapter = StudyDataAdapter(studyFormDetail)
         rvStudyData.adapter = listAdapter
 
+        //Clicking the floating Action Button to select options
         fab.setOnClickListener {
             showCreationStudyDataDialog()
         }
@@ -64,6 +65,7 @@ class SurveyListActivity : BaseActivity(), SDListContract.View {
             .setView(mDialogView)
 
         val mAlertDialog = mBuilder.show()
+        //Clicking for new patient information to go to "SurveyActivity" class
         mDialogView.pop_create_new.setOnClickListener {
             mAlertDialog.dismiss()
             intent = Intent(this, SurveyActivity::class.java)
@@ -78,6 +80,7 @@ class SurveyListActivity : BaseActivity(), SDListContract.View {
             startActivity(intent)
         }
 
+        //Clicking for follow up study  to go to "SearchPatientActivity" class
         mDialogView.pop_create_followup.setOnClickListener {
             mAlertDialog.dismiss()
             intent = Intent(this, SearchPatientActivity::class.java)
@@ -92,6 +95,7 @@ class SurveyListActivity : BaseActivity(), SDListContract.View {
             startActivity(intent)
         }
 
+        //Clicking for final outcome study data  to go to "SearchPatientActivity" class
         mDialogView.pop_create_final_outcome.setOnClickListener {
             mAlertDialog.dismiss()
             intent = Intent(this, SearchPatientActivity::class.java)
