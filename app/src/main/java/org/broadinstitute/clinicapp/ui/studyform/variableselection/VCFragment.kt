@@ -166,9 +166,9 @@ class VCFragment : BaseFragment(), VCContract.View, OnInfoSelectedListener,
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         val view = inflater.inflate(R.layout.fragment_form_creation, container, false)
 
+        //Adapter for all the variables
         listAdapter =
             VCExpandableAdapter(
                 activity!!,
@@ -187,6 +187,7 @@ class VCFragment : BaseFragment(), VCContract.View, OnInfoSelectedListener,
             view.btnConfirm.visibility = View.GONE
         }
 
+        //Used to confirm list of variables after selecting variables
         view.btnConfirm.setOnClickListener {
 
             studyForm?.let { it1 ->
@@ -198,6 +199,10 @@ class VCFragment : BaseFragment(), VCContract.View, OnInfoSelectedListener,
 
                         it1.lastModified = System.currentTimeMillis()
                         it1.isServerUpdated = false
+                        /**
+                         * THE END OF CREATING A STUDY FORM
+                         */
+                        //inserts the variables in the database
                         presenter.insertMasterStudyForm(it1, createNewFormVariables())
 
                     }
@@ -253,7 +258,7 @@ class VCFragment : BaseFragment(), VCContract.View, OnInfoSelectedListener,
         }
         //END
 
-
+        //Show the variables for selection
         presenter = VCPresenter(this, requireContext())
         presenter.getCategories(20, 0)
     }

@@ -18,6 +18,7 @@ private const val ARG_CALLING_PAGE = "ARG_CALLING_PAGE"
 
 class InfoFragment : BaseFragment(), InfoContract.View {
     override fun isDuplicate(isDuplicate: Boolean) {
+        //Checks if the added document is a duplicate or not
         if (!isDuplicate) {
             val transaction = this.activity?.supportFragmentManager?.beginTransaction()
             transaction?.addToBackStack(null)
@@ -29,6 +30,7 @@ class InfoFragment : BaseFragment(), InfoContract.View {
                     view!!.Info_titleDesc.text.toString()
                 transaction?.replace(
                     R.id.CreateFormLayout,
+                    //if it is not duplicate, call a new instance of the VCFragment (list of variables)
                     VCFragment.newInstance(studyFormDetail, callingPage)
                 )
             } else {
