@@ -81,28 +81,39 @@ class FillStudiesFragment : BaseFragment() {
         spannable.setSpan(RelativeSizeSpan(1f),0,spannable.length,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         view.fill_patientTxt.text = spannable
 
-
+        //if you have more than one variable,
         if(variableSize > 0 ) {
             showData(CallType.Initial)
 
+            //button to go to the next action
             btnNext.setOnClickListener {
+                //if this is the last variable
                 if (this.currentIndex == variableSize - 1) {
                     if (this.collectValue(CallType.Next)) {
+                        //Navigate to the final note on the study form
                         showNoteScreen()
                     }
-                } else if (collectValue(CallType.Next)) showData(CallType.Next)
+                }
+                // if it is not the last variable
+                else if (collectValue(CallType.Next))
+                    showData(CallType.Next)
             }
 
+            //if you press the back button
             btnPrevious.setOnClickListener {
                 showData(CallType.Previous)
             }
 
+            //if you press the skip button
             btnSkip.setOnClickListener {
 
+                //if this is the last variable
                 if (this.currentIndex == variableSize - 1) {
+                    //Navigate to the final note on the study form
                     showNoteScreen()
 
-                } else if (collectValue(CallType.Unknown)) showData(CallType.Unknown)
+                } else if (collectValue(CallType.Unknown))
+                    showData(CallType.Unknown)
             }
 
             setDateView.setOnClickListener {
@@ -424,6 +435,7 @@ class FillStudiesFragment : BaseFragment() {
                 }
                 CategoryType.catType ->{
 
+                    //if current variable is a multiselection
                     if(!currentMasterVariable!!.isMultiSelect){
                         val radioGroup = catFrameLayout.getChildAt(0)
                        if(radioGroup is RadioGroup) {
