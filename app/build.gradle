@@ -128,4 +128,7 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.ext:junit:$testExtJunit"
+
+    //GoogleSignIn Dependency
+    implementation 'com.google.android.gms:play-services-auth:20.4.0'
 }
