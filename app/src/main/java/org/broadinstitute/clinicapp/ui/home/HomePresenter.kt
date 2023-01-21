@@ -68,12 +68,7 @@ class HomePresenter(
 
         if (NetworkUtils.isNetworkConnected(context)) {
 
-            compositeDisposable.add(repository.getMyStudyFormsOnline(
-                userName,
-                allLastSyncDate.lastModifiedForms,
-                Constants.LIMIT,
-                0
-            )
+            compositeDisposable.add(repository.getMyStudyFormsOnline(userName,allLastSyncDate.lastModifiedForms,Constants.LIMIT,0)
                 .doOnSuccess { response ->
                     insertMasterForms(response)
                 }

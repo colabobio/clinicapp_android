@@ -70,7 +70,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
     override fun setUp() {
         if(pref.readBooleanFromPref(Constants.PrefKey.PREF_INITIAL_LAUNCH, true))
             presenter.checkMasterVariables(0)
-        else presenter.checkStudyFormsInDB(true)
+//        else presenter.checkStudyFormsInDB(true)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,9 +79,14 @@ class HomeActivity : BaseActivity(), HomeContract.View,
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+        /**
+         * @param1 view
+         * @param2 context
+         * @param3 gets the logged in user's credentials from its superclass (Base Activity)
+         */
         presenter = HomePresenter(this, this, pref)
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+//        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 //        if (checkAndRequestPermissions()) {
 //            getLocation()
 //        }

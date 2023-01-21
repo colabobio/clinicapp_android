@@ -60,6 +60,10 @@ class ClinicApp : Application() {
         }
     }
 
+    /**
+     * Creates and instance of Shared preferences
+     * @return SharedPreferencesOAuth2Storage with details
+     */
     fun getStorage(): SharedPreferencesOAuth2Storage {
         if (storage == null) {
             storage =
@@ -70,6 +74,10 @@ class ClinicApp : Application() {
         return storage as SharedPreferencesOAuth2Storage
     }
 
+    /**
+     * Creates and instance of Shared preferences
+     * @return SharedPreferenceUtils with details
+     */
     fun getPrefStorage(): SharedPreferenceUtils {
         if (pref == null) {
             pref =

@@ -46,8 +46,14 @@ abstract class BaseActivity : AppCompatActivity(), MvpView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         customActionBarLogo()
+
+        //Creates an instance of the SharedPreferencesOAuth2Storage using the ClinicApp class
         storage  = ClinicApp.instance!!.getStorage()
+
+        //Creates an instance of the SharedPreferencesUtils using the ClinicApp class
         pref  =  ClinicApp.instance!!.getPrefStorage()
+
+        //get's the userId from SharedPreferencesUtils
         userId = pref.readStringFromPref(Constants.PrefKey.PREF_USER_NAME).toString()
 
     }

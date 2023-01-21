@@ -92,19 +92,19 @@ class GoogleSignInActivity : AppCompatActivity() {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            Log.d("1", "First point" )
             handleSignInResult(task)
         }
     }
 
     private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
         try {
-            val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
-
-            // Signed in successfully, show authenticated UI.
+            Log.d("1", "Second point" )
+            task.getResult(ApiException::class.java)
             finish()
-            val intent = Intent(this, HomeActivity::class.java)
+            val intent = Intent(applicationContext, SplashActivity::class.java)
             startActivity(intent)
-            Toast.makeText(applicationContext, "Log in successful!!!", Toast.LENGTH_LONG).show()
+
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
