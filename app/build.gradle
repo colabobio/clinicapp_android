@@ -130,5 +130,5 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$testExtJunit"
 
     //GoogleSignIn Dependency
-    implementation 'com.google.android.gms:play-services-auth:20.4.0'
+    implementation 'com.google.android.gms:play-services-auth:20.4.1'
 }

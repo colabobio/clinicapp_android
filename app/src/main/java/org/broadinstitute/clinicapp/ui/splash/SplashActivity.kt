@@ -19,39 +19,13 @@ import org.broadinstitute.clinicapp.util.TokenHelper
 
 
 class SplashActivity : BaseActivity() {
-//    var gso: GoogleSignInOptions? = null
-//    var gsc: GoogleSignInClient? = null
 
-    override fun setUp() {
-//        val account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(this)
-//        if (account != null){
-//            Log.d("accountId", account.id.toString())
-//            Log.d("accountId", account.idToken.toString())
-//            Log.d("accountId", account.displayName.toString())
-//            Log.d("accountId", account.email .toString())
-//            Log.d("accountId", account.familyName.toString())
-//            Log.d("accountId", account.givenName.toString())
-//            Log.d("accountId", account.serverAuthCode.toString())
-//        // Signed in successfully, show authenticated UI.
-//    }
-
-    }
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-//        // Configure sign-in to request the user's ID, email address, and basic
-//        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-//        // Configure sign-in to request the user's ID, email address, and basic
-//        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-//        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestEmail()
-//            .build()
-//        gsc = GoogleSignIn.getClient(this, gso!!);
-
-        setUp()
 
 //        Handler().postDelayed({
 //            intent = if (!storage.hasAccessToken() ||(TokenHelper.isTokenExpired(storage.getStoredAccessToken()) && isNetworkConnected)) {
@@ -66,8 +40,9 @@ class SplashActivity : BaseActivity() {
 
         Handler().postDelayed({
             pref.writeBooleanToPref(Constants.PrefKey.PREF_USER_CREATED, true)
-            intent = Intent(this, HomeActivity::class.java)
-                .putExtra(Constants.BundleKey.HOME_ACTIVITY_KEY, Constants.BundleKey.HOME_CALL_FROM_LOGIN)
+//            intent = Intent(this, HomeActivity::class.java)
+            intent = Intent(this, GoogleSignInActivity::class.java)
+//                .putExtra(Constants.BundleKey.HOME_ACTIVITY_KEY, Constants.BundleKey.HOME_CALL_FROM_LOGIN)
             startActivity(intent)
             finish()
         }, 2000)
@@ -75,4 +50,8 @@ class SplashActivity : BaseActivity() {
 
     }
 
-   }
+    override fun setUp() {
+        TODO("Not yet implemented")
+    }
+
+}
