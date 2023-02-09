@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ClinicApp</string>
     <string name="snack_bar_text">Sample Default value</string>
-    <string name="web_client_id">607806355576-11jhlcm0gtpr8r6ugo3r142lsm9j85rm.apps.googleusercontent.com</string>
+    <string name="web_client_id">71632487772-ugek87j7q6g1prdqg5pdtacuvc3siv7v.apps.googleusercontent.com</string>
 
     <!-- Home screen -->
     <string name="home_screen_title">My Studies</string>
