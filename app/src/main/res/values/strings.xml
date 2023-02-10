@@ -48,6 +48,7 @@
     <string name="continue_str">Continue</string>
     <string name="menu_logout">Logout</string>
     <string name="menu_view_master">View Master Variables</string>
+    <string name="menu_sign_out">Sign out</string>
     <string name="menu_manual_sync">Sync with Server</string>
     <string name="menu_user_profile">User Profile</string>
 

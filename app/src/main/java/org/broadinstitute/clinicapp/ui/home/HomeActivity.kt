@@ -352,15 +352,22 @@ class HomeActivity : BaseActivity(), HomeContract.View,
                 intent = Intent(this, ViewVariablesActivity::class.java)
                 startActivity(intent)
             }
-            R.id.nav_manual_sync -> {
-                if (isNetworkConnected) {
-                    showSyncDialog()
-                    presenter.getSyncTimes()
-
-                } else {
-                    onError(getString(R.string.network_error))
-                }
+            R.id.nav_sign_out -> {
+                intent = Intent(this, ViewVariablesActivity::class.java)
+                // need to call oneTapClient.signOut() ... how?
+                finish()
             }
+
+//            R.id.nav_manual_sync -> {
+//                if (isNetworkConnected) {
+//                    showSyncDialog()
+//                    presenter.getSyncTimes()
+//
+//                } else {
+//                    onError(getString(R.string.network_error))
+//                }
+//            }
+
 //            R.id.nav_profile -> {
 //                intent = Intent(this, ProfileActivity::class.java)
 //                startActivity(intent)
