@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseActivity
@@ -24,25 +25,11 @@ class SplashActivity : BaseActivity() {
         setContentView(R.layout.activity_splash)
         setUp()
 
-//        Handler().postDelayed({
-//            intent = if (!storage.hasAccessToken() ||(TokenHelper.isTokenExpired(storage.getStoredAccessToken()) && isNetworkConnected)) {
-//                Intent(this, LoginActivity::class.java)
-//            } else {
-//                Intent(this, HomeActivity::class.java)
-//                      .putExtra(Constants.BundleKey.HOME_ACTIVITY_KEY, Constants.BundleKey.HOME_CALL_FROM_SPLASH)
-//            }
-//            startActivity(intent)
-//            finish()
-//        }, 2000)
-
-        Handler().postDelayed({
-            pref.writeBooleanToPref(Constants.PrefKey.PREF_USER_CREATED, true)
-            intent = Intent(this, HomeActivity::class.java)
-                .putExtra(Constants.BundleKey.HOME_ACTIVITY_KEY, Constants.BundleKey.HOME_CALL_FROM_LOGIN)
+        Handler(Looper.getMainLooper()).postDelayed({
+            intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }, 2000)
-
 
     }
 
