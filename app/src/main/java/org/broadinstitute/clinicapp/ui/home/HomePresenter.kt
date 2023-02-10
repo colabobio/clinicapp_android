@@ -697,9 +697,9 @@ class HomePresenter(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ count ->
                 if (count == 0) {
-                    view.showEmptyWarning(true)
-                    view.showProgress(true)
-                    getMyStudyFormsFromAPI(isSingleCall)
+//                    view.showEmptyWarning(true)
+//                    view.showProgress(true)
+//                    getMyStudyFormsFromAPI(isSingleCall)
                 } else {
                     view.showEmptyWarning(false)
                     view.showProgress(false)
