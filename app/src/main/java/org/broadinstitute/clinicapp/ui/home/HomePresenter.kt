@@ -66,7 +66,7 @@ class HomePresenter(
 
     override fun getMyStudyFormsFromAPI(isSingleCall: Boolean) {
 
-        if (Constants.ONLINE_MODE_ENABLED && NetworkUtils.isNetworkConnected(context)) {
+        if (Constants.API_ENABLED && NetworkUtils.isNetworkConnected(context)) {
 
             compositeDisposable.add(repository.getMyStudyFormsOnline(
                 userName,
@@ -216,7 +216,7 @@ class HomePresenter(
 
     override fun getMasterVariables(pageNo: Int, lastModified: Long, isInitialLoad: Boolean) {
 
-        if (Constants.ONLINE_MODE_ENABLED && NetworkUtils.isNetworkConnected(context)) {
+        if (Constants.API_ENABLED && NetworkUtils.isNetworkConnected(context)) {
                 if(isInitialLoad)view.showProgress(true)
                 compositeDisposable.add(repository.getMasterVariablesFromAPI(
                 allLastSyncDate.lastModifiedVariable,
@@ -386,7 +386,7 @@ class HomePresenter(
 
 
     private fun getAllStudyDataAPI(userId: String, lastModified: Long) {
-        if (Constants.ONLINE_MODE_ENABLED && NetworkUtils.isNetworkConnected(context)) {
+        if (Constants.API_ENABLED && NetworkUtils.isNetworkConnected(context)) {
 
             compositeDisposable.add(repository.getStudyAllDataOnline(
                 userId,

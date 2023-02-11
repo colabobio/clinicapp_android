@@ -39,10 +39,8 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.pop_create_studyform.view.*
-import org.broadinstitute.clinicapp.Config
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.R
-import org.broadinstitute.clinicapp.api.ApiService
 import org.broadinstitute.clinicapp.base.BaseActivity
 import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
 import org.broadinstitute.clinicapp.ui.OnSyncInteractionListener
@@ -80,7 +78,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
         supportActionBar?.setDisplayShowTitleEnabled(false)
         presenter = HomePresenter(this, this, pref)
 
-        if (Constants.LOCATION_ENABLED) {
+        if (Constants.LOC_ENABLED) {
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             if (checkAndRequestPermissions()) {
                 getLocation()
@@ -135,7 +133,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
     }
 
     private fun isLocationEnabled(): Boolean {
-        if (Constants.LOCATION_ENABLED) return false
+        if (Constants.LOC_ENABLED) return false
         val locationManager: LocationManager =
             getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
@@ -490,7 +488,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 
     override fun onStop() {
         super.onStop()
-        if (Constants.LOCATION_ENABLED) {
+        if (Constants.LOC_ENABLED) {
             mFusedLocationClient.removeLocationUpdates(
                 mLocationCallback
             )

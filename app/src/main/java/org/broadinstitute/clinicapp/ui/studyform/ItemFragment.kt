@@ -83,7 +83,7 @@ class ItemFragment : BaseFragment(), ItemContract.View, OnSyncInteractionListene
                         if (presenter.isLoading) {
                             if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                                 presenter.isLoading = false
-                                presenter.loadMoreStudyForms(fromScreen, searchCriteria, Constants.ONLINE_MODE_ENABLED && isNetworkConnected, userID)
+                                presenter.loadMoreStudyForms(fromScreen, searchCriteria, Constants.API_ENABLED && isNetworkConnected, userID)
 
                             }
                         }
@@ -120,7 +120,7 @@ class ItemFragment : BaseFragment(), ItemContract.View, OnSyncInteractionListene
     }
 
     override fun onSyncClick(item: StudyFormDetail) {
-        if (Constants.ONLINE_MODE_ENABLED && isNetworkConnected) presenter.syncIndividualForm(item)
+        if (Constants.API_ENABLED && isNetworkConnected) presenter.syncIndividualForm(item)
         else showSnackBarMessage(getString(R.string.network_error))
     }
 
@@ -153,7 +153,7 @@ class ItemFragment : BaseFragment(), ItemContract.View, OnSyncInteractionListene
         searchSubmit.setImageResource(R.mipmap.ic_search)
         searchView.queryHint = getString(R.string.search_study_forms)
         searchView.setOnSearchClickListener {
-            if (Constants.ONLINE_MODE_ENABLED && isNetworkConnected) searchView.queryHint = getString(R.string.search_online_study_forms)
+            if (Constants.API_ENABLED && isNetworkConnected) searchView.queryHint = getString(R.string.search_online_study_forms)
             else searchView.queryHint = getString(R.string.search_study_forms)
         }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -175,9 +175,9 @@ class ItemFragment : BaseFragment(), ItemContract.View, OnSyncInteractionListene
                 isSearchResultLoaded = true
                 if (fromScreen == CREATE_FROM_TEMPLATE_STUDY_FORM) {
                     presenter.getSearchedForms("%$query%", presenter.dbCount)
-                    if (Constants.ONLINE_MODE_ENABLED && isNetworkConnected)presenter.getSearchedFormsOnline("%$query%", presenter.offset, false, null)
+                    if (Constants.API_ENABLED && isNetworkConnected)presenter.getSearchedFormsOnline("%$query%", presenter.offset, false, null)
                 } else {
-                    if (Constants.ONLINE_MODE_ENABLED && isNetworkConnected)presenter.getSearchedFormsOnline("%$query%", presenter.offset, true, userID)
+                    if (Constants.API_ENABLED && isNetworkConnected)presenter.getSearchedFormsOnline("%$query%", presenter.offset, true, userID)
                         else onError(R.string.network_error)
                 }
 
