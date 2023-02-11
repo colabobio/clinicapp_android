@@ -80,10 +80,12 @@ class HomeActivity : BaseActivity(), HomeContract.View,
         supportActionBar?.setDisplayShowTitleEnabled(false)
         presenter = HomePresenter(this, this, pref)
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-//        if (checkAndRequestPermissions()) {
-//            getLocation()
-//        }
+        if (Constants.LOCATION_ENABLED) {
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            if (checkAndRequestPermissions()) {
+                getLocation()
+            }
+        }
 
         fab.setOnClickListener {
             showCreationFormDialog()
@@ -133,6 +135,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
     }
 
     private fun isLocationEnabled(): Boolean {
+        if (Constants.LOCATION_ENABLED) return false
         val locationManager: LocationManager =
             getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
@@ -487,9 +490,11 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 
     override fun onStop() {
         super.onStop()
-        mFusedLocationClient.removeLocationUpdates(
-            mLocationCallback
-        )
+        if (Constants.LOCATION_ENABLED) {
+            mFusedLocationClient.removeLocationUpdates(
+                mLocationCallback
+            )
+        }
     }
 
     private fun showSyncLoadingDialog(context: Context): Dialog {

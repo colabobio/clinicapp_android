@@ -1,6 +1,9 @@
 package org.broadinstitute.clinicapp
 
 object Constants {
+    const val ONLINE_MODE_ENABLED = false
+    const val LOCATION_ENABLED = false
+
     const val LIMIT = 20
     const val MASTER_VARIABLES_LIMIT = 100
     const val STUDY_DATA_LIMIT = 20
