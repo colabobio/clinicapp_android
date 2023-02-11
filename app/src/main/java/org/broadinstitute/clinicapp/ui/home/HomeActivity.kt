@@ -476,38 +476,6 @@ class HomeActivity : BaseActivity(), HomeContract.View,
                        )
                    )
                    finish()
-//                    val refreshToken = storage.getStoredAccessToken()?.refreshToken
-//                    refreshToken?.let {
-//                        ApiService.instance.logout(Config.clientId, it)
-//                            .subscribeOn(Schedulers.io())
-//                            .observeOn(AndroidSchedulers.mainThread())
-//                            .subscribe({
-//                                showProgress(false)
-//                                storage.removeAccessToken()
-//                                this@HomeActivity.startActivity(
-//                                    Intent(
-//                                        this@HomeActivity,
-//                                        LoginActivity::class.java
-//                                    )
-//                                )
-//                                finish()
-//                            }, { t ->
-//                                showProgress(false)
-//                                showMessage(CommonUtils.getErrorMessage(t))
-//
-//                            })
-//                    }
-
-//                    if (refreshToken == null) {
-//                        this@HomeActivity.startActivity(
-//                            Intent(
-//                                this@HomeActivity,
-//                                LoginActivity::class.java
-//                            )
-//                        )
-//                        finish()
-//                    }
-
                 }
 
                 override fun negativeClick() {
