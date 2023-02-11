@@ -49,22 +49,25 @@ class SearchRecyclerViewAdapter(
             String.format(context.getString(R.string.created_by, item.masterStudyForms.creator))
         holder.mDateView.text = item.masterStudyForms.lastModified.let { CommonUtils.convertDate(it) }
 
+        if (Constants.ONLINE_MODE_ENABLED) {
+            if (fromScreen == Constants.CallingPageValue.CREATE_FROM_TEMPLATE_STUDY_FORM) {
+                holder.mSyncView.visibility = View.VISIBLE
+                if (item.masterStudyForms.isFromOffline) {
+                    if (item.masterStudyForms.isServerUpdated)
+                        holder.mSyncView.setImageResource(R.drawable.ic_cloud_check_done)
+                    else holder.mSyncView.setImageResource(R.drawable.ic_cloud_reload_sync)
+                } else holder.mSyncView.setImageResource(R.drawable.ic_cloud_check_done)
 
-        if(fromScreen == Constants.CallingPageValue.CREATE_FROM_TEMPLATE_STUDY_FORM) {
-            holder.mSyncView.visibility = View.VISIBLE
-            if(item.masterStudyForms.isFromOffline) {
-                if (item.masterStudyForms.isServerUpdated)
-                    holder.mSyncView.setImageResource(R.drawable.ic_cloud_check_done)
-                else holder.mSyncView.setImageResource(R.drawable.ic_cloud_reload_sync)
-            }else holder.mSyncView.setImageResource(R.drawable.ic_cloud_check_done)
-
-            holder.mSyncView.setOnClickListener {
-                if(!item.masterStudyForms.isServerUpdated){
-                    syncListener.onSyncClick(item)
+                holder.mSyncView.setOnClickListener {
+                    if(!item.masterStudyForms.isServerUpdated){
+                        syncListener.onSyncClick(item)
+                    }
                 }
+            } else{
+                holder.mSyncView.setImageResource(R.drawable.ic_cloud_check_done)
             }
-        } else{
-            holder.mSyncView.setImageResource(R.drawable.ic_cloud_check_done)
+        } else {
+            holder.mSyncView.visibility = View.INVISIBLE
         }
 
         holder.mEditView.visibility = View.INVISIBLE
