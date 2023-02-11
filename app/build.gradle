@@ -6,8 +6,27 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+// Load secrets to use in the app
+def secretsPropertiesFile = rootProject.file("secrets.properties");
+def secretsProperties = new Properties()
+secretsProperties.load(new FileInputStream(secretsPropertiesFile))
+
+// Load keystore parameters
+def keystorePropertiesFile = rootProject.file("keystore.properties");
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
+// Do not need signing config yet
+//    signingConfigs {
+//        config {
+//            storeFile file(keystoreProperties['storeFile'])
+//            storePassword keystoreProperties['storePassword']
+//            keyAlias keystoreProperties['keyAlias']
+//            keyPassword keystoreProperties['keyPassword']
+//        }
+//    }
+
     compileSdkVersion 33
     defaultConfig {
         applicationId "org.broadinstitute.clinicapp"
@@ -16,6 +35,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "web_client_id", secretsProperties['web_client_id'])
     }
 
     flavorDimensions "default"
@@ -27,7 +48,6 @@ android {
             proguardFile 'proguard/retrofit.pro'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-
     }
 
     productFlavors {
@@ -129,6 +149,6 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.ext:junit:$testExtJunit"
 
-    //GoogleSignIn Dependency
+    // Play services needed for Google sign in
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
 }
