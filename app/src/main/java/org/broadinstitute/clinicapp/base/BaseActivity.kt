@@ -8,6 +8,7 @@ package org.broadinstitute.clinicapp.base
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -38,9 +39,9 @@ import org.broadinstitute.clinicapp.util.SharedPreferencesOAuth2Storage
 abstract class BaseActivity : AppCompatActivity(), MvpView {
 
     private var mProgressDialog: Dialog? = null
-    lateinit var storage :SharedPreferencesOAuth2Storage
-    lateinit var pref :SharedPreferenceUtils
-    lateinit var userId :String
+    lateinit var storage: SharedPreferences
+    lateinit var pref: SharedPreferenceUtils
+    lateinit var userId: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

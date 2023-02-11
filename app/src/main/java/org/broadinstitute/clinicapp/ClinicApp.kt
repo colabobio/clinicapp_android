@@ -2,12 +2,10 @@ package org.broadinstitute.clinicapp
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import com.google.gson.Gson
-import org.broadinstitute.clinicapp.api.KeycloakToken
-import org.broadinstitute.clinicapp.data.RefreshTokenWorker
 import org.broadinstitute.clinicapp.util.Cryptography
 import org.broadinstitute.clinicapp.util.PREFERENCE_CLINIC_APP
 import org.broadinstitute.clinicapp.util.SharedPreferenceUtils
@@ -15,7 +13,7 @@ import org.broadinstitute.clinicapp.util.SharedPreferencesOAuth2Storage
 
 class ClinicApp : Application() {
 
-    private var storage: SharedPreferencesOAuth2Storage? = null
+    private var storage: SharedPreferences? = null
     private var pref: SharedPreferenceUtils? = null
 
     init {
@@ -38,20 +36,14 @@ class ClinicApp : Application() {
         super.onCreate()
         instance = this
 
-        storage =
-            SharedPreferencesOAuth2Storage.getInstance(
-                getSharedPreferences("ClinicApp", Context.MODE_PRIVATE)!!,
-                Gson().also { KeycloakToken::class.java })
-
-
+        storage = getSharedPreferences("ClinicApp", Context.MODE_PRIVATE)
 
         val myConfig = Configuration.Builder()
             .setMinimumLoggingLevel(Log.INFO)
             .build()
+
         // initialize WorkManager
         WorkManager.initialize(this, myConfig)
-
-        RefreshTokenWorker.startPeriodicRefreshTokenTask(context = this)
 
         try {
             Cryptography.getInstance()
@@ -60,14 +52,11 @@ class ClinicApp : Application() {
         }
     }
 
-    fun getStorage(): SharedPreferencesOAuth2Storage {
+    fun getStorage(): SharedPreferences {
         if (storage == null) {
-            storage =
-                SharedPreferencesOAuth2Storage.getInstance(
-                    applicationContext().getSharedPreferences( "ClinicApp", Context.MODE_PRIVATE ),
-                    Gson().also { KeycloakToken::class.java })
+            storage = getSharedPreferences("ClinicApp", Context.MODE_PRIVATE)
         }
-        return storage as SharedPreferencesOAuth2Storage
+        return storage as SharedPreferences
     }
 
     fun getPrefStorage(): SharedPreferenceUtils {
