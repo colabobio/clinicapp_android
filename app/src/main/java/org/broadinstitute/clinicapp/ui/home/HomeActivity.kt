@@ -30,9 +30,15 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.location.*
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
+import com.google.api.client.http.javanet.NetHttpTransport
+import com.google.api.client.json.gson.GsonFactory
+import com.google.api.services.drive.Drive
+import com.google.api.services.drive.DriveScopes
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
@@ -61,7 +67,8 @@ class HomeActivity : BaseActivity(), HomeContract.View,
     private lateinit var listAdapter: StudyFormsAdapter
     private lateinit var searchView: SearchView
     private lateinit var presenter: HomePresenter
-    private lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationClient: FusedLocationProviderClient
+    private var driveService: Drive? = null
     private var syncDialog: Dialog? = null
 
     override fun setUp() {
@@ -79,10 +86,14 @@ class HomeActivity : BaseActivity(), HomeContract.View,
         presenter = HomePresenter(this, this, pref)
 
         if (Constants.LOC_ENABLED) {
-            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            locationClient = LocationServices.getFusedLocationProviderClient(this)
             if (checkAndRequestPermissions()) {
                 getLocation()
             }
+        }
+
+        if (Constants.DRV_ENABLED) {
+            driveService = getDriveService()
         }
 
         fab.setOnClickListener {
@@ -141,6 +152,23 @@ class HomeActivity : BaseActivity(), HomeContract.View,
         )
     }
 
+    private fun getDriveService() : Drive? {
+        GoogleSignIn.getLastSignedInAccount(this)?.let { googleAccount ->
+            val credential = GoogleAccountCredential.usingOAuth2(
+                this, listOf(DriveScopes.DRIVE_FILE)
+            )
+            credential.selectedAccount = googleAccount.account!!
+            return Drive.Builder(
+                NetHttpTransport(),
+                GsonFactory.getDefaultInstance(),
+                credential
+            )
+                .setApplicationName(getString(R.string.app_name))
+                .build()
+        }
+        return null
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>, grantResults: IntArray
@@ -180,7 +208,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            mFusedLocationClient.lastLocation?.addOnCompleteListener(this) { task ->
+            locationClient.lastLocation?.addOnCompleteListener(this) { task ->
                 val location: Location? = task.result
                 if (location == null) {
                     requestNewLocationData()
@@ -210,12 +238,12 @@ class HomeActivity : BaseActivity(), HomeContract.View,
         mLocationRequest.fastestInterval = 0
         mLocationRequest.numUpdates = 1
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        locationClient = LocationServices.getFusedLocationProviderClient(this)
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
-        ) mFusedLocationClient.requestLocationUpdates(
+        ) locationClient.requestLocationUpdates(
             mLocationRequest, mLocationCallback,
             Looper.myLooper()
         )
@@ -489,7 +517,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
     override fun onStop() {
         super.onStop()
         if (Constants.LOC_ENABLED) {
-            mFusedLocationClient.removeLocationUpdates(
+            locationClient.removeLocationUpdates(
                 mLocationCallback
             )
         }
