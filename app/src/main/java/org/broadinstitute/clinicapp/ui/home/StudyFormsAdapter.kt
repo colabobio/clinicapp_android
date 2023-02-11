@@ -66,10 +66,14 @@ class StudyFormsAdapter(val userId: String, val syncInteractionListener: OnSyncI
                 imgEdit.visibility = View.VISIBLE
             }
 
-            if (masterStudyForm.isServerUpdated) {
-                imgSync.setImageResource(R.drawable.ic_cloud_check_done)
+            if (Constants.ONLINE_MODE_ENABLED) {
+                if (masterStudyForm.isServerUpdated) {
+                    imgSync.setImageResource(R.drawable.ic_cloud_check_done)
+                } else {
+                    imgSync.setImageResource(R.drawable.ic_cloud_reload_sync)
+                }
             } else {
-                imgSync.setImageResource(R.drawable.ic_cloud_reload_sync)
+                imgSync.visibility = View.INVISIBLE
             }
 
             imgEdit.setOnClickListener {

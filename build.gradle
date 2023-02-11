@@ -18,6 +18,8 @@ buildscript {
         cardviewVersion = '1.0.0'
 
         playServicesLocationVersion = '21.0.1'
+        playServicesAuthVersion = '20.4.1'
+
 //        navigationVersion = '2.5.3'
         recyclerViewVersion = '1.2.1'
         migbase64Version = '2.2'

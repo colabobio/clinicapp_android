@@ -2,6 +2,7 @@ package org.broadinstitute.clinicapp.ui.studydata.list
 
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -59,10 +60,15 @@ class StudyDataAdapter(
                 CommonUtils.convertDate(masterStudyData.lastModified)
             )
 
-            if (masterStudyData.isServerUpdated) {
-                imgSync.setImageResource(R.drawable.ic_cloud_check_done)
+            if (Constants.ONLINE_MODE_ENABLED) {
+                imgSync.visibility = View.VISIBLE
+                if (masterStudyData.isServerUpdated) {
+                    imgSync.setImageResource(R.drawable.ic_cloud_check_done)
+                } else {
+                    imgSync.setImageResource(R.drawable.ic_cloud_reload_sync)
+                }
             } else {
-                imgSync.setImageResource(R.drawable.ic_cloud_reload_sync)
+                imgSync.visibility = View.INVISIBLE
             }
 
             when {
