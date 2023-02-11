@@ -95,14 +95,6 @@ class LoginActivity : BaseActivity() {
                         }
                     }
 
-//                    val storage = ClinicApp.instance?.getStorage()
-//                    storage?.let {
-//                        with (storage.edit()) {
-//                            putString(Constants.PrefKey.PREF_USER_NAME, username)
-//                            apply()
-//                        }
-//                    }
-
                     pref  =  ClinicApp.instance!!.getPrefStorage()
                     pref.writeStringToPref(Constants.PrefKey.PREF_USER_NAME, username)
                     pref.writeBooleanToPref(Constants.PrefKey.PREF_USER_CREATED, true)
