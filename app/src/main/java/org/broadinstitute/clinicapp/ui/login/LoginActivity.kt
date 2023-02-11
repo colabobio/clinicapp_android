@@ -38,7 +38,7 @@ class LoginActivity : BaseActivity() {
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
                     // Your server's client ID, not your Android client ID.
-                    .setServerClientId(getString(R.string.web_client_id))
+                    .setServerClientId(org.broadinstitute.clinicapp.BuildConfig.web_client_id)
                     // Show all accounts on the device.
                     .setFilterByAuthorizedAccounts(false)
                     .build()
