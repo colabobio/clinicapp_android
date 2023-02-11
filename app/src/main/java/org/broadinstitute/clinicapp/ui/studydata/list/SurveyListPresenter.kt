@@ -37,7 +37,7 @@ class SurveyListPresenter(
 
                 if (count == 0) {
                     view.showEmptyWarning(true)
-                    if(isServerUpdate)getStudyDataByFormIdFromAPI(
+                    if (isServerUpdate) getStudyDataByFormIdFromAPI(
                         pref.readStringFromPref(
                             Constants.PrefKey.PREF_USER_NAME
                         )!!, studyFormId
@@ -46,6 +46,7 @@ class SurveyListPresenter(
                     view.showEmptyWarning(false)
                     getStudyDataFromDB(studyFormId, "")
                 }
+
             }
         )
     }

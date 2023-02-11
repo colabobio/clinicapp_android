@@ -2,6 +2,7 @@ package org.broadinstitute.clinicapp.data.source
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.paging.DataSource
 import com.google.gson.JsonObject
 import org.broadinstitute.clinicapp.data.source.local.ClinicDatabase
@@ -10,7 +11,6 @@ import org.broadinstitute.clinicapp.data.source.local.dao.StudyFormVariablesDao
 import org.broadinstitute.clinicapp.data.source.local.dao.SyncStatusDao
 import org.broadinstitute.clinicapp.data.source.local.entities.*
 import org.broadinstitute.clinicapp.data.source.remote.*
-import org.broadinstitute.clinicapp.util.SharedPreferencesOAuth2Storage
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -19,44 +19,18 @@ import org.broadinstitute.clinicapp.api.ClinicApiService
 
 
 class ClinicRepository(
-    val context: Context, storage: SharedPreferencesOAuth2Storage?
+    val context: Context, storage: SharedPreferences?
 ) : ClinicDataSource {
     private val clinicDatabase: ClinicDatabase = ClinicDatabase.getInstance(this.context)
     private val apiService: ClinicApiService = ClinicApiService.create(storage)
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Local database source
 
     override fun getStudyDataFromDB(
         studyFormId: String
     ): DataSource.Factory<Int, MasterStudyData> {
         return clinicDatabase.getMasterStudyDataDao().getMasterStudyData(studyFormId)
-    }
-
-    override fun getStudyDataOnline(
-        userId: String,
-        studyFormId: String,
-        pageSize: Int,
-        pageNo: Int
-    ): Single<StudyDataResponse> {
-        return apiService.getStudyDataByFormId(userId, studyFormId, pageSize, pageNo)
-    }
-
-    override fun getStudyAllDataOnline(
-        userId: String,
-        lastModified: Long,
-        pageSize: Int,
-        pageNo: Int
-    ): Single<StudyDataResponse> {
-        return apiService.getStudyAllData(userId, lastModified, pageSize, pageNo)
-    }
-
-    override fun associateStudyForm(
-        userID: String,
-        tempMasterFormID: String
-    ): Single<CreateStudyFormsResponse> {
-
-        val jsonObject = JsonObject()
-        jsonObject.addProperty("userDetailsKeycloakUser", userID)
-        jsonObject.addProperty("tempMasterStudyFormsId", tempMasterFormID)
-        return apiService.associateStudyForm(jsonObject)
     }
 
     override fun checkFormTitle(title: String): Single<List<MasterStudyForms>> {
@@ -127,34 +101,6 @@ class ClinicRepository(
         return clinicDatabase.getMasterStudyFormsDao().searchStudyFormsItems(query)
     }
 
-    override fun createStudyFormsFromAPI(
-        forms: List<MasterStudyForms>
-    ): Single<CreateStudyFormsResponse> {
-        return apiService.submitStudyForms(forms)
-    }
-
-    override fun createStudyDataFromAPI(studyDataRequest: StudyDataRequest): Single<CreateStudyFormsResponse> {
-        return apiService.submitStudyData(studyDataRequest)
-    }
-
-    override fun searchStudyFormsOnline(
-        query: String,
-        pageSize: Int,
-        pageNo: Int,
-        excludeUserId: String?
-    ): Single<StudyFormsResponse> {
-        return apiService.searchStudyForms(query, pageSize, pageNo, excludeUserId)
-    }
-
-    override fun getMyStudyFormsOnline(
-        userId: String,
-        lastModified: Long,
-        pageSize: Int,
-        pageNo: Int
-    ): Single<StudyFormsResponse> {
-        return apiService.getMyStudyForms(userId, lastModified, pageSize, pageNo)
-    }
-
     override fun insertMasterStudyForm(masterStudyForms: MasterStudyForms): Long {
         return clinicDatabase.getMasterStudyFormsDao().insert(masterStudyForms)
     }
@@ -207,14 +153,6 @@ class ClinicRepository(
 
     override fun getMasterVariableById(ids: Long): Single<MasterVariables> {
         return clinicDatabase.getMasterVariablesDao().getVariableByID(ids)
-    }
-
-    override fun getMasterVariablesFromAPI(
-        lastModified: Long,
-        pageSize: Int,
-        pageNo: Int
-    ): Single<MasterVariablesResponse> {
-        return apiService.getMasterVariables(lastModified, pageSize, pageNo)
     }
 
     override fun insertStudyFormVariables(studyFormVariablesList: List<StudyFormVariables>): List<Long> {
@@ -284,10 +222,6 @@ class ClinicRepository(
         return clinicDatabase.getPatientDao().getPatient(patientID)
     }
 
-    override fun updateUser(user: User): Observable<UserResponse> {
-        return apiService.createUser(user)
-    }
-
     override fun deleteFormsAndStudyData(): Single<Int> {
         return clinicDatabase.getStudyDataDao().deleteAllStudyData()
     }
@@ -337,6 +271,81 @@ class ClinicRepository(
         return clinicDatabase.getMasterStudyFormsDao().getUnSyncCounts()
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Remote source
+
+    override fun getStudyDataOnline(
+        userId: String,
+        studyFormId: String,
+        pageSize: Int,
+        pageNo: Int
+    ): Single<StudyDataResponse> {
+        return apiService.getStudyDataByFormId(userId, studyFormId, pageSize, pageNo)
+    }
+
+    override fun getStudyAllDataOnline(
+        userId: String,
+        lastModified: Long,
+        pageSize: Int,
+        pageNo: Int
+    ): Single<StudyDataResponse> {
+        return apiService.getStudyAllData(userId, lastModified, pageSize, pageNo)
+    }
+
+    override fun associateStudyForm(
+        userID: String,
+        tempMasterFormID: String
+    ): Single<CreateStudyFormsResponse> {
+
+        val jsonObject = JsonObject()
+        jsonObject.addProperty("userDetailsKeycloakUser", userID)
+        jsonObject.addProperty("tempMasterStudyFormsId", tempMasterFormID)
+        return apiService.associateStudyForm(jsonObject)
+    }
+
+
+    override fun createStudyFormsFromAPI(
+        forms: List<MasterStudyForms>
+    ): Single<CreateStudyFormsResponse> {
+        return apiService.submitStudyForms(forms)
+    }
+
+    override fun createStudyDataFromAPI(studyDataRequest: StudyDataRequest): Single<CreateStudyFormsResponse> {
+        return apiService.submitStudyData(studyDataRequest)
+    }
+
+    override fun searchStudyFormsOnline(
+        query: String,
+        pageSize: Int,
+        pageNo: Int,
+        excludeUserId: String?
+    ): Single<StudyFormsResponse> {
+        return apiService.searchStudyForms(query, pageSize, pageNo, excludeUserId)
+    }
+
+    override fun getMyStudyFormsOnline(
+        userId: String,
+        lastModified: Long,
+        pageSize: Int,
+        pageNo: Int
+    ): Single<StudyFormsResponse> {
+        return apiService.getMyStudyForms(userId, lastModified, pageSize, pageNo)
+    }
+
+    override fun getMasterVariablesFromAPI(
+        lastModified: Long,
+        pageSize: Int,
+        pageNo: Int
+    ): Single<MasterVariablesResponse> {
+        return apiService.getMasterVariables(lastModified, pageSize, pageNo)
+    }
+
+    override fun updateUser(user: User): Observable<UserResponse> {
+        return apiService.createUser(user)
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     companion object {
 
@@ -358,6 +367,4 @@ class ClinicRepository(
 
 
     }
-
-
 }

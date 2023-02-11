@@ -1,5 +1,7 @@
 package org.broadinstitute.clinicapp.api
 
+import android.content.SharedPreferences
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import io.reactivex.Observable
@@ -76,7 +78,8 @@ interface ClinicApiService {
 
         override fun intercept(chain: Interceptor.Chain): Response {
             var request = chain.request()
-            val accessToken = storage?.getStoredAccessToken()?.accessToken.toString()
+//            val accessToken = storage?.getStoredAccessToken()?.accessToken.toString()
+            val accessToken = "no token"
             request =
                 request.newBuilder().header("Authorization", "$tokenType $accessToken").build()
 
@@ -86,10 +89,9 @@ interface ClinicApiService {
 
 
     companion object {
-        private var storage: SharedPreferencesOAuth2Storage? = null
-        fun create(tokenPrf: SharedPreferencesOAuth2Storage?): ClinicApiService {
-            storage = tokenPrf
-
+        private var storage: SharedPreferences? = null
+        fun create(prefs: SharedPreferences?): ClinicApiService {
+            storage = prefs
 
             val client = OkHttpClient.Builder()
                 .addInterceptor(OAuthInterceptor("Bearer"))
@@ -106,9 +108,81 @@ interface ClinicApiService {
                 .addConverterFactory(GsonConverterFactory.create(input))
                 .baseUrl("${Config.apiBaseUrl}/")
                 .build()
+
             return retrofit.create(ClinicApiService::class.java)
         }
-
-
     }
 }
+
+/*
+
+class ClinicApiService(private val prefs: SharedPreferences?)  {
+
+    fun getMasterVariables(
+        lastModified: Long,
+        pageSize: Int,
+        pageNo: Int
+    ): Single<MasterVariablesResponse> {
+
+    }
+
+    fun searchStudyForms(
+        searchTerm: String,
+        pageSize: Int,
+        pageNo: Int,
+        excludeUserId: String?
+    ): Single<StudyFormsResponse> {
+
+    }
+
+    fun getMyStudyForms(
+        userId: String,
+        astModified: Long,
+        pageSize: Int,
+        pageNo: Int
+    ): Single<StudyFormsResponse> {
+
+    }
+
+    fun getStudyDataByFormId(
+        userId: String,
+        studyFormId: String,
+        pageSize: Int,
+        pageNo: Int
+    ): Single<StudyDataResponse> {
+
+    }
+
+    fun getStudyAllData(
+        userId: String,
+        lastModified: Long,
+        pageSize: Int,
+        pageNo: Int
+    ): Single<StudyDataResponse> {
+
+    }
+
+    fun submitStudyData(body: StudyDataRequest): Single<CreateStudyFormsResponse> {
+
+    }
+
+    fun createUser(user: User): Observable<UserResponse> {
+        return Observable.create()
+    }
+
+    fun submitStudyForms(body: List<MasterStudyForms>): Single<CreateStudyFormsResponse> {
+
+    }
+
+    fun associateStudyForm(userId: JsonObject): Single<CreateStudyFormsResponse> {
+
+    }
+
+    companion object{
+
+        fun create(sharedPreferences: SharedPreferences?): ClinicApiService  {
+            return ClinicApiService(sharedPreferences)
+        }
+    }
+}
+ */
