@@ -11,6 +11,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import kotlinx.android.synthetic.main.activity_profile.*
 import org.broadinstitute.clinicapp.ClinicApp
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.R
@@ -64,19 +65,32 @@ class LoginActivity : BaseActivity() {
     fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-
-            // Signed in successfully, show authenticated UI.
+            val id = account.id
+            val email = account.email
+            val firstName = account.givenName
+            val familyName = account.familyName
 
             pref = ClinicApp.instance!!.getPrefStorage()
-            account.id?.let {
-                pref.writeStringToPref(Constants.PrefKey.PREF_USER_NAME, it)
+            if (id != null) {
+                pref.writeStringToPref(Constants.PrefKey.PREF_USER_NAME, id)
                 pref.writeBooleanToPref(Constants.PrefKey.PREF_USER_CREATED, true)
+            }
+
+            if (email != null) {
+                pref.writeStringToPref(Constants.PrefKey.PREF_EMAIL, email)
+            }
+
+            if (firstName != null) {
+                pref.writeStringToPref(Constants.PrefKey.PREF_FIRST_NAME, firstName)
+            }
+
+            if (familyName != null) {
+                pref.writeStringToPref(Constants.PrefKey.PREF_LAST_NAME, familyName)
             }
 
             intent = Intent(this, HomeActivity::class.java)
                 .putExtra(Constants.BundleKey.HOME_ACTIVITY_KEY, Constants.BundleKey.HOME_CALL_FROM_LOGIN)
             startActivity(intent)
-
 
 //        val account = GoogleSignIn.getLastSignedInAccount(this)
 
