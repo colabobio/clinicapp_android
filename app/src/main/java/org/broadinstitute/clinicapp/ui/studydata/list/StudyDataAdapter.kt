@@ -60,7 +60,7 @@ class StudyDataAdapter(
                 CommonUtils.convertDate(masterStudyData.lastModified)
             )
 
-            if (Constants.ONLINE_MODE_ENABLED) {
+            if (Constants.API_ENABLED) {
                 imgSync.visibility = View.VISIBLE
                 if (masterStudyData.isServerUpdated) {
                     imgSync.setImageResource(R.drawable.ic_cloud_check_done)

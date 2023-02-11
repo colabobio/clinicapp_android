@@ -52,7 +52,7 @@ class SurveyListPresenter(
     }
 
     override fun getStudyDataByFormIdFromAPI(userId: String, studyFormId: String) {
-        if (Constants.ONLINE_MODE_ENABLED && NetworkUtils.isNetworkConnected(context)) {
+        if (Constants.API_ENABLED && NetworkUtils.isNetworkConnected(context)) {
             view.showProgressBar(true)
             compositeDisposable.add(repository.getStudyDataOnline(
                 userId,

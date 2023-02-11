@@ -49,7 +49,7 @@ class SearchRecyclerViewAdapter(
             String.format(context.getString(R.string.created_by, item.masterStudyForms.creator))
         holder.mDateView.text = item.masterStudyForms.lastModified.let { CommonUtils.convertDate(it) }
 
-        if (Constants.ONLINE_MODE_ENABLED) {
+        if (Constants.API_ENABLED) {
             if (fromScreen == Constants.CallingPageValue.CREATE_FROM_TEMPLATE_STUDY_FORM) {
                 holder.mSyncView.visibility = View.VISIBLE
                 if (item.masterStudyForms.isFromOffline) {
