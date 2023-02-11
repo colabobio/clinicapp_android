@@ -352,10 +352,13 @@ class HomeActivity : BaseActivity(), HomeContract.View,
                 intent = Intent(this, ViewVariablesActivity::class.java)
                 startActivity(intent)
             }
+            R.id.nav_profile -> {
+                intent = Intent(this, ProfileActivity::class.java)
+                startActivity(intent)
+            }
             R.id.nav_sign_out -> {
-                intent = Intent(this, ViewVariablesActivity::class.java)
-                // need to call oneTapClient.signOut() ... how?
-                finish()
+                handleLogout(getString(R.string.logout_message), getString(R.string.yes), getString(R.string.no))
+//                finish()
             }
 
 //            R.id.nav_manual_sync -> {
@@ -368,10 +371,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 //                }
 //            }
 
-//            R.id.nav_profile -> {
-//                intent = Intent(this, ProfileActivity::class.java)
-//                startActivity(intent)
-//            }
+
 
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -469,7 +469,13 @@ class HomeActivity : BaseActivity(), HomeContract.View,
             negativeOption,
             object : CommonUtils.DialogCallback {
                 override fun positiveClick() {
-                    finish()
+                   this@HomeActivity.startActivity(
+                     Intent(
+                       this@HomeActivity,
+                       LoginActivity::class.java
+                       )
+                   )
+                   finish()
 //                    val refreshToken = storage.getStoredAccessToken()?.refreshToken
 //                    refreshToken?.let {
 //                        ApiService.instance.logout(Config.clientId, it)

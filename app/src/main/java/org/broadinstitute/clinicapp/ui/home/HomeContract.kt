@@ -24,12 +24,12 @@ class HomeContract {
 
         fun getStudyFormsFromDB(search: String)
 
-       // fun getUnSyncedForms()
+//       fun getUnSyncedForms()
 
         fun getMyStudyFormsFromAPI(isSingleCall: Boolean)
 
         fun checkStudyFormsInDB(isSingleCall: Boolean)
-        fun checkUnSyncData()
+//        fun checkUnSyncData()
 
         fun syncIndividualForm(formDetail: StudyFormDetail)
 

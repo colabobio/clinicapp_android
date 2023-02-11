@@ -121,6 +121,7 @@
     <string name="empty_import_forms_warning">No study forms found </string>
     <string name="search_forms_tips">Use the search button to access online forms</string>
     <string name="logout_option">LOGOUT without syncing</string>
+    <string name="logout_message">Are you sure to LOG OUT?</string>
     <string name="permission_location_access">Do you want to go to app settings to allow permission to access current
         location?
     </string>
