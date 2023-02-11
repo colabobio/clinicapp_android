@@ -114,9 +114,11 @@ dependencies {
 
     // Implementation of the AndroidX SQLite interfaces via the Android framework APIs.
     implementation "androidx.sqlite:sqlite-framework:$sqliteVersion"
+
     // JWT
     implementation "com.google.code.gson:gson:$gsonVersion"
     implementation "com.brsanthu:migbase64:$migbase64Version"
+
     // WorkManager
     // Kotlin + coroutines
     implementation "androidx.work:work-runtime-ktx:$workVersion"
@@ -132,7 +134,10 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.cardview:cardview:$cardviewVersion"
+
+    // Google play services (location, authentication, etc)
     implementation "com.google.android.gms:play-services-location:$playServicesLocationVersion"
+    implementation "com.google.android.gms:play-services-auth:$playServicesAuthVersion"
 
     // Kotlin
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
@@ -148,7 +153,4 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.ext:junit:$testExtJunit"
-
-    // Play services needed for Google sign in
-    implementation 'com.google.android.gms:play-services-auth:20.4.1'
 }
