@@ -696,48 +696,42 @@ class HomePresenter(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ count ->
-                if (count == 0) {
-//                    view.showEmptyWarning(true)
-//                    view.showProgress(true)
-//                    getMyStudyFormsFromAPI(isSingleCall)
-                } else {
+                if (0 < count) {
                     view.showEmptyWarning(false)
                     view.showProgress(false)
                     getStudyFormsFromDB("")
                 }
             },
-
                 {
                 }
-
             )
         )
     }
 
-    override fun checkUnSyncData() {
-        view.showProgress(true)
-        compositeDisposable.add(repository.getAllUnSyncCounts()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-
-            .subscribe({ count ->
-                if (count.formCount > 0 || count.dataCount > 0) {
-                    view.handleLogout(context.getString(R.string.logout_warning_msg), context.getString(R.string.logout_option),
-                        context.getString(R.string.cancel))
-                } else {
-                    view.handleLogout(context.getString(R.string.normal_logout_warning_msg), context.getString(R.string.yes),
-                        context.getString(R.string.no))
-                }
-            },
-                { e ->
-                    e.printStackTrace()
-                    view.showProgress(false)
-
-                }
-
-            )
-        )
-    }
+//    override fun checkUnSyncData() {
+//        view.showProgress(true)
+//        compositeDisposable.add(repository.getAllUnSyncCounts()
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//
+//            .subscribe({ count ->
+//                if (count.formCount > 0 || count.dataCount > 0) {
+//                    view.handleLogout(context.getString(R.string.logout_warning_msg), context.getString(R.string.logout_option),
+//                        context.getString(R.string.cancel))
+//                } else {
+//                    view.handleLogout(context.getString(R.string.normal_logout_warning_msg), context.getString(R.string.yes),
+//                        context.getString(R.string.no))
+//                }
+//            },
+//                { e ->
+//                    e.printStackTrace()
+//                    view.showProgress(false)
+//
+//                }
+//
+//            )
+//        )
+//    }
 
     override fun unsubscribe() {
         compositeDisposable.clear()

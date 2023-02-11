@@ -60,7 +60,6 @@ class ProfileActivity : BaseActivity(), ProfileContract.View {
                 firstName = fName.toString(),
                 lastName = lName.toString(),
                 emailId = email.toString(),
-                keycloakUser = pref.readStringFromPref(Constants.PrefKey.PREF_USER_NAME).toString(),
                 gender = gender,
                 workLocation = workLocation.toString()
             )
@@ -73,7 +72,6 @@ class ProfileActivity : BaseActivity(), ProfileContract.View {
         pref.writeStringToPref(Constants.PrefKey.PREF_LAST_NAME, user.lastName)
         pref.writeStringToPref(Constants.PrefKey.PREF_EMAIL, user.emailId)
         pref.writeLongToPref(Constants.PrefKey.PREF_USER_ID, user.id)
-        pref.writeStringToPref(Constants.PrefKey.PREF_USER_NAME, user.keycloakUser)
         pref.writeStringToPref(Constants.PrefKey.PREF_GENDER, user.gender)
         pref.writeStringToPref(Constants.PrefKey.PREF_WORK_LOCATION, user.workLocation)
         finish()

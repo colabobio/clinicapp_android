@@ -5,7 +5,6 @@ import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.result.IntentSenderRequest
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseActivity
 
@@ -14,8 +13,10 @@ import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
+
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.ui.home.HomeActivity
+import org.broadinstitute.clinicapp.ClinicApp
 
 class LoginActivity : BaseActivity() {
     lateinit var oneTapClient: SignInClient
@@ -23,7 +24,6 @@ class LoginActivity : BaseActivity() {
 
     private val REQ_ONE_TAP = 2  // Can be any integer unique to the Activity
     private var showOneTapUI = true
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +48,8 @@ class LoginActivity : BaseActivity() {
 
 
     fun signIn(view: View) {
+        // Signing out just in case the user is returning from the home screen
+        oneTapClient.signOut()
 
         oneTapClient.beginSignIn(signInRequest)
             .addOnSuccessListener(this) { result ->
@@ -92,6 +94,19 @@ class LoginActivity : BaseActivity() {
                             Log.d("ClinicApp signIn", "No ID token or password!")
                         }
                     }
+
+//                    val storage = ClinicApp.instance?.getStorage()
+//                    storage?.let {
+//                        with (storage.edit()) {
+//                            putString(Constants.PrefKey.PREF_USER_NAME, username)
+//                            apply()
+//                        }
+//                    }
+
+                    pref  =  ClinicApp.instance!!.getPrefStorage()
+                    pref.writeStringToPref(Constants.PrefKey.PREF_USER_NAME, username)
+                    pref.writeBooleanToPref(Constants.PrefKey.PREF_USER_CREATED, true)
+
                     handleUserLogin()
                 } catch (e: ApiException) {
                     when (e.statusCode) {
@@ -116,10 +131,8 @@ class LoginActivity : BaseActivity() {
 
 
     fun handleUserLogin() {
-        // pref.writeBooleanToPref(Constants.PrefKey.PREF_USER_CREATED, true)
         intent = Intent(this, HomeActivity::class.java)
             .putExtra(Constants.BundleKey.HOME_ACTIVITY_KEY, Constants.BundleKey.HOME_CALL_FROM_LOGIN)
         startActivity(intent)
-        finish()
     }
 }

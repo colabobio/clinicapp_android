@@ -17,24 +17,25 @@ class ProfilePresenter(private var view: ProfileContract.View, val context: Cont
     private val repository = ClinicRepository.getInstance(context)
 
     override fun updateUser(user: User) {
-        if (NetworkUtils.isNetworkConnected(context)) {
-             view.showProgress(true)
-            compositeDisposable.add(repository.updateUser(user)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    view.showProgress(false)
-                    view.userUpdated(it.userDetailsdto!!)
-                },
-                    { throwable ->
-                        view.showProgress(false)
-                        view.showSnackBarMessage(CommonUtils.getErrorMessage(throwable))
-                    }
-                )
-
-            )
-
-        }
+        view.userUpdated(user)
+//        if (NetworkUtils.isNetworkConnected(context)) {
+//             view.showProgress(true)
+//            compositeDisposable.add(repository.updateUser(user)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe({
+//                    view.showProgress(false)
+//                    view.userUpdated(it.userDetailsdto!!)
+//                },
+//                    { throwable ->
+//                        view.showProgress(false)
+//                        view.showSnackBarMessage(CommonUtils.getErrorMessage(throwable))
+//                    }
+//                )
+//
+//            )
+//
+//        }
     }
 
 
