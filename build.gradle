@@ -44,7 +44,8 @@ buildscript {
         testCoreVersion = '1.5.0'
         testRunnerVersion = '1.5.1'
 
-
+        apiClientAndroid = "2.2.0"
+        apiServicesDrive = "v3-rev20230206-2.0.0"
     }
     repositories {
         google()

@@ -38,6 +38,7 @@ import com.google.android.gms.location.*
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
+import com.google.api.client.http.FileContent
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
@@ -61,6 +62,7 @@ import org.broadinstitute.clinicapp.ui.profile.ProfileActivity
 import org.broadinstitute.clinicapp.ui.studyform.CreateFormActivity
 import org.broadinstitute.clinicapp.ui.viewvariables.ViewVariablesActivity
 import org.broadinstitute.clinicapp.util.CommonUtils
+import java.io.File
 
 
 class HomeActivity : BaseActivity(), HomeContract.View,
@@ -202,11 +204,42 @@ class HomeActivity : BaseActivity(), HomeContract.View,
                         pageToken = this.pageToken
                     }.execute()
                     for (file in result.files) {
-                        Log.d("GOOGLE DRIVE", "name=${file.name} id=${file.id}")
+                        Log.d("GOOGLE DRIVE LIST", "name=${file.name} id=${file.id}")
+                        if (file.name.equals("PenguinPredictor-Model.pt")) {
+//                            downloadFileFromGDrive(file.id)
+                            service.Files().get(file.id).execute()
+                            Log.d("GOOGLE DRIVE DLOAD", "name=${file.name} id=${file.id}")
+                        }
                     }
                 } while (pageToken != null)
             }
        }
+    }
+
+    fun downloadFileFromGDrive(id : String) {
+        val scope = MainScope()
+        driveService?.let { service ->
+            scope.launch {
+                service.Files().get(id).execute()
+            }
+        }
+    }
+
+    fun uploadFileToGDrive(fn: String) {
+        val scope = MainScope()
+        driveService?.let {service ->
+            scope.launch {
+                try {
+                    val lfile = File(fn)
+                    val gfile = com.google.api.services.drive.model.File()
+                    gfile.name = lfile.name
+                    val fileContent = FileContent("text/plain", lfile)
+                    service.Files().create(gfile,fileContent).execute()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
