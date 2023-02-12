@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -31,6 +32,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.Scopes
+import com.google.android.gms.common.api.Scope
 import com.google.android.gms.location.*
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -45,6 +48,9 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.pop_create_studyform.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseActivity
@@ -62,6 +68,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 
     companion object {
         private const val REQUEST_LOCATION_PERMISSION_ID = 1
+        private const val REQUEST_DRIVE_PERMISSION_ID = 613
     }
 
     private lateinit var listAdapter: StudyFormsAdapter
@@ -94,6 +101,19 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 
         if (Constants.DRV_ENABLED) {
             driveService = getDriveService()
+
+            if (!GoogleSignIn.hasPermissions(
+                    GoogleSignIn.getLastSignedInAccount(this),
+                    Scope(Scopes.DRIVE_FULL))
+                ) {
+                GoogleSignIn.requestPermissions(
+                    this,
+                    REQUEST_DRIVE_PERMISSION_ID,
+                    GoogleSignIn.getLastSignedInAccount(this),
+                    Scope(Scopes.DRIVE_FULL))
+            } else {
+                accessDriveFiles()
+            }
         }
 
         fab.setOnClickListener {
@@ -155,7 +175,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
     private fun getDriveService() : Drive? {
         GoogleSignIn.getLastSignedInAccount(this)?.let { googleAccount ->
             val credential = GoogleAccountCredential.usingOAuth2(
-                this, listOf(DriveScopes.DRIVE_FILE)
+                this, listOf(Scopes.DRIVE_FULL)
             )
             credential.selectedAccount = googleAccount.account!!
             return Drive.Builder(
@@ -166,7 +186,36 @@ class HomeActivity : BaseActivity(), HomeContract.View,
                 .setApplicationName(getString(R.string.app_name))
                 .build()
         }
+
         return null
+    }
+
+    private fun accessDriveFiles() {
+        val scope = MainScope()
+        driveService?.let { service ->
+            scope.launch(Dispatchers.Default) {
+                var pageToken: String? = null
+                do {
+                    val result = service.files().list().apply {
+                        spaces = "drive"
+                        fields = "nextPageToken, files(id, name)"
+                        pageToken = this.pageToken
+                    }.execute()
+                    for (file in result.files) {
+                        Log.d("GOOGLE DRIVE", "name=${file.name} id=${file.id}")
+                    }
+                } while (pageToken != null)
+            }
+       }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            if (REQUEST_DRIVE_PERMISSION_ID === requestCode) {
+                accessDriveFiles()
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(

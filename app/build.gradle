@@ -154,13 +154,12 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.ext:junit:$testExtJunit"
 
-
-    //Drive
-    implementation('com.google.api-client:google-api-client-android:2.2.0') {
+    // Drive API
+    implementation("com.google.api-client:google-api-client-android:$apiClientAndroid") {
         exclude group: 'org.apache.httpcomponents'
         exclude module: 'guava-jdk5'
     }
-    implementation('com.google.apis:google-api-services-drive:v3-rev20230206-2.0.0') {
+    implementation("com.google.apis:google-api-services-drive:$apiServicesDrive") {
         exclude group: 'org.apache.httpcomponents'
         exclude module: 'guava-jdk5'
     }

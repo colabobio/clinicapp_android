@@ -8,10 +8,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
-import kotlinx.android.synthetic.main.activity_profile.*
 import org.broadinstitute.clinicapp.ClinicApp
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.R
@@ -39,6 +40,7 @@ class LoginActivity : BaseActivity() {
 
     override fun setUp() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestScopes(Scope(Scopes.DRIVE_FULL))
             .requestEmail()
             .build()
 
