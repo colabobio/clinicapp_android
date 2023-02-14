@@ -37,27 +37,7 @@ Getting Started
     * Go to File, Settings, Build, Execution, Deployment
     * Build tools, Gradle
     * Change Gradle JDK from the dropdown. 
-    
-
-Screenshots
------------
-
-![Splash](screenshots/splash.png "Splash")
-![Study Form](screenshots/Study_form.png "Home")
-![Form Details](screenshots/FormDetails.png "Form Details")
-![Form option](screenshots/Form_option.png "Form Creation option")
-![Form template option](screenshots/template_form.png "Create from Template")
-![Metadata variable](screenshots/variables.png "Variables")
-![Drawer option](screenshots/drawer_option.png "Home drawer option")
-![Survey list](screenshots/survey_list.png "Study data list")
-![Survey option](screenshots/Survey_option.png "Study data creation")
-![About survey](screenshots/survey_about.png "About Study Data")
-![Filling Survey](screenshots/survey_answer.png "Filling study data")
-![Notes](screenshots/note.png "Note")
-![Thanks](screenshots/thank-screen.png "Thank you")
-
-
-
+   
 Libraries Used
 --------------
 * Foundation - Components for core system capabilities, Kotlin extensions  and automated testing.
