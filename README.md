@@ -14,7 +14,30 @@ Material design component used. The card view used to show list item in screen.
 Getting Started
 ---------------
     This project uses the Gradle build system. To build this project, use the
-    `gradlew build` command or use "Import Project" in Android Studio.
+    `gradlew build` command or use "Import Project" in Android Studio. But first, make sure to create the following files in the root of your project:
+    
+    
+    ```
+    secrets.properties
+    web_client_id="ID from Google Cloud"
+    ```
+    
+    and
+    
+    ```
+    keystore.properties
+    keyAlias=
+    keyPassword=
+    storeFile=
+    storePassword=
+    ```
+    
+    Also, make sure that JDK used by Gradle in Android Studio is 17 or higher. To change the SDK version in Android Studio:
+
+    * Go to File, Settings, Build, Execution, Deployment
+    * Build tools, Gradle
+    * Change Gradle JDK from the dropdown. 
+    
 
 Screenshots
 -----------
