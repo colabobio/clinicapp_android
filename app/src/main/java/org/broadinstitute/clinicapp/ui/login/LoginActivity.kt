@@ -40,6 +40,7 @@ class LoginActivity : BaseActivity() {
 
     override fun setUp() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(org.broadinstitute.clinicapp.BuildConfig.web_client_id)
             .requestScopes(Scope(Scopes.DRIVE_FULL))
             .requestEmail()
             .build()
