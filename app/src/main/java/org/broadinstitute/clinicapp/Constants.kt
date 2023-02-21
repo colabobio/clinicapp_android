@@ -3,7 +3,7 @@ package org.broadinstitute.clinicapp
 object Constants {
     const val API_ENABLED = false
     const val LOC_ENABLED = false
-    const val DRV_ENABLED = true
+    const val DRV_ENABLED = false
 
     const val LIMIT = 20
     const val MASTER_VARIABLES_LIMIT = 100
