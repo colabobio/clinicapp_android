@@ -697,6 +697,7 @@ class HomePresenter(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ count ->
                 if (0 < count) {
+                    Log.d("How many studies?", count.toString())
                     view.showEmptyWarning(false)
                     view.showProgress(false)
                     getStudyFormsFromDB("")
@@ -748,6 +749,7 @@ class HomePresenter(
         compositeDisposable.add(getFormsObservable(search).subscribe({ studyForms ->
             if (studyForms.isNotEmpty()) {
                 view.showStudyForms(studyForms)
+                Log.d("These are the studies?", studyForms.toString())
             }else{
                 // handle for search criteria
                 if(search.isNotEmpty()){

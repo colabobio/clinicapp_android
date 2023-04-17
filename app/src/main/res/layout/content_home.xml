@@ -9,29 +9,29 @@
                                                    tools:showIn="@layout/app_bar_home"
 >
 
-    <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/formHeaderTxt"
-            style="@style/txtHeaderTitle"
-            android:text="@string/home_screen_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+<!--    <androidx.appcompat.widget.AppCompatTextView-->
+<!--            android:id="@+id/formHeaderTxt"-->
+<!--            style="@style/txtHeaderTitle"-->
+<!--            android:text="@string/home_screen_title"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
 
     />
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvStudyForms"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/colorAppBackground"
-            android:padding="@dimen/dimen_10"
-            app:layoutManager="LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@+id/formHeaderTxt"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:context=".ui.studyform.ItemFragment"
-            tools:listitem="@layout/row_study_form"/>
+        android:id="@+id/rvStudyForms"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorAppBackground"
+        android:padding="@dimen/dimen_10"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".ui.studyform.ItemFragment"
+        tools:listitem="@layout/row_study_form" />
 
     <TextView
             android:id="@+id/form_emptyView"
@@ -50,6 +50,23 @@
             app:layout_constraintTop_toTopOf="parent"
 
            />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="8dp"
+        android:padding="@dimen/dimen_5"
+        android:src="@mipmap/ic_add_white_18dp"
+        app:backgroundTint="@color/colorPrimaryDark"
+
+
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/rvStudyForms"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
