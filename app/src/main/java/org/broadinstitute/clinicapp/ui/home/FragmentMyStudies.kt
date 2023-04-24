@@ -3,14 +3,15 @@ package org.broadinstitute.clinicapp.ui.home
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.*
+import android.widget.ImageView
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +39,7 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
     private lateinit var rvStudyForms: RecyclerView
     private lateinit var intent: Intent
     private lateinit var fab: FloatingActionButton
+    private lateinit var searchView: SearchView
 
 
     fun setUp() {
@@ -189,6 +191,37 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
         }
     }
 
+     fun getMyStudiesToFragment(query: String) {
+         Log.d("IN FRAGMENT_MY_STUDIES", query)
+        presenter.getStudyFormsFromDB(query)
+    }
 
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+////        val inflater = menuInflater
+//        inflater.inflate(R.menu.menu_search_form, menu)
+//        val searchItem = menu!!.findItem(R.id.action_search)
+//        searchView = searchItem.actionView as SearchView
+//        searchView.isSubmitButtonEnabled = true
+//        searchView.queryHint = getString(R.string.search_study_forms)
+//
+//        val searchSubmit =
+//            searchView.findViewById(androidx.appcompat.R.id.search_go_btn) as ImageView
+//        searchSubmit.setImageResource(R.mipmap.ic_search)
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextChange(newText: String): Boolean {
+//                if (newText.isEmpty()) {
+//                    presenter.getStudyFormsFromDB("")
+//                }
+//                return true
+//            }
+//
+//            override fun onQueryTextSubmit(query: String): Boolean {
+//               //From DB
+//                presenter.getStudyFormsFromDB(query.trim())
+//                return true
+//            }
+//        })
+//        return super.onCreateOptionsMenu(menu, inflater)
+//    }
 }
 
