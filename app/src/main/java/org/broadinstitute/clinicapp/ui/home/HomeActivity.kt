@@ -1,12 +1,10 @@
 package org.broadinstitute.clinicapp.ui.home
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -20,28 +18,24 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.google.android.gms.location.*
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.api.services.drive.Drive
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.pop_create_studyform.view.*
 import org.broadinstitute.clinicapp.Constants
-import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseActivity
 import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
 import org.broadinstitute.clinicapp.ui.OnSyncInteractionListener
 import org.broadinstitute.clinicapp.ui.login.LoginActivity
 import org.broadinstitute.clinicapp.ui.profile.ProfileActivity
-import org.broadinstitute.clinicapp.ui.studyform.CreateFormActivity
 import org.broadinstitute.clinicapp.ui.viewvariables.ViewVariablesActivity
 import org.broadinstitute.clinicapp.util.CommonUtils
+import org.broadinstitute.clinicapp.R
 
 
 class HomeActivity : BaseActivity(), HomeContract.View,
@@ -71,8 +65,9 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_home)
-        setContentView(R.layout.beginning_layout_for_main2)
+        setContentView(R.layout.activity_home)
+//        setContentView(R.layout.beginning_layout_for_main2)
+//        setContentView(R.layout.first_layout)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -119,21 +114,21 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 //        fab.setOnClickListener {
 //            showCreationFormDialog()
 //        }
-//        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-//        val navView: NavigationView = findViewById(R.id.nav_view)
-//        val toggle = ActionBarDrawerToggle(
-//            this,
-//            drawerLayout,
-//            toolbar,
-//            R.string.navigation_drawer_open,
-//            R.string.navigation_drawer_close
-//        )
-//        toolbar.setNavigationIcon(R.drawable.ic_hamburger_icon)
-//        toggle.setHomeAsUpIndicator(R.drawable.ic_hamburger_icon)
-//        drawerLayout.addDrawerListener(toggle)
-//        toggle.syncState()
-//
-//        navView.setNavigationItemSelectedListener(this)
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        toolbar.setNavigationIcon(R.drawable.ic_hamburger_icon)
+        toggle.setHomeAsUpIndicator(R.drawable.ic_hamburger_icon)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        navView.setNavigationItemSelectedListener(this)
 
 //        val linearLayoutManager = LinearLayoutManager(this)
 //        rvStudyForms.layoutManager = linearLayoutManager
@@ -276,7 +271,7 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 //    }
 
     override fun onSyncClick(item: StudyFormDetail) {
-        if(isNetworkConnected)presenter.syncIndividualForm(item)
+//        if(isNetworkConnected)presenter.syncIndividualForm(item)
 //        else showSnackBarMessage(getString(R.string.network_error))
     }
 
@@ -421,25 +416,31 @@ class HomeActivity : BaseActivity(), HomeContract.View,
         searchView.isSubmitButtonEnabled = true
         searchView.queryHint = getString(R.string.search_study_forms)
 
+        val fragment: FragmentMyStudies? = supportFragmentManager.findFragmentById(R.id.frag_my_content_home) as? FragmentMyStudies
+
         val searchSubmit =
             searchView.findViewById(androidx.appcompat.R.id.search_go_btn) as ImageView
         searchSubmit.setImageResource(R.mipmap.ic_search)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.isEmpty()) {
-                    presenter.getStudyFormsFromDB("")
+//                    presenter.getStudyFormsFromDB("")
+                    fragment?.getMyStudiesToFragment("")
                 }
                 return true
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
                //From DB
-                presenter.getStudyFormsFromDB(query.trim())
+//                presenter.getStudyFormsFromDB(query.trim())
+                fragment?.getMyStudiesToFragment(query.trim())
                 return true
             }
         })
         return super.onCreateOptionsMenu(menu)
     }
+
+
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -514,12 +515,12 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 
     @SuppressLint("CheckResult")
     private fun sync() {
-        presenter.source
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { t ->
-                updateProgress(t.show, t.msg)
-            }
+//        presenter.source
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe { t ->
+//                updateProgress(t.show, t.msg)
+//            }
 
     }
 
