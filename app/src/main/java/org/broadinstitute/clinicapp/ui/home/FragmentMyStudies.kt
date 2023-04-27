@@ -11,6 +11,8 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +27,7 @@ import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
 import org.broadinstitute.clinicapp.ui.OnSyncInteractionListener
 import org.broadinstitute.clinicapp.ui.studyform.CreateFormActivity
+import org.broadinstitute.clinicapp.ui.studyform.ItemFragment
 import org.broadinstitute.clinicapp.util.CommonUtils
 import org.broadinstitute.clinicapp.util.NetworkUtils
 import org.broadinstitute.clinicapp.util.SharedPreferenceUtils
@@ -39,7 +42,6 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
     private lateinit var rvStudyForms: RecyclerView
     private lateinit var intent: Intent
     private lateinit var fab: FloatingActionButton
-    private lateinit var searchView: SearchView
 
 
     fun setUp() {
@@ -54,8 +56,6 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
         pref  =  ClinicApp.instance!!.getPrefStorage()
         userId = pref.readStringFromPref(Constants.PrefKey.PREF_USER_NAME).toString()
         presenter = HomePresenter(this, requireContext().applicationContext, pref)
-        Log.d("Presenter details", presenter.toString())
-        setUp()
     }
 
     override fun onCreateView(
@@ -64,6 +64,9 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.content_home, container, false)
+
+        setUp()
+
         fab = view.findViewById(R.id.fab)
         fab.setOnClickListener {
             showCreationFormDialog()
@@ -74,9 +77,61 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
         rvStudyForms.layoutManager = linearLayoutManager
         listAdapter = StudyFormsAdapter(userId, this)
         rvStudyForms.adapter = listAdapter
-
         return view
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as MenuHost).addMenuProvider(object: MenuProvider{
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_search_form, menu)
+            }
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId){
+                    R.id.action_search -> {
+                        getStudies(menuItem)
+                        return true
+                    }
+                }
+                return false
+            }
+        })
+    }
+
+    private fun getStudies(menuItem: MenuItem){
+        val searchItem = menuItem.actionView as SearchView
+        searchItem.isSubmitButtonEnabled = true
+        val searchSubmit =
+            searchItem.findViewById(androidx.appcompat.R.id.search_go_btn) as ImageView
+        searchSubmit.setImageResource(R.mipmap.ic_search)
+        searchItem.queryHint = getString(R.string.search_study_forms)
+        searchItem.setOnSearchClickListener {
+            searchItem.queryHint = getString(R.string.search_study_forms)
+            searchItem.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String): Boolean {
+                    if (newText.isEmpty()) {
+//                        presenter.getSearchedForms("", presenter.dbCount)
+                        presenter.getStudyFormsFromDB("")
+                    }
+                    return true
+                }
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    Log.d("MyStudiesFragment", "search clicked with a query: ${query.trim()}")
+                    presenter.getStudyFormsFromDB(query.trim())
+                    return true
+                }
+            })
+        }
+    }
+
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        if (context is HomeActivity.searchListinFragmentMyStudiesListener) {
+//            listener = context
+//        } else {
+//            throw RuntimeException("$context must implement OnListFragmentInteractionListener")
+//        }
+//    }
 
     override fun showStudyForms(list: PagedList<StudyFormDetail>) {
         listAdapter.submitList(list)
@@ -190,38 +245,5 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
             mAlertDialog.dismiss()
         }
     }
-
-     fun getMyStudiesToFragment(query: String) {
-         Log.d("IN FRAGMENT_MY_STUDIES", query)
-        presenter.getStudyFormsFromDB(query)
-    }
-
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-////        val inflater = menuInflater
-//        inflater.inflate(R.menu.menu_search_form, menu)
-//        val searchItem = menu!!.findItem(R.id.action_search)
-//        searchView = searchItem.actionView as SearchView
-//        searchView.isSubmitButtonEnabled = true
-//        searchView.queryHint = getString(R.string.search_study_forms)
-//
-//        val searchSubmit =
-//            searchView.findViewById(androidx.appcompat.R.id.search_go_btn) as ImageView
-//        searchSubmit.setImageResource(R.mipmap.ic_search)
-//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextChange(newText: String): Boolean {
-//                if (newText.isEmpty()) {
-//                    presenter.getStudyFormsFromDB("")
-//                }
-//                return true
-//            }
-//
-//            override fun onQueryTextSubmit(query: String): Boolean {
-//               //From DB
-//                presenter.getStudyFormsFromDB(query.trim())
-//                return true
-//            }
-//        })
-//        return super.onCreateOptionsMenu(menu, inflater)
-//    }
 }
 
