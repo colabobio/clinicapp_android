@@ -44,8 +44,9 @@
 
 <!--    />-->
 
-    <include layout = "@layout/beginning_layout_for_main2"
+    <include
+        layout="@layout/beginning_layout_for_main2"
         app:layout_anchor="@id/toolbar"
-        app:layout_anchorGravity="bottom"/>
+        app:layout_anchorGravity="bottom" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.home.HomeActivity"
+
     tools:showIn="@layout/app_bar_home"
 >
 
@@ -24,7 +24,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvStudyForms"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:background="@color/colorAppBackground"
         android:padding="@dimen/dimen_10"
         app:layoutManager="LinearLayoutManager"
@@ -62,8 +62,6 @@
         android:padding="@dimen/dimen_5"
         android:src="@mipmap/ic_add_white_18dp"
         app:backgroundTint="@color/colorPrimaryDark"
-
-
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="@+id/rvStudyForms"
         app:layout_constraintEnd_toEndOf="parent"

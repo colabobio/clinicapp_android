@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -408,37 +409,37 @@ class HomeActivity : BaseActivity(), HomeContract.View,
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_search_form, menu)
-        val searchItem = menu!!.findItem(R.id.action_search)
-        searchView = searchItem.actionView as SearchView
-        searchView.isSubmitButtonEnabled = true
-        searchView.queryHint = getString(R.string.search_study_forms)
-
-        val fragment: FragmentMyStudies? = supportFragmentManager.findFragmentById(R.id.frag_my_content_home) as? FragmentMyStudies
-
-        val searchSubmit =
-            searchView.findViewById(androidx.appcompat.R.id.search_go_btn) as ImageView
-        searchSubmit.setImageResource(R.mipmap.ic_search)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(newText: String): Boolean {
-                if (newText.isEmpty()) {
-//                    presenter.getStudyFormsFromDB("")
-                    fragment?.getMyStudiesToFragment("")
-                }
-                return true
-            }
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-               //From DB
-//                presenter.getStudyFormsFromDB(query.trim())
-                fragment?.getMyStudiesToFragment(query.trim())
-                return true
-            }
-        })
-        return super.onCreateOptionsMenu(menu)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        val inflater = menuInflater
+//        inflater.inflate(R.menu.menu_search_form, menu)
+//        val searchItem = menu!!.findItem(R.id.action_search)
+//        searchView = searchItem.actionView as SearchView
+//        searchView.isSubmitButtonEnabled = true
+//        searchView.queryHint = getString(R.string.search_study_forms)
+//
+//        val fragment: FragmentMyStudies? = supportFragmentManager.findFragmentById(R.id.frag_my_content_home) as? FragmentMyStudies
+//
+//        val searchSubmit =
+//            searchView.findViewById(androidx.appcompat.R.id.search_go_btn) as ImageView
+//        searchSubmit.setImageResource(R.mipmap.ic_search)
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextChange(newText: String): Boolean {
+//                if (newText.isEmpty()) {
+////                    presenter.getStudyFormsFromDB("")
+//                    fragment?.getMyStudiesToFragment("")
+//                }
+//                return true
+//            }
+//
+//            override fun onQueryTextSubmit(query: String): Boolean {
+//               //From DB
+////                presenter.getStudyFormsFromDB(query.trim())
+//                fragment?.getMyStudiesToFragment(query.trim())
+//                return true
+//            }
+//        })
+//        return super.onCreateOptionsMenu(menu)
+//    }
 
 
 
