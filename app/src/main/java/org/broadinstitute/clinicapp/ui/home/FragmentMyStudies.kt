@@ -42,6 +42,7 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
     private lateinit var rvStudyForms: RecyclerView
     private lateinit var intent: Intent
     private lateinit var fab: FloatingActionButton
+    private var isSearchResultLoaded = false
 
 
     fun setUp() {
@@ -90,7 +91,7 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
                 when (menuItem.itemId){
                     R.id.action_search -> {
                         getStudies(menuItem)
-                        return true
+//                        return true
                     }
                 }
                 return false
@@ -110,28 +111,19 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
             searchItem.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(newText: String): Boolean {
                     if (newText.isEmpty()) {
-//                        presenter.getSearchedForms("", presenter.dbCount)
                         presenter.getStudyFormsFromDB("")
                     }
                     return true
                 }
                 override fun onQueryTextSubmit(query: String): Boolean {
-                    Log.d("MyStudiesFragment", "search clicked with a query: ${query.trim()}")
+                    isSearchResultLoaded = true
                     presenter.getStudyFormsFromDB(query.trim())
                     return true
                 }
             })
         }
+        searchItem.setOnCloseListener { !isSearchResultLoaded }
     }
-
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        if (context is HomeActivity.searchListinFragmentMyStudiesListener) {
-//            listener = context
-//        } else {
-//            throw RuntimeException("$context must implement OnListFragmentInteractionListener")
-//        }
-//    }
 
     override fun showStudyForms(list: PagedList<StudyFormDetail>) {
         listAdapter.submitList(list)

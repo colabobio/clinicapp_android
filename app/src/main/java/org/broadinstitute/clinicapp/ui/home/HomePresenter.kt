@@ -745,16 +745,16 @@ class HomePresenter(
 
 
     override fun getStudyFormsFromDB(search: String) {
-
         compositeDisposable.add(getFormsObservable(search).subscribe({ studyForms ->
             if (studyForms.isNotEmpty()) {
                 view.showStudyForms(studyForms)
-                Log.d("These are the studies?", studyForms.toString())
-            }else{
+            }
+            else{
                 // handle for search criteria
-                if(search.isNotEmpty()){
-                    view.showToastMessage(context.getString(R.string.no_result_found))
-                }
+//                if(search.isNotEmpty()){
+//                    view.showToastMessage(context.getString(R.string.no_result_found))
+//                    Log.d("Search query in HomePresenter is not empty. It is?:", search)
+//                }
             }
         },
             {
