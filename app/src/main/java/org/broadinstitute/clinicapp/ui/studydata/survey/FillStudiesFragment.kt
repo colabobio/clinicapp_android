@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.*
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,8 @@ class FillStudiesFragment : BaseFragment() {
         model.selected.value
     }
 
+
+
     // Initial current index -1 under show data we increment index
     private var currentIndex = -1
     private var currentTempVariable = ""
@@ -74,6 +77,14 @@ class FillStudiesFragment : BaseFragment() {
             setDateView = it.findViewById(R.id.fill_setDateView)
             txtSetDate = it.findViewById(R.id.fill_dateInputTxt)
         }
+
+
+
+        Log.d("model LIST SIZE", model.list.size.toString())
+        Log.d("model LIST", model.list.toString())
+        Log.d("model SELECTED VALUE", model.selected.value.toString())
+        Log.d("model VARIABLE VALUE", model.variableValues.toString())
+
 
 
 
@@ -176,9 +187,14 @@ class FillStudiesFragment : BaseFragment() {
         }
 
         val formWithVariable =  model.list[currentIndex]
+        Log.d("currentIndex", currentIndex.toString())
+        Log.d("formWithVariable", formWithVariable.toString())
         val  variableInfo = formWithVariable.masterVariables
+        Log.d("variableInfo", variableInfo.toString())
         currentTempVariable = formWithVariable.formVariables.tempStudyFormVariablesId
+        Log.d("currentTempVariable", currentTempVariable.toString())
         currentMasterVariable = variableInfo
+        Log.d("currentMasterVariable", currentMasterVariable.toString())
 
         btnSkip.visibility = View.VISIBLE
         btnPrevious.visibility = View.VISIBLE
@@ -421,6 +437,7 @@ class FillStudiesFragment : BaseFragment() {
                 CategoryType.binType ->{
                     // We set value in onChanged listener
                     variableValue =  model.variableValues[currentTempVariable].toString()
+                    Log.d("variableValueBIN", variableValue)
                 }
                 CategoryType.catType ->{
 
@@ -430,6 +447,7 @@ class FillStudiesFragment : BaseFragment() {
                            val selectedId = radioGroup.checkedRadioButtonId
                            val selectRadio = radioGroup.findViewById<RadioButton>(selectedId)
                            variableValue = (selectRadio?.text?.toString() ?: "")
+                           Log.d("variableValueRADIO", variableValue)
                        }
                     } else {
                         val count = catFrameLayout.childCount
@@ -446,13 +464,16 @@ class FillStudiesFragment : BaseFragment() {
                             }
                         }
                         variableValue = checkBoxChoices
+                        Log.d("variableValueCHK", variableValue)
                     }
                 }
                 CategoryType.dateType ->{
                     variableValue = txtSetDate.text.toString().trim()
+                    Log.d("variableValueDATE", variableValue)
                 }
                 CategoryType.intType , CategoryType.decType , CategoryType.stringType ->{
                     variableValue =  inputREd.text.toString().trim()
+                    Log.d("variableValueINT", variableValue)
                 }
 
             }

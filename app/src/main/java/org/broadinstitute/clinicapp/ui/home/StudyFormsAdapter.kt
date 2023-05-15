@@ -88,6 +88,7 @@ class StudyFormsAdapter(val userId: String, val syncInteractionListener: OnSyncI
 
             itemView.setOnClickListener {
                 val intent = Intent(parent.context, SurveyListActivity::class.java)
+//                val intent = Intent(parent.context, SurveyListUniqueActivity::class.java)
                 intent.putExtra(Constants.BundleKey.STUDY_FORM_DETAIL_KEY, detail)
                 intent.putExtra(
                     CALL_DETAILS_STUDY_FORM_KEY,

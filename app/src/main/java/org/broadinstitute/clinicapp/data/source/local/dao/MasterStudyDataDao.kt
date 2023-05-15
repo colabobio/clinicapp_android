@@ -24,8 +24,11 @@ interface MasterStudyDataDao {
     @Query("UPDATE MasterStudyData SET is_server_updated = 1 WHERE temp_master_study_data_id = :tempId")
     fun updateMasterStudyData(tempId: String): Int
 
-    @Query("SELECT * FROM MasterStudyData WHERE temp_master_study_forms_id = :masterStudyFormsId ORDER BY created_on DESC")
+    @Query("SELECT * FROM MasterStudyData WHERE temp_master_study_forms_id = :masterStudyFormsId AND study_data_when_asked = 0 ORDER BY created_on DESC")
     fun getMasterStudyData(masterStudyFormsId: String): DataSource.Factory<Int, MasterStudyData>
+
+    @Query("SELECT * FROM MasterStudyData WHERE temp_master_study_forms_id = :masterStudyFormsId AND admin_id = :masterStudyDataID ORDER BY created_on DESC")
+    fun getSpecificMasterStudyData(masterStudyFormsId: String, masterStudyDataID: String): DataSource.Factory<Int, MasterStudyData>
 
     @Query("SELECT * FROM MasterStudyData WHERE admin_id = :adminId AND is_server_updated = 0")
     fun getUnSyncedStudyData(adminId: String): List<MasterStudyData>
@@ -47,6 +50,9 @@ interface MasterStudyDataDao {
 
     @Query("SELECT count(*) FROM MasterStudyData WHERE temp_master_study_forms_id = :masterStudyFormsId")
     fun getCountByStudyForm(masterStudyFormsId: String): Single<Int>
+
+    @Query("SELECT count(*) FROM MasterStudyData WHERE temp_master_study_forms_id = :masterStudyFormsId AND admin_id = :masterStudyDataID")
+    fun getCountByStudySpecificForm(masterStudyFormsId: String, masterStudyDataID: String): Single<Int>
 
     @Query("DELETE FROM MasterStudyData")
     fun deleteAllMasterStudyData(): Int
