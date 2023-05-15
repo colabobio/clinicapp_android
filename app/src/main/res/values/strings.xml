@@ -24,6 +24,7 @@
 
     <!-- Survey list screen -->
     <string name="survey_list_title">My Surveys - %1$s</string>
+    <string name="patient_survey_list_title">%1$s - %2$s</string>
     <string name="study_data_new_patient">New</string>
     <string name="study_data_followup">Follow-up</string>
     <string name="study_data_final_outcome">Final Outcome</string>

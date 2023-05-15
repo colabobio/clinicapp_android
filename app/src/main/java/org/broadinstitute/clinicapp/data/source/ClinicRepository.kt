@@ -33,6 +33,12 @@ class ClinicRepository(
         return clinicDatabase.getMasterStudyDataDao().getMasterStudyData(studyFormId)
     }
 
+    override fun getStudySpecificDataFromDB(
+        studyFormId: String, masterStudyDataID: String
+    ): DataSource.Factory<Int, MasterStudyData> {
+        return clinicDatabase.getMasterStudyDataDao().getSpecificMasterStudyData(studyFormId, masterStudyDataID)
+    }
+
     override fun checkFormTitle(title: String): Single<List<MasterStudyForms>> {
         return clinicDatabase.getMasterStudyFormsDao().checkTitle(title)
     }
@@ -147,6 +153,10 @@ class ClinicRepository(
         return clinicDatabase.getMasterStudyDataDao().getCountByStudyForm(masterStudyFormsId)
     }
 
+    override fun getMasterStudyDatasSpecificCount(masterStudyFormsId: String, masterStudyDataID: String): Single<Int> {
+        return clinicDatabase.getMasterStudyDataDao().getCountByStudySpecificForm(masterStudyFormsId, masterStudyDataID)
+    }
+
     override fun insertMasterVariables(masterVariablesList: List<MasterVariables>): List<Long> {
         return clinicDatabase.getMasterVariablesDao().insertAll(masterVariablesList)
     }
@@ -212,6 +222,12 @@ class ClinicRepository(
         studyFormId: String
     ): DataSource.Factory<Int, Patient> {
         return clinicDatabase.getPatientDao().getPatients(search, studyFormId)
+    }
+
+    override fun getSpecificPatient(
+        studyFormId: String
+    ): DataSource.Factory<Int, Patient> {
+        return clinicDatabase.getPatientDao().getSpecificPatient(studyFormId)
     }
 
     override fun getStudyDataSingle(masterId: String): Single<List<StudyData>> {

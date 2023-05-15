@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                 >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -29,6 +29,7 @@
            >
 
         <LinearLayout
+            android:id="@+id/about_studyLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_15"
@@ -63,10 +64,44 @@
                     android:layout_marginBottom="@dimen/dimen_10"
 
             />
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/txtLabelHeader"
+                android:text="Patient Summary"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="Variable Name"
+                    style="@style/txtTitle"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:layout_marginRight="@dimen/dimen_5"/>
+
+                <TextView
+                    android:layout_width="145dp"
+                    android:layout_height="wrap_content"
+                    android:text="Value"
+                    style="@style/txtTitle"
+                    android:layout_marginTop="@dimen/dimen_10"/>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/patientDetailList"
+                tools:listitem="@layout/patient_detail_list"/>
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
 
 
     <TableRow
