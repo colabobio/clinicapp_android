@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.LogPrinter
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -568,7 +569,11 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.unsubscribe()
+
+        // presenter not used as of now
+//        if (presenter != null) {
+//            presenter.unsubscribe()
+//        }
     }
 
     override fun handleLogout(message : String, positiveOption : String, negativeOption : String) {
@@ -580,13 +585,16 @@ class HomeActivity : BaseActivity(), HomeContract.View,
             negativeOption,
             object : CommonUtils.DialogCallback {
                 override fun positiveClick() {
+
+                    logout()
+
                    this@HomeActivity.startActivity(
                      Intent(
                        this@HomeActivity,
                        LoginActivity::class.java
                        )
                    )
-                   finish()
+                    finish()
                 }
 
                 override fun negativeClick() {
@@ -623,5 +631,19 @@ class HomeActivity : BaseActivity(), HomeContract.View,
 
     }
 
+    private fun logout() {
+
+        val client = LoginActivity.client
+
+        if (client == null) {
+            return
+       }
+        else {
+            client!!.signOut()
+        }
+
+    }
 
 }
+
+
