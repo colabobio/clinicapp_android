@@ -48,7 +48,6 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
     private var mDriveServiceHelper: DriveServiceHelper? = null
 
     private lateinit var googleDriveService: Drive
-    private lateinit var email: String
 
     // encoded machine learning model
     /*var tflite: Interpreter? = null
@@ -71,7 +70,9 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
 
     companion object {
         var fileNames = emptyArray<String>()
+        var fileFullNames = emptyArray<String>()
         var filePaths = emptyArray<String>()
+        var email = String()
     }
 
 
@@ -349,15 +350,18 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
                 continue
             }
             val fullName = file.path.substringAfterLast("/")
-            val fileName = fullName.substringBeforeLast(".").substringAfter(" ")
 
-            filePaths = filePaths.plus(filePath)
-            fileNames = fileNames.plus(fileName)
+            val fileName = fullName.substringBeforeLast(".").substringAfter(" ")
 
             val fileOwner = file.path.substringAfter("/files/").substringBefore(" ")
 
-            if (fileOwner.compareTo(email) == 0)
-            itemsList.add(fileName)
+            if (fileOwner.compareTo(email) == 0 && fullName !in fileFullNames)
+            {
+                fileFullNames = fileFullNames.plus(fullName)
+                filePaths = filePaths.plus(filePath)
+                fileNames = fileNames.plus(fileName)
+                itemsList.add(fileName)
+            }
 
         }
 
