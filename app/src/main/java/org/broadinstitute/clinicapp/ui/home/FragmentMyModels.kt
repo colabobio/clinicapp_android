@@ -1,6 +1,7 @@
 package org.broadinstitute.clinicapp.ui.home
 
 import ModelListAdapter
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -68,6 +69,11 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
     private var itemsList = ArrayList<String>()
     private lateinit var modelListAdapter: ModelListAdapter
 
+    companion object {
+        var fileNames = emptyArray<String>()
+        var filePaths = emptyArray<String>()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,7 +106,6 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         rvModels.adapter = modelListAdapter
 
         startActivityForResult(LoginActivity.client!!.signInIntent, REQUEST_CODE_SIGN_IN)
-        findIItems()
 
         return view
     }
@@ -142,6 +147,7 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
                 // The DriveServiceHelper encapsulates all REST API and SAF functionality.
                 // Its instantiation is required before handling any onClick actions.
                 mDriveServiceHelper = DriveServiceHelper()
+                findIItems()
             }
 
             .addOnFailureListener { exception: java.lang.Exception? ->
@@ -326,13 +332,10 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         return "Outputted value"
     }
 */
+    @SuppressLint("SuspiciousIndentation")
     private fun findIItems() {
 
         try {
-
-        // var selectedFileIndex = 0
-        var fileNames = emptyArray<String>()
-        var filePaths = emptyArray<String>()
 
         val path = "/data/data/org.broadinstitute.clinicapp/files"
         val directory = File(path)

@@ -2,16 +2,21 @@ package org.broadinstitute.clinicapp.ui.studydata.survey
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_about_study_form.view.*
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseFragment
 import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
+import org.broadinstitute.clinicapp.ui.home.FragmentMyModels.Companion.fileNames
+import org.broadinstitute.clinicapp.ui.home.FragmentMyModels.Companion.filePaths
 
 
 class AboutFragment : BaseFragment(){
@@ -37,6 +42,8 @@ class AboutFragment : BaseFragment(){
         view.btn_confirm.visibility = View.VISIBLE
         progressBar = view.aboutProgressBar
         view.btn_confirm.text= getString(R.string.continue_str)
+        view.btn_use_model.visibility = View.VISIBLE
+        view.btn_use_model.text = "Apply Model"
         if(studyFormDetail!=null){
             view.about_study_form_details_title.text = studyFormDetail?.masterStudyForms?.title
             view.study_form_details_desc.text = studyFormDetail?.masterStudyForms?.description
@@ -47,6 +54,46 @@ class AboutFragment : BaseFragment(){
             transaction?.add(R.id.flAddMoreVars, FillStudiesFragment.newInstance(),"Fill_data")
             transaction?.addToBackStack("about")
             transaction?.commit()
+        }
+
+        view.btn_use_model.setOnClickListener {
+
+            var selectedFilePath = filePaths[0]
+            var selectedFileIndex = 0
+
+            try {
+                MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle("Choose a model")
+                    .setSingleChoiceItems(fileNames, selectedFileIndex) {dialog, which ->
+                        selectedFileIndex = which
+                        selectedFilePath = filePaths[which]
+                        Log.e("TAG", selectedFilePath)
+                    }
+                    .setPositiveButton("OK") { dialog, which ->
+                        // transition to fragment that displays model output
+                        // take all inputs to new fragment
+                    }
+
+                    .setNeutralButton("CANCEL") {dialog, which ->
+
+                    }.show()
+            }
+
+            catch(ex: Exception){
+                val dialogBuilder = AlertDialog.Builder(requireActivity())
+
+                // set message of alert dialog
+                dialogBuilder.setMessage("You have not imported any models from your Drive. Please import a model and then try again.")
+                    .setCancelable(true)
+
+                // create dialog box
+                val alert = dialogBuilder.create()
+                // set title for alert dialog box
+                alert.setTitle("No models imported.")
+                // show alert dialog
+                alert.show()
+            }
+
         }
 
         model.source
