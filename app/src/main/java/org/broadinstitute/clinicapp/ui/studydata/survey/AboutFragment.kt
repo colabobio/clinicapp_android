@@ -15,8 +15,11 @@ import kotlinx.android.synthetic.main.fragment_about_study_form.view.*
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseFragment
 import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
+import org.broadinstitute.clinicapp.ui.home.FragmentMyModels.Companion.email
+import org.broadinstitute.clinicapp.ui.home.FragmentMyModels.Companion.fileFullNames
 import org.broadinstitute.clinicapp.ui.home.FragmentMyModels.Companion.fileNames
 import org.broadinstitute.clinicapp.ui.home.FragmentMyModels.Companion.filePaths
+import java.util.EnumSet.range
 
 
 class AboutFragment : BaseFragment(){
@@ -61,12 +64,25 @@ class AboutFragment : BaseFragment(){
             var selectedFilePath = filePaths[0]
             var selectedFileIndex = 0
 
+            var userFilesNames = emptyArray<String>()
+            var userFilePaths = emptyArray<String>()
+
+            var size = fileNames.size
+            Log.e("TAG", fileFullNames[0])
+
+            for (i in 0 until size) {
+                if (email in fileFullNames[i]) {
+                    userFilesNames = userFilesNames.plus(fileNames[i])
+                    userFilePaths = userFilePaths.plus(filePaths[i])
+                }
+            }
+
             try {
                 MaterialAlertDialogBuilder(requireActivity())
                     .setTitle("Choose a model")
-                    .setSingleChoiceItems(fileNames, selectedFileIndex) {dialog, which ->
+                    .setSingleChoiceItems(userFilesNames, selectedFileIndex) {dialog, which ->
                         selectedFileIndex = which
-                        selectedFilePath = filePaths[which]
+                        selectedFilePath = userFilePaths[which]
                         Log.e("TAG", selectedFilePath)
                     }
                     .setPositiveButton("OK") { dialog, which ->
