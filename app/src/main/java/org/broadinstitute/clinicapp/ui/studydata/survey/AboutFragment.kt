@@ -12,14 +12,17 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_about_study_form.view.*
+import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseFragment
+import org.broadinstitute.clinicapp.data.source.local.dao.StudyFormVariablesDao
+import org.broadinstitute.clinicapp.data.source.local.entities.MasterStudyData
 import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
 import org.broadinstitute.clinicapp.ui.home.FragmentMyModels.Companion.email
 import org.broadinstitute.clinicapp.ui.home.FragmentMyModels.Companion.fileFullNames
 import org.broadinstitute.clinicapp.ui.home.FragmentMyModels.Companion.fileNames
 import org.broadinstitute.clinicapp.ui.home.FragmentMyModels.Companion.filePaths
-import java.util.EnumSet.range
+import org.broadinstitute.clinicapp.ui.home.PatientClassificationFragment
 
 
 class AboutFragment : BaseFragment(){
@@ -28,7 +31,9 @@ class AboutFragment : BaseFragment(){
     private val model: SharedViewModel by activityViewModels()
     private var studyFormDetail: StudyFormDetail? = null
     private lateinit var progressBar: ProgressBar
-
+    var integerListForModel = arrayListOf<Int>()
+    var studyFormData:  List<StudyFormVariablesDao.StudyFormWithVariable> = emptyList()
+    val variableValuesForModels = LinkedHashMap<String, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +45,8 @@ class AboutFragment : BaseFragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_about_study_form, container, false)
+        val masterID = arguments?.getParcelable<MasterStudyData>("masterID")
+
 
         view.txtHeader.text = getString(R.string.about_study_data)
         view.btn_confirm.visibility = View.VISIBLE
@@ -51,6 +58,39 @@ class AboutFragment : BaseFragment(){
             view.about_study_form_details_title.text = studyFormDetail?.masterStudyForms?.title
             view.study_form_details_desc.text = studyFormDetail?.masterStudyForms?.description
         }
+
+        if (masterID?.studyDataWhenAsked == Constants.StudyDataType.NEW_PATIENT_STUDY_DATA)
+            integerListForModel = arrayListOf(0, 1)
+        else if (masterID?.studyDataWhenAsked == Constants.StudyDataType.FOLLOWUP_STUDY_DATA)
+            integerListForModel = arrayListOf(1)
+        else if (masterID?.studyDataWhenAsked == Constants.StudyDataType.FINAL_OUTCOME_STUDY_DATA)
+            integerListForModel = arrayListOf(1, 2)
+
+        println("integerListForModel DATA4MODEL is " + integerListForModel)
+
+        model.getMasterVariablesByFormVariablesForModel(
+            model.variableValues.keys.toList(),
+            model.selected.value?.masterStudyForms!!.tempMasterStudyFormsId!!,
+            integerListForModel
+        )
+
+        model.setCustomObjectListener(object : SharedViewModel.MyCustomObjectListener {
+            override fun onDataForModelReceived(data: List<StudyFormVariablesDao.StudyFormWithVariable>) {
+                studyFormData = data
+                println("Listener CALLED: Here are the values $data")
+                model.variableValues.forEach { (key, value) ->
+                // Perform operations with key and value
+//                    println("KeyVariableValues: $key, Value: $value")
+                    for (item in data){
+                        if (key == item.formVariables.tempStudyFormVariablesId){
+                            println("Key_name_is: ${item.masterVariables.variableName}, Value: $value")
+                            variableValuesForModels[item.masterVariables.variableName] = value
+                        }
+                    }
+                }
+                println("Here are the values in a HashMap $variableValuesForModels")
+            }
+        })
 
         view.btn_confirm.setOnClickListener {
             val transaction = this.activity?.supportFragmentManager?.beginTransaction()
@@ -88,6 +128,15 @@ class AboutFragment : BaseFragment(){
                     .setPositiveButton("OK") { dialog, which ->
                         // transition to fragment that displays model output
                         // take all inputs to new fragment
+                        val transaction = this.activity?.supportFragmentManager?.beginTransaction()
+                        transaction?.addToBackStack("about")
+                        Log.d("APPLY MODEL", "apply model button has been clicked")
+                        if (variableValuesForModels.isNotEmpty()){
+                            println("SENDING TO MODEL: Here are the values $variableValuesForModels")
+                            transaction?.replace(R.id.flAddMoreVars, PatientClassificationFragment.newInstance(studyFormDetail, variableValuesForModels))
+                            transaction?.commit()
+                        }
+
                     }
 
                     .setNeutralButton("CANCEL") {dialog, which ->
@@ -123,10 +172,17 @@ class AboutFragment : BaseFragment(){
                 progressBar.visibility = View.GONE
             }
         }
+
         return view
     }
 
-
+    private fun getNameAndValue(key1: String, value: String, itemVariables: List<StudyFormVariablesDao.StudyFormWithVariable>){
+//        println("Key is: $key1 and Value is: $value")
+//        for (item in itemVariables){
+//            if (key1 == item.formVariables.tempStudyFormVariablesId)
+//                println("Key_name_is: ${item.masterVariables.variableName}, Value: $value")
+//        }
+    }
 
     companion object {
         /**
@@ -136,11 +192,13 @@ class AboutFragment : BaseFragment(){
          * @return A new instance of fragment DetailsFragment.
          */
         @JvmStatic
-        fun newInstance() =
+        fun newInstance(masterID: MasterStudyData?) =
             AboutFragment().apply {
+                arguments = Bundle().apply {
+                    // Pass the MasterStudyData instance to the fragment
+                    putParcelable("masterID", masterID)
+                }
 
             }
-
     }
-
 }

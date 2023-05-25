@@ -18,6 +18,7 @@ import androidx.fragment.app.activityViewModels
 import kotlinx.android.synthetic.main.fragment_fill_data.view.*
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseFragment
+import org.broadinstitute.clinicapp.data.source.local.dao.StudyFormVariablesDao
 import org.broadinstitute.clinicapp.data.source.local.entities.MasterVariables
 import java.util.*
 
@@ -80,10 +81,10 @@ class FillStudiesFragment : BaseFragment() {
 
 
 
-        Log.d("model LIST SIZE", model.list.size.toString())
-        Log.d("model LIST", model.list.toString())
-        Log.d("model SELECTED VALUE", model.selected.value.toString())
-        Log.d("model VARIABLE VALUE", model.variableValues.toString())
+//        Log.d("model LIST SIZE", model.list.size.toString())
+//        Log.d("model LIST", model.list.toString())
+//        Log.d("model SELECTED VALUE", model.selected.value.toString())
+//        Log.d("model VARIABLE VALUE", model.variableValues.toString())
 
 
 
@@ -91,6 +92,31 @@ class FillStudiesFragment : BaseFragment() {
         val spannable = SpannableString("Patient ID - " + model.patient.value?.adminId)
         spannable.setSpan(RelativeSizeSpan(1f),0,spannable.length,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         view.fill_patientTxt.text = spannable
+
+//      ===============================================PRINTS OUT THE LIST OF VARIABLES AND THEIR VALUES FOR A PATIENT ============
+//        println("dataForModel is secondly " + model.dataForModel)
+
+        println("FILL_VARIABLEz DATA4MODEL is " + model.dataForModel)
+        println("FILL_VARIABLEz DATA4MODEL LIST is " + model.list)
+        println("FILL_VARIABLEz VALUES LIST is " + model.listForVariableValues)
+        println("FILL_VARIABLEz VALUES 4 MODEL is " + model.variableValues)
+        model.variableValues.forEach { (key, value) ->
+            // Perform operations with key and value
+//            println("KeyVariableValues: $key, Value: $value")
+            getNameAndValue(key, value)
+        }
+
+//        model.list.forEach { (key, value) ->
+//            // Perform operations with key and value
+//            println("KeyList: ${key}, Value: $value")
+//        }
+//
+////        println(model.printList(model.list))
+////        println(model.dataList)
+//        println("The model list is:"+model.list)
+//        println("The model variableValues are:" + model.variableValues)
+////        println(model.patient)
+
 
 
         if(variableSize > 0 ) {
@@ -150,7 +176,20 @@ class FillStudiesFragment : BaseFragment() {
 
             })
         }
+
         return view
+    }
+
+    private fun getNameAndValue(key1: String, value: String){
+//        println("Key is: $key1 and Value is: $value")
+        if (model.dataForModel?.isNotEmpty() == true) {
+            for (item in model.dataForModel!!) {
+                if (key1 == item.formVariables.tempStudyFormVariablesId)
+                    println("Variable_name: ${item.masterVariables.variableName}, VariableValue: $value")
+            }
+        }
+        else
+            Toast.makeText(requireContext(), "dataForModel is empty", Toast.LENGTH_SHORT).show()
     }
 
     private val binCatListener: RadioGroup.OnCheckedChangeListener
@@ -165,7 +204,6 @@ class FillStudiesFragment : BaseFragment() {
                 }
             }
         }
-
 
     @SuppressLint("SetTextI18n")
     private fun showData(callType: CallType){
@@ -187,14 +225,14 @@ class FillStudiesFragment : BaseFragment() {
         }
 
         val formWithVariable =  model.list[currentIndex]
-        Log.d("currentIndex", currentIndex.toString())
-        Log.d("formWithVariable", formWithVariable.toString())
+//        Log.d("currentIndex", currentIndex.toString())
+//        Log.d("formWithVariable", formWithVariable.toString())
         val  variableInfo = formWithVariable.masterVariables
-        Log.d("variableInfo", variableInfo.toString())
+//        Log.d("variableInfo", variableInfo.toString())
         currentTempVariable = formWithVariable.formVariables.tempStudyFormVariablesId
-        Log.d("currentTempVariable", currentTempVariable.toString())
+//        Log.d("currentTempVariable", currentTempVariable.toString())
         currentMasterVariable = variableInfo
-        Log.d("currentMasterVariable", currentMasterVariable.toString())
+//        Log.d("currentMasterVariable", currentMasterVariable.toString())
 
         btnSkip.visibility = View.VISIBLE
         btnPrevious.visibility = View.VISIBLE

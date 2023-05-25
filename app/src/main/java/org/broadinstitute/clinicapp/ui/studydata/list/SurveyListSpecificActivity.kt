@@ -34,7 +34,6 @@ class SurveyListSpecificActivity : BaseActivity(), SDListContract.View {
 
     private lateinit var listAdapter: StudyDataSpecificAdapter
     private lateinit var searchView: SearchView
-
     private lateinit var studyFormDetail: StudyFormDetail
     private lateinit var masterStudyData: MasterStudyData
     private lateinit var presenter: SurveyListPresenter
@@ -45,10 +44,6 @@ class SurveyListSpecificActivity : BaseActivity(), SDListContract.View {
             intent.extras?.get(Constants.BundleKey.STUDY_FORM_DETAIL_KEY) as StudyFormDetail
         masterStudyData =
             intent.extras?.get(Constants.BundleKey.MASTER_STUDY_DATA_KEY) as MasterStudyData
-        Log.d("masterStudyData ADMIN ID", masterStudyData.adminId)
-        Log.d("masterStudyData tempMasterStudyFormsId", masterStudyData.tempMasterStudyFormsId)
-        Log.d("studyFormDetail.masterStudyForms.tempMasterStudyFormsId", studyFormDetail.masterStudyForms.tempMasterStudyFormsId.toString())
-//        Log.d("masterStudyData", masterStudyData.toString())
 
         presenter.getPatients(masterStudyData.adminId, studyFormDetail.masterStudyForms.tempMasterStudyFormsId!!)
 
@@ -200,7 +195,6 @@ class SurveyListSpecificActivity : BaseActivity(), SDListContract.View {
     }
 
     override fun showPatients(patientList: PagedList<Patient>) {
-        Log.d("PATIENT LIST3 or NOT is?:", patientList.toString())
         patient = patientList.get(0)!!
     }
 
