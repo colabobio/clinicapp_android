@@ -35,8 +35,10 @@ class SurveyActivity : BaseActivity() {
 
         form?.let { it1 -> vm.select(it1) }
         // set value to screen type object and get master variable by providing study form.
-        type.let { vm.setType(it, pref) }
-
+        type.let {
+            vm.setType(it, pref)
+            println("TYPE is: $it")
+        }
         // Update or edit study data case it value present otherwise its null
         // set value to Master study data object and get master variable by providing list of temp variable
         masterID?.let{it -> vm.setMasterStudyDataID(it)}
@@ -51,7 +53,7 @@ class SurveyActivity : BaseActivity() {
         val transaction = this.supportFragmentManager.beginTransaction()
         transaction.add(
             R.id.flAddMoreVars,
-            AboutFragment.newInstance())
+            AboutFragment.newInstance(masterID))
         transaction.commit()
 
     }

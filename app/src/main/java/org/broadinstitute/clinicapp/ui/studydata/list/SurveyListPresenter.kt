@@ -261,15 +261,12 @@ class SurveyListPresenter(
     //===============================================NEW ADDITION FOR Specific Patient Data================
 
     override fun getPatients(search: String, studyFormId: String) {
-        Log.d("getPatients called and studyFormId", studyFormId)
         view.showProgress(true)
         compositeDisposable.add(getPatientObservable(search, studyFormId).subscribe({
                 patients ->
             view.showProgress(false)
-            Log.d("PATIENT1 LIST or NOT is?:", patients.toString())
             if (patients.isNotEmpty()) {
                 view.showPatients(patients)
-                Log.d("PATIENT2 LIST or NOT is?:", patients.toString())
             }else{
                 if(search.isEmpty())view.showEmptyWarning(true)
                 else {
