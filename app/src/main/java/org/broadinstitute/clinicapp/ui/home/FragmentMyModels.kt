@@ -1,7 +1,6 @@
 package org.broadinstitute.clinicapp.ui.home
 
 import ModelListAdapter
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -31,9 +30,13 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.ui.login.LoginActivity
+import org.tensorflow.lite.support.metadata.MetadataExtractor
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.OutputStream
+import java.nio.MappedByteBuffer
+import java.nio.channels.FileChannel
 import java.sql.Timestamp
 import java.util.*
 
@@ -48,19 +51,6 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
     private var mDriveServiceHelper: DriveServiceHelper? = null
 
     private lateinit var googleDriveService: Drive
-
-    // encoded machine learning model
-    /*var tflite: Interpreter? = null
-    var pregnancies: EditText? = null
-    var glucose: EditText? = null
-    var bloodPressure: EditText? = null
-    var skinThickness: EditText? = null
-    var insulin: EditText? = null
-    var BMI: EditText? = null
-    var diabetesPedigree: EditText? = null
-    var age: EditText? = null
-    var button: Button? = null
-    var output: TextView? = null*/
 
     private lateinit var rvModels: RecyclerView
     private lateinit var fabModels: FloatingActionButton
@@ -86,13 +76,6 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_my_models, container, false)
-//        view.findViewById<View>(R.id.open_btn).setOnClickListener{ openFilePicker() }
-//        view.findViewById<View>(R.id.sign_in_btn).setOnClickListener{ requestSignIn() }
-//        view.findViewById<View>(R.id.log_out_btn).setOnClickListener{ logout() }
-
-        /*button?.setOnClickListener {
-            buttonClicked()
-        }*/
         rvModels = view.findViewById(R.id.rvModels)
 
         fabModels = view.findViewById(R.id.fabModels)
@@ -100,7 +83,6 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
             showCreationFormDialog()
         }
 
-        // ended coding here
         val linearLayoutManager = LinearLayoutManager(context)
         modelListAdapter = ModelListAdapter(itemsList)
         rvModels.layoutManager = linearLayoutManager
@@ -238,7 +220,7 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
                     ) {
                         val fileid = file.id
 
-                        val fullFileName = email + " "+ fileName
+                        val fullFileName = "$email $fileName"
                         val fileType = ".tflite"
                         if (fileType in fileName) {
                             val finalFile = File(context?.filesDir, "$fullFileName")
@@ -246,10 +228,17 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
                             val out: OutputStream = FileOutputStream(finalFile)
                             googleDriveService.files().get(fileid)
                                 .executeMediaAndDownloadTo(out)
-
                             Log.e("TAG", "the file was downloaded!")
-                            findIItems()
 
+                            launch(Dispatchers.Main) {
+                                if (loadModel(finalFile.absolutePath)) {
+                                    findIItems()
+                                }
+
+                                else {
+                                    finalFile.delete()
+                                }
+                            }
                         }
 
                         else {
@@ -260,13 +249,6 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
             } while (pageToken != null)
         }
     }
-
-    /* private fun loadModel(path: String): MappedByteBuffer? {
-        Log.e("TAG", "file path was changed")
-        val file = File(path)
-        val fileStream = FileInputStream(file)
-        return fileStream.channel.map(FileChannel.MapMode.READ_ONLY, 0, file.length())
-    }*/
 
     /*  private fun useModel(
         pregnancies: String,
@@ -333,12 +315,11 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         return "Outputted value"
     }
 */
-    @SuppressLint("SuspiciousIndentation")
     private fun findIItems() {
 
         try {
 
-        val path = "/data/data/org.broadinstitute.clinicapp/files"
+        val path = "/data/user/0/org.broadinstitute.clinicapp/files"
         val directory = File(path)
         val currentFiles = directory.listFiles()
 
@@ -346,7 +327,7 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
 
             val filePath = file.path
 
-            if (filePath.compareTo("/data/data/org.broadinstitute.clinicapp/files/secretPass.txt") == 0) {
+            if (filePath.compareTo("/data/user/0/org.broadinstitute.clinicapp/files/secretPass.txt") == 0) {
                 continue
             }
             val fullName = file.path.substringAfterLast("/")
@@ -377,76 +358,43 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         }
   }
 
-           /* var selectedFilePath = filePaths[0]
-
-            MaterialAlertDialogBuilder(requireActivity())
-                .setTitle("Choose a model")
-                .setSingleChoiceItems(fileNames, selectedFileIndex) {dialog, which ->
-                    selectedFileIndex = which
-                    selectedFilePath = filePaths[which]
-                    Log.e("TAG", selectedFilePath)
-                }
-                .setPositiveButton("OK") { dialog, which ->
-
-                    try {
-                        tflite = loadModel(selectedFilePath)?.let { Interpreter(it) }
-                    } catch (ex: Exception) {
-                        print("exception produced")
-                    }
-
-                    Log.e("TAG", "over here before nulls checked")
-
-                    try {
-                        val predicted_y = useModel(
-                            pregnancies?.getText().toString(),
-                            glucose?.getText().toString(),
-                            bloodPressure?.getText().toString(),
-                            skinThickness?.getText().toString(),
-                            insulin?.getText().toString(),
-                            BMI?.getText().toString(),
-                            diabetesPedigree?.getText().toString(),
-                            age?.getText().toString()
-                        )
-                        output?.setText(predicted_y)
-                    }
-
-                    catch (ex: Exception) {
-                        val dialogBuilder = AlertDialog.Builder(requireActivity())
-
-                        // set message of alert dialog
-                        dialogBuilder.setMessage("One or more parameters have not been entered correctly. Please make sure all inputs are present and numerical values.")
-                            .setCancelable(true)
-
-                        // create dialog box
-                        val alert = dialogBuilder.create()
-                        // set title for alert dialog box
-                        alert.setTitle("Incorrect inputs.")
-                        // show alert dialog
-                        alert.show()
-                    }
-                }
-
-                .setNeutralButton("CANCEL") {dialog, which ->
-
-                }.show()
+    private fun loadModel(path: String): Boolean {
+        Log.e("TAG", "inside load model method")
+        val file = File(path)
+        val fileStream = FileInputStream(file)
+        if(getMetadata(fileStream.channel.map(FileChannel.MapMode.READ_ONLY, 0, file.length()))) {
+            return true
         }
 
-        catch (ex: Exception) {
-            Log.e("TAG", ex.toString())
+        return false
+    }
+    private fun getMetadata(buffer: MappedByteBuffer): Boolean {
+        val metadata = MetadataExtractor(buffer)
+        if (!metadata.hasMetadata()) {
             val dialogBuilder = AlertDialog.Builder(requireActivity())
-
             // set message of alert dialog
-            dialogBuilder.setMessage("No models have been downloaded. Please download a model from your Google Drive.")
+            dialogBuilder.setMessage("No metadata was found in your imported model. Please make sure your model has metadata before importing it.")
                 .setCancelable(true)
-
             // create dialog box
             val alert = dialogBuilder.create()
             // set title for alert dialog box
-            alert.setTitle("No models found.")
+            alert.setTitle("No metadata found.")
             // show alert dialog
             alert.show()
+            return false
         }
-    }*/
+        else {
+            Log.e("TAG", "model metadata" + metadata.modelMetadata.name())
+            Log.e("TAG", "model metadata" + metadata.modelMetadata.author())
+            val inputSize = metadata.inputTensorCount
+            for (i in 0 until inputSize) {
+                val input = metadata.getInputTensorMetadata(i)
+                metadata.getInputTensorMetadata(0)?.name()?.let { Log.e("TAG", it) }
+            }
+
+            return true
+        }
+    }
 
     private fun showCreationFormDialog() {
 
