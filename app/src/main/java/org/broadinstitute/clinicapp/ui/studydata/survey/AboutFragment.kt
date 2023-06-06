@@ -58,14 +58,15 @@ class AboutFragment : BaseFragment() {
         view.btn_confirm.visibility = View.VISIBLE
         progressBar = view.aboutProgressBar
         view.btn_confirm.text = getString(R.string.continue_str)
-        view.btn_use_model.visibility = View.VISIBLE
-        view.btn_use_model.text = "Apply Model"
         if (studyFormDetail != null) {
             view.about_study_form_details_title.text = studyFormDetail?.masterStudyForms?.title
             view.study_form_details_desc.text = studyFormDetail?.masterStudyForms?.description
         }
 
         if (studyType != 0) {
+            view.btn_use_model.visibility = View.VISIBLE
+            view.btn_use_model.text = "Apply Model"
+
             if (masterID?.studyDataWhenAsked == Constants.StudyDataType.NEW_PATIENT_STUDY_DATA)
                 integerListForModel = arrayListOf(0, 1)
             else if (masterID?.studyDataWhenAsked == Constants.StudyDataType.FOLLOWUP_STUDY_DATA)
