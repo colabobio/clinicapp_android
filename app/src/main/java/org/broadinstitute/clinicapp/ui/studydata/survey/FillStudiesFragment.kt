@@ -117,8 +117,6 @@ class FillStudiesFragment : BaseFragment() {
 //        println("The model variableValues are:" + model.variableValues)
 ////        println(model.patient)
 
-
-
         if(variableSize > 0 ) {
             showData(CallType.Initial)
 

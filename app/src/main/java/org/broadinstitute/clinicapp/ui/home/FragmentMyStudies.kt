@@ -28,6 +28,7 @@ import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
 import org.broadinstitute.clinicapp.ui.OnSyncInteractionListener
 import org.broadinstitute.clinicapp.ui.studyform.CreateFormActivity
 import org.broadinstitute.clinicapp.ui.studyform.ItemFragment
+import org.broadinstitute.clinicapp.ui.studyform.variableselection.AddVariableActivity
 import org.broadinstitute.clinicapp.util.CommonUtils
 import org.broadinstitute.clinicapp.util.NetworkUtils
 import org.broadinstitute.clinicapp.util.SharedPreferenceUtils
@@ -236,6 +237,17 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
             startActivity(intent)
             mAlertDialog.dismiss()
         }
+        mDialogView.add_variable.setOnClickListener {
+            intent = Intent(context, AddVariableActivity::class.java)
+                .putExtra(
+                    Constants.BundleKey.CREATE_STUDY_FORM_KEY,
+                    Constants.CallingPageValue.IMPORT_FROM_ONLINE_STUDY_FORM
+                )
+
+            startActivity(intent)
+            mAlertDialog.dismiss()
+        }
+
     }
 }
 
