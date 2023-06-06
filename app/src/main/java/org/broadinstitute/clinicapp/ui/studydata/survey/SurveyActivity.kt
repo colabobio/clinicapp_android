@@ -53,7 +53,7 @@ class SurveyActivity : BaseActivity() {
         val transaction = this.supportFragmentManager.beginTransaction()
         transaction.add(
             R.id.flAddMoreVars,
-            AboutFragment.newInstance(masterID))
+            AboutFragment.newInstance(masterID, type))
         transaction.commit()
 
     }
