@@ -1,48 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
-            android:name="ClinicApp"
-            android:allowBackup="false"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            android:usesCleartextTraffic="true" >
-
+        android:name=".ClinicApp"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.studyform.variableselection.AddVariableActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ui.studydata.list.SurveyListSpecificActivity"
             android:screenOrientation="portrait" />
         <activity
-                android:name=".ui.studyform.details.DetailsActivity"
-                android:screenOrientation="portrait" />
+            android:name=".ui.studyform.details.DetailsActivity"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".ui.studyform.CreateFormActivity"
-                android:windowSoftInputMode="adjustResize|stateUnspecified"
-                android:screenOrientation="portrait" />
+            android:name=".ui.studyform.CreateFormActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateUnspecified" />
         <activity
-                android:name=".ui.viewvariables.ViewVariablesActivity"
-                android:screenOrientation="portrait" />
+            android:name=".ui.viewvariables.ViewVariablesActivity"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".ui.splash.SplashActivity"
-                android:exported="true"
-                android:parentActivityName=".ui.home.HomeActivity"
-                android:theme="@style/AppTheme.NoActionBar">
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true"
+            android:parentActivityName=".ui.home.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,43 +54,41 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".ui.login.LoginActivity"
-                android:launchMode="singleTask"
-                android:exported="true"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:name=".ui.login.LoginActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-                android:name=".ui.home.HomeActivity"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".ui.home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-                android:name=".ui.profile.ProfileActivity"
-                android:screenOrientation="portrait" />
+            android:name=".ui.profile.ProfileActivity"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".ui.studydata.list.SurveyListActivity"
-                android:screenOrientation="portrait" />
+            android:name=".ui.studydata.list.SurveyListActivity"
+            android:screenOrientation="portrait" />
         <activity
-                android:name=".ui.studydata.survey.SurveyActivity"
-                android:screenOrientation="portrait"
-                android:windowSoftInputMode="adjustResize|stateHidden"
-        />
-        <activity android:name=".ui.studydata.patient.SearchPatientActivity"
-                  android:screenOrientation="portrait"
-        />
+            android:name=".ui.studydata.survey.SurveyActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".ui.studydata.patient.SearchPatientActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
             tools:node="merge">
+
             <!-- If you are using androidx.startup to initialize other components -->
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
-            </provider>
-
+        </provider>
     </application>
 
 </manifest>

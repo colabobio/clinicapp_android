@@ -32,4 +32,16 @@
             android:id="@+id/pop_import_online" android:padding="@dimen/dimen_5" android:text="@string/import_study_form"
             android:layout_marginBottom="@dimen/dimen_15"
     />
+
+    <TextView
+        android:text="@string/or" android:gravity="center_horizontal" android:textColor="@color/black"
+        android:layout_width="match_parent" android:padding="@dimen/padding_20" android:textSize="@dimen/text_size_18"
+        android:layout_height="wrap_content" android:textAllCaps="true"
+        />
+    <Button
+        style="@style/loginBtn"
+        android:id="@+id/add_variable"
+        android:padding="@dimen/dimen_5" android:text="@string/add_variable"
+        android:layout_marginBottom="@dimen/dimen_15"
+        />
 </LinearLayout>
