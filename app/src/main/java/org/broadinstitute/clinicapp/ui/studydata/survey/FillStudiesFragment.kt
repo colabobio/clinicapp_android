@@ -188,8 +188,8 @@ class FillStudiesFragment : BaseFragment() {
                     println("Variable_name: ${item.masterVariables.variableName}, VariableValue: $value")
             }
         }
-        else
-            Toast.makeText(requireContext(), "dataForModel is empty", Toast.LENGTH_SHORT).show()
+//        else
+//            Toast.makeText(requireContext(), "dataForModel is empty", Toast.LENGTH_SHORT).show()
     }
 
     private val binCatListener: RadioGroup.OnCheckedChangeListener

@@ -49,7 +49,7 @@ class SharedViewModel : ViewModel() {
     val variableValues = LinkedHashMap<String, String>()
     var dataList = arrayListOf<StudyData>()
 
-    lateinit var dataForModel: List<StudyFormVariablesDao.StudyFormWithVariable>
+    var dataForModel = listOf<StudyFormVariablesDao.StudyFormWithVariable>()
 
     var source = PublishSubject.create<Boolean>()
 
@@ -129,8 +129,6 @@ class SharedViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ data ->
                 list = data as ArrayList<StudyFormVariablesDao.StudyFormWithVariable>
-//                dataForModel = data
-//                Log.d("dataForModel Called First", dataForModel.toString())
                 if (studyDataType.value != Constants.StudyDataType.UPDATE_STUDY_DATA) {
                     data.forEach {
 //                        Log.d("THe datalist is:", it.toString() )
@@ -158,8 +156,6 @@ class SharedViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ data ->
                 list = data as ArrayList<StudyFormVariablesDao.StudyFormWithVariable>
-//                dataForModel = data
-//                Log.d("dataForModel Called Second", dataForModel.toString())
             },
                 { throwable ->
                     throwable.stackTrace
