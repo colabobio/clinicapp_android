@@ -16,11 +16,9 @@ class PatientClassificationFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             studyForMDetail = it.getParcelable("studyForm") as StudyFormDetail?
-<<<<<<< HEAD
-            variablesAndValue = it.getSerializable("variableAndValues") as? LinkedHashMap<String, String>
-=======
+
             variablesAndValue = it.getSerializable("variablesAndValues") as? LinkedHashMap<String, String>
->>>>>>> 3c972f4a4cb2be2374cd030b4eea40f477c14c9c
+
         }
         println("studyForMDetail in Models = $studyForMDetail")
         println("variablesAndValue in Models = $variablesAndValue")

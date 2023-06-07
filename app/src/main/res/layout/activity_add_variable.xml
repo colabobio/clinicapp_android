@@ -9,9 +9,11 @@
     <TextView
         android:id="@+id/headingText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dimen_50"
         android:layout_marginTop="16dp"
         android:gravity="center"
+        android:textSize="25dp"
+        android:textColor="@color/black"
         android:text="ENTER VARIABLE DETAILS"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -252,7 +254,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    >
+                    android:visibility="gone">
 
 <!--                    <EditText-->
 <!--                        android:id="@+id/first_choice"-->
@@ -266,7 +268,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Add Variable"
-                        android:textSize="@dimen/dimen_15" />
+                        android:textSize="@dimen/dimen_15"/>
 
 
                 </LinearLayout>
