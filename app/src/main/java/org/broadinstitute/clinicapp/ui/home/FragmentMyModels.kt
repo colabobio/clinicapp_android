@@ -250,71 +250,6 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         }
     }
 
-    /*  private fun useModel(
-        pregnancies: String,
-        glucose: String,
-        bloodPressure: String,
-        skinThickness: String,
-        insulin: String,
-        BMI: String,
-        diabetesPedigree: String,
-        age: String
-    ): String? {
-        val input = FloatArray(8)
-        val mean = 44.88812672413793
-        val standardDeviation = 57.37052911308939
-
-        input[0] = pregnancies.toFloat()
-        input[1] = glucose.toFloat()
-        input[2] = bloodPressure.toFloat()
-        input[3] = skinThickness.toFloat()
-        input[4] = insulin.toFloat()
-        input[5] = BMI.toFloat()
-        input[6] = diabetesPedigree.toFloat()
-        input[7] = age.toFloat()
-
-        val output = Array(1) {
-            FloatArray(1)
-        }
-
-        for(i in 0..7) {
-            input[i] = (((input[i] - mean) / standardDeviation).toFloat())
-        }
-
-        Log.e("TAG", "all inputs converted")
-        Log.e("TAG", tflite.toString())
-        try {
-            tflite!!.run(input, output)
-
-            if (output[0][0] >= 0.5) {
-                return "Diabetes detected"
-            }
-
-            else {
-                return "Diabetes not detected"
-            }
-        }
-
-        catch (ex: Exception){
-            val dialogBuilder = AlertDialog.Builder(requireActivity())
-
-            // set message of alert dialog
-            dialogBuilder.setMessage("The model you have chosen does not work for the data in this study.")
-                .setCancelable(true)
-
-            // create dialog box
-            val alert = dialogBuilder.create()
-            // set title for alert dialog box
-            alert.setTitle("Wrong model chosen.")
-            // show alert dialog
-            alert.show()
-
-
-        }
-
-        return "Outputted value"
-    }
-*/
     private fun findIItems() {
 
         try {
@@ -384,14 +319,6 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
             return false
         }
         else {
-            Log.e("TAG", "model metadata" + metadata.modelMetadata.name())
-            Log.e("TAG", "model metadata" + metadata.modelMetadata.author())
-            val inputSize = metadata.inputTensorCount
-            for (i in 0 until inputSize) {
-                val input = metadata.getInputTensorMetadata(i)
-                metadata.getInputTensorMetadata(0)?.name()?.let { Log.e("TAG", it) }
-            }
-
             return true
         }
     }

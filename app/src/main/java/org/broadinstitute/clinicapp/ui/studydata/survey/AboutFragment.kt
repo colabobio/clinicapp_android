@@ -110,7 +110,7 @@ class AboutFragment : BaseFragment() {
 
         view.btn_use_model.setOnClickListener {
 
-            var selectedFilePath = filePaths[0]
+            var selectedFilePath: String
             var selectedFileIndex = 0
 
             var userFilesNames = emptyArray<String>()
@@ -133,6 +133,7 @@ class AboutFragment : BaseFragment() {
                         selectedFileIndex = which
                         selectedFilePath = userFilePaths[which]
                         Log.e("TAG", selectedFilePath)
+                        chosenPath = selectedFilePath
                     }
                     .setPositiveButton("OK") { dialog, which ->
                         // transition to fragment that displays model output
@@ -218,5 +219,7 @@ class AboutFragment : BaseFragment() {
                 }
 
             }
+
+        var chosenPath = filePaths[0]
     }
 }
