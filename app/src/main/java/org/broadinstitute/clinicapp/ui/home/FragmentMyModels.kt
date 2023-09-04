@@ -3,12 +3,14 @@ package org.broadinstitute.clinicapp.ui.home
 import ModelListAdapter
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -39,7 +41,7 @@ import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
 import java.sql.Timestamp
 import java.util.*
-
+import java.time.ZoneId
 
 class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
 
@@ -93,6 +95,7 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         when (requestCode) {
             REQUEST_CODE_SIGN_IN -> if (resultCode == AppCompatActivity.RESULT_OK && resultData != null) {
@@ -153,6 +156,7 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun openFileFromFilePicker(uri: Uri) {
 
         lateinit var URIName: String
@@ -191,28 +195,65 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
 
                     val stamp = Timestamp(URITime.toLong())
                     var dateTime = DateTime(stamp.time)
+                    
+                    Log.e("TAG", dateTime.toString())
+                    val timeZoneShift = dateTime.toString().substring(24,26).toInt()
+                    val lateNight = 24 - timeZoneShift
+                    Log.e("TAG", timeZoneShift.toString())
 
                     val dateTimeHours = dateTime.toString().substring(11, 13).toInt()
+                    var dateDay = dateTime.toString().substring(8, 10).toInt()
                     var hoursTimeZone: String
+                    var dateDayString: String
 
-                    if (dateTimeHours > 20) {
-                        hoursTimeZone = if (dateTimeHours == 21) {
-                            "01"
-                        } else if (dateTimeHours == 22) {
-                            "02"
-                        } else if (dateTimeHours == 23) {
-                            "03"
-                        } else {
-                            "04"
+                    if (dateTimeHours >= lateNight) {
+                        if (dateTimeHours + timeZoneShift == 24) {
+                            hoursTimeZone = "00"
+                            dateDay = dateDay.toInt() + 1
                         }
-                    } else {
+                        else if (dateTimeHours + timeZoneShift == 25) {
+                            hoursTimeZone = "01"
+                            dateDay = dateDay.toInt() + 1
+                        }
+                        else if (dateTimeHours + timeZoneShift == 26) {
+                            hoursTimeZone = "02"
+                            dateDay = dateDay.toInt() + 1
+
+                        } else if (dateTimeHours + timeZoneShift == 27) {
+                            hoursTimeZone = "03"
+                            dateDay = dateDay.toInt() + 1
+                        }
+                        else {
+                            hoursTimeZone = "04"
+                            dateDay = dateDay.toInt() + 1
+                        }
+                    }
+
+                    else if (dateTimeHours >= 0 && dateTimeHours < 10 - timeZoneShift && timeZoneShift < 10) {
+                        hoursTimeZone = "0" + (dateTimeHours + timeZoneShift).toString()
+                    }
+
+                    else {
                         hoursTimeZone =
-                            (dateTime.toString().substring(11, 13).toInt() + 4).toString()
+                            (dateTime.toString().substring(11, 13).toInt() + timeZoneShift).toString()
+                    }
+
+                    if(dateDay in 0..9) {
+                        dateDayString = "0$dateDay"
+                    }
+
+                    else {
+                        dateDayString = dateDay.toString()
                     }
 
                     val dateTimeString =
-                        dateTime.toString().substring(0, 11) + hoursTimeZone + dateTime.toString()
+                        dateTime.toString().substring(0, 8) + dateDayString + "T" + hoursTimeZone + dateTime.toString()
                             .substring(13, 23)
+
+                    Log.e("TAG", fileName)
+                    Log.e("TAG", URIName)
+                    Log.e("TAG", dateTimeString)
+                    Log.e("TAG", fileModifiedTime)
 
                     if (fileName.compareTo(URIName) == 0 && dateTimeString.compareTo(
                             fileModifiedTime
@@ -242,7 +283,18 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
                         }
 
                         else {
-                            // alert: only tflite models can be downloaded
+                            launch(Dispatchers.Main) {
+                                val dialogBuilder = AlertDialog.Builder(requireActivity())
+                                // set message of alert dialog
+                                dialogBuilder.setMessage("Please make sure to only import .tflite files from your drive. Other file types are not supported..")
+                                    .setCancelable(true)
+                                // create dialog box
+                                val alert = dialogBuilder.create()
+                                // set title for alert dialog box
+                                alert.setTitle("Only tflite models can be downloaded.")
+                                // show alert dialog
+                                alert.show()
+                            }
                         }
                     }
                 }
@@ -266,11 +318,8 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
                 continue
             }
             val fullName = file.path.substringAfterLast("/")
-
             val fileName = fullName.substringBeforeLast(".").substringAfter(" ")
-
             val fileOwner = file.path.substringAfter("/files/").substringBefore(" ")
-
             if (fileOwner.compareTo(email) == 0 && fullName !in fileFullNames)
             {
                 fileFullNames = fileFullNames.plus(fullName)

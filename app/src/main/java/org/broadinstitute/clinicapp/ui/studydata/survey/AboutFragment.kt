@@ -110,6 +110,7 @@ class AboutFragment : BaseFragment() {
 
         view.btn_use_model.setOnClickListener {
 
+
             var selectedFilePath: String
             var selectedFileIndex = 0
 
@@ -126,13 +127,16 @@ class AboutFragment : BaseFragment() {
                 }
             }
 
+            var chosenItem = arrayOf(-1)
+
+
             try {
                 MaterialAlertDialogBuilder(requireActivity())
                     .setTitle("Choose a model")
-                    .setSingleChoiceItems(userFilesNames, selectedFileIndex) { dialog, which ->
-                        selectedFileIndex = which
+                    .setSingleChoiceItems(userFilesNames, chosenItem[0]) { dialog, which ->
+                        chosenItem[0] = which
                         selectedFilePath = userFilePaths[which]
-                        Log.e("TAG", selectedFilePath)
+                        Log.e("TAG", "chosen path$selectedFilePath")
                         chosenPath = selectedFilePath
                     }
                     .setPositiveButton("OK") { dialog, which ->
