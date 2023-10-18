@@ -79,27 +79,26 @@ Setting up the Cloud Console Project
 6. Search for the “Google Drive API” and enable the first result.
 7. Click “OAuth Consent Screen” from the options on the left.
 8. Set up the OAuth Consent Screen page with the following configurations:
-   a) User type: External
-   b) App name: ClinicApp
-   c) User support email: developer’s email
-   d) Developer contact information: developer’s email
-9. Search for and select the following scopes from the Scope page:
-   a) /auth/drive.appdata
-   b) /auth/drive.file
-   c) /auth/drive
-   d) /auth/drive.metadata
-   e) /auth/drive.metadata.readonly
-   f) /auth/drive.readonly
-10. Under Test Users, add the emails of any users that will have access to ClinicApp
-11. Click “Credentials” from the options on the left.
-12. Click “Create Credentials” and select “OAuth Client ID”. Set up the Client ID with the following configurations:
-13. Application type: Android
-14. Name: (developer’s choice)
-15. Package name: org.broadinstitute.clinicapp
-16. Find the SHA1key by the following steps:
-17. Open the ClinicApp project in Android Studio
-18. Click on “Gradle” on the far right
-19. Click on the icon of a rectangle with a green triangle inside (“Execute Gradle Task”
-20. Type “signingReport” and press enter.
-21. The SHA1 key is the sequence generated in the console after “SHA1: ”
-22. Copy and paste the SHA1 key into the Client ID
+9. User type: External
+10. App name: ClinicApp
+11. User support email: developer’s email
+12. Developer contact information: developer’s email
+13. Search for and select the following scopes from the Scope page:
+14. /auth/drive.appdata
+15. /auth/drive.file
+16. /auth/drive
+17. /auth/drive.metadata
+18. /auth/drive.readonly
+19. Under Test Users, add the emails of any users that will have access to ClinicApp
+20. Click “Credentials” from the options on the left.
+21. Click “Create Credentials” and select “OAuth Client ID”. Set up the Client ID with the following configurations:
+22. Application type: Android
+23. Name: (developer’s choice)
+24. Package name: org.broadinstitute.clinicapp
+25. Find the SHA1key by the following steps:
+26. Open the ClinicApp project in Android Studio
+27. Click on “Gradle” on the far right
+28. Click on the icon of a rectangle with a green triangle inside (“Execute Gradle Task”
+29. Type “signingReport” and press enter.
+30. The SHA1 key is the sequence generated in the console after “SHA1: ”
+31. Copy and paste the SHA1 key into the Client ID
