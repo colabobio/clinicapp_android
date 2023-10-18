@@ -18,6 +18,8 @@ interface ClinicDataSource {
 
     fun getMasterStudyDatasCount(masterStudyFormsId: String): Single<Int>
 
+    fun getMasterStudyDatasSpecificCount(masterStudyFormsId: String, masterStudyDataID: String): Single<Int>
+
     fun getMasterVariablesFromAPI(
         lastModified: Long,
         pageSize: Int,
@@ -126,12 +128,18 @@ interface ClinicDataSource {
         studyFormId: String
     ): DataSource.Factory<Int, MasterStudyData>
 
+    fun getStudySpecificDataFromDB(
+        studyFormId: String, masterDtudyID: String
+    ): DataSource.Factory<Int, MasterStudyData>
+
     fun getStudyData(masterId: String): List<StudyData>
 
     fun getPatients(
         search: String,
         studyFormId: String
     ): DataSource.Factory<Int, Patient>
+
+    fun getSpecificPatient(studyFormId: String): DataSource.Factory<Int, Patient>
 
     fun getStudyDataSingle(masterId: String): Single<List<StudyData>>
 
@@ -185,5 +193,6 @@ interface ClinicDataSource {
     fun searchStudyFormsFromDBItem(query: String): DataSource.Factory<Int, StudyFormDetail>
     fun getAllUnSyncCounts(): Single<MasterStudyFormsDao.UnSyncCount>
     fun getSearchVariables(): Single<List<Long>>
+
 
 }

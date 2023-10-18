@@ -78,13 +78,26 @@
             app:layout_constraintStart_toStartOf="parent">
 
         <Button
-                android:id="@+id/btn_confirm"
-                style="@style/bottomBtn"
-                android:layout_weight="1"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/btn_confirm"
+            style="@style/bottomBtn"
+            android:layout_width="209dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:layout_margin="@dimen/dimen_5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btn_use_model"
+            style="@style/bottomBtn"
+            android:layout_width="213dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:layout_margin="@dimen/dimen_5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </TableRow>
     <ProgressBar
