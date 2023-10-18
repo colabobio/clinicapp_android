@@ -9,13 +9,13 @@
 <!--                android:icon="@drawable/ic_logout"-->
 <!--                android:title="@string/menu_logout"/>-->
         <item
-                android:id="@+id/nav_view_mv"
-                android:icon="@drawable/ic_view"
-                android:title="@string/menu_view_master"/>
-                <item
-                        android:id="@+id/nav_profile"
-                        android:icon="@drawable/ic_user_profile"
-                        android:title="@string/menu_user_profile"/>
+            android:id="@+id/nav_view_mv"
+            android:icon="@drawable/ic_view"
+            android:title="@string/menu_view_master"/>
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_user_profile"
+            android:title="@string/menu_user_profile"/>
         <item
             android:id="@+id/nav_sign_out"
             android:icon="@drawable/ic_logout"

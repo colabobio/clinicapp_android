@@ -31,16 +31,20 @@ data class MasterStudyForms(
 
     @Expose
     @SerializedName("keycloakUserFk")
-    @ColumnInfo(name = "user_id") var userId: String = "",
+    @ColumnInfo(name = "user_id")
+    var userId: String = "",
 
     @Expose(serialize = false, deserialize = true)
-    @ColumnInfo(name = "creator") var creator: String = "",
+    @ColumnInfo(name = "creator")
+    var creator: String = "",
 
     @Expose
-    @ColumnInfo(name = "created_on") var createdOn: Long = System.currentTimeMillis(),
+    @ColumnInfo(name = "created_on")
+    var createdOn: Long = System.currentTimeMillis(),
 
     @Expose
-    @ColumnInfo(name = "last_modified") var lastModified: Long = System.currentTimeMillis(),
+    @ColumnInfo(name = "last_modified")
+    var lastModified: Long = System.currentTimeMillis(),
 
     @Expose
     var timezone: String = "",
@@ -49,7 +53,8 @@ data class MasterStudyForms(
     var version: String = "",
 
     @Expose
-    @ColumnInfo(name = "is_active") var isActive: Boolean = true,
+    @ColumnInfo(name = "is_active")
+    var isActive: Boolean = true,
 
     @ColumnInfo(name = "is_server_updated")
     var isServerUpdated: Boolean = false,

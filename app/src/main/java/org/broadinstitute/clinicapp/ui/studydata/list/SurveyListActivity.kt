@@ -17,6 +17,7 @@ import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseActivity
 import org.broadinstitute.clinicapp.data.source.local.entities.MasterStudyData
+import org.broadinstitute.clinicapp.data.source.local.entities.Patient
 import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
 import org.broadinstitute.clinicapp.ui.studydata.patient.SearchPatientActivity
 import org.broadinstitute.clinicapp.ui.studydata.survey.SurveyActivity
@@ -78,33 +79,33 @@ class SurveyListActivity : BaseActivity(), SDListContract.View {
             startActivity(intent)
         }
 
-        mDialogView.pop_create_followup.setOnClickListener {
-            mAlertDialog.dismiss()
-            intent = Intent(this, SearchPatientActivity::class.java)
-                .putExtra(
-                    Constants.BundleKey.CREATE_STUDY_DATA_KEY,
-                    Constants.StudyDataType.FOLLOWUP_STUDY_DATA
-                )
-                .putExtra(
-                    Constants.BundleKey.STUDY_FORM_DETAIL_KEY,
-                    studyFormDetail
-                )
-            startActivity(intent)
-        }
-
-        mDialogView.pop_create_final_outcome.setOnClickListener {
-            mAlertDialog.dismiss()
-            intent = Intent(this, SearchPatientActivity::class.java)
-                .putExtra(
-                    Constants.BundleKey.CREATE_STUDY_DATA_KEY,
-                    Constants.StudyDataType.FINAL_OUTCOME_STUDY_DATA
-                )
-                .putExtra(
-                    Constants.BundleKey.STUDY_FORM_DETAIL_KEY,
-                    studyFormDetail
-                )
-            startActivity(intent)
-        }
+//        mDialogView.pop_create_followup.setOnClickListener {
+//            mAlertDialog.dismiss()
+//            intent = Intent(this, SearchPatientActivity::class.java)
+//                .putExtra(
+//                    Constants.BundleKey.CREATE_STUDY_DATA_KEY,
+//                    Constants.StudyDataType.FOLLOWUP_STUDY_DATA
+//                )
+//                .putExtra(
+//                    Constants.BundleKey.STUDY_FORM_DETAIL_KEY,
+//                    studyFormDetail
+//                )
+//            startActivity(intent)
+//        }
+//
+//        mDialogView.pop_create_final_outcome.setOnClickListener {
+//            mAlertDialog.dismiss()
+//            intent = Intent(this, SearchPatientActivity::class.java)
+//                .putExtra(
+//                    Constants.BundleKey.CREATE_STUDY_DATA_KEY,
+//                    Constants.StudyDataType.FINAL_OUTCOME_STUDY_DATA
+//                )
+//                .putExtra(
+//                    Constants.BundleKey.STUDY_FORM_DETAIL_KEY,
+//                    studyFormDetail
+//                )
+//            startActivity(intent)
+//        }
 
     }
 
@@ -167,6 +168,14 @@ class SurveyListActivity : BaseActivity(), SDListContract.View {
     override fun showEmptyWarning(isEmpty: Boolean) {
         if(isEmpty) emptyView.visibility = View.VISIBLE
         else emptyView.visibility = View.GONE
+    }
+
+    override fun showPatients(patientList: PagedList<Patient>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun initializePatients(patients: Patient) {
+        TODO("Not yet implemented")
     }
 
     override fun showStudyData(list: PagedList<MasterStudyData>) {

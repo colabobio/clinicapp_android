@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.home.FragmentMyModels">
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/btn_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--        <Button-->
+<!--            android:id="@+id/open_btn"-->
+<!--            style="?attr/buttonBarButtonStyle"-->
+<!--            android:layout_width="351dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Open" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/sign_in_btn"-->
+<!--            style="?attr/buttonBarButtonStyle"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Log In" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/log_out_btn"-->
+<!--            style="?attr/buttonBarButtonStyle"-->
+<!--            android:layout_width="351dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Log Out" />-->
+
+
+<!--    </LinearLayout>-->
+
+    <TextView
+        android:id="@+id/no_models"
+        style="@style/txtLabelHeader_noMargin"
+        android:layout_width="67dp"
+        android:layout_height="19dp"
+        android:layout_margin="@dimen/dimen_15"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:text="Import your first model from Google Drive"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvModels"
+        android:layout_width="match_parent"
+        android:layout_height="608dp"
+        android:background="@color/colorAppBackground"
+        android:padding="@dimen/dimen_10"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/row_model_data" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabModels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="8dp"
+        android:padding="@dimen/dimen_5"
+        android:src="@mipmap/ic_add_white_18dp"
+        app:backgroundTint="@color/colorPrimaryDark"
+
+
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/rvModels"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</FrameLayout>

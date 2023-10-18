@@ -1,6 +1,7 @@
 package org.broadinstitute.clinicapp.ui.studydata.patient
 
 import android.content.Context
+import android.util.Log
 import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.RxPagedListBuilder
@@ -22,11 +23,14 @@ class PatientListPresenter(private var view: PatientListContract.View, val conte
     private val repository = ClinicRepository.getInstance(context)
 
     override fun getPatients(search: String, studyFormId: String) {
+//        Log.d("PATIENT LIST SEARCH QUERY", search)
         view.showProgress(true)
-        compositeDisposable.add(getPatientObservable(search, studyFormId).subscribe({ patients ->
+        compositeDisposable.add(getPatientObservable(search, studyFormId).subscribe({
+                patients ->
             view.showProgress(false)
             if (patients.isNotEmpty()) {
                 view.showPatients(patients)
+//                Log.d("PATIENT LIST", patients.toString())
             }else{
                 if(search.isEmpty())view.showEmptyWarning(true)
                 else {

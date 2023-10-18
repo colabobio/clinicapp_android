@@ -1,6 +1,7 @@
 package org.broadinstitute.clinicapp.ui.studydata.survey
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProviders
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.R
@@ -30,11 +31,14 @@ class SurveyActivity : BaseActivity() {
         val type: Int = intent.getIntExtra(Constants.BundleKey.CREATE_STUDY_DATA_KEY,0)
         val masterID: MasterStudyData? = intent.getParcelableExtra(Constants.BundleKey.MASTER_STUDY_DATA_KEY)
         val patient: Patient? = intent.getParcelableExtra(Constants.BundleKey.PATIENT_KEY)
+        Log.d("patientSurveyActivity", patient.toString())
 
         form?.let { it1 -> vm.select(it1) }
         // set value to screen type object and get master variable by providing study form.
-        type.let { vm.setType(it, pref) }
-
+        type.let {
+            vm.setType(it, pref)
+            println("TYPE is: $it")
+        }
         // Update or edit study data case it value present otherwise its null
         // set value to Master study data object and get master variable by providing list of temp variable
         masterID?.let{it -> vm.setMasterStudyDataID(it)}
@@ -49,7 +53,7 @@ class SurveyActivity : BaseActivity() {
         val transaction = this.supportFragmentManager.beginTransaction()
         transaction.add(
             R.id.flAddMoreVars,
-            AboutFragment.newInstance())
+            AboutFragment.newInstance(masterID, type))
         transaction.commit()
 
     }

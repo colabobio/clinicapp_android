@@ -25,8 +25,9 @@ class SplashActivity : BaseActivity() {
         setContentView(R.layout.activity_splash)
         setUp()
 
+
         Handler(Looper.getMainLooper()).postDelayed({
-            intent = Intent(this, HomeActivity::class.java)
+            intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }, 2000)

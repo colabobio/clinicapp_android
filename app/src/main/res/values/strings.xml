@@ -24,6 +24,7 @@
 
     <!-- Survey list screen -->
     <string name="survey_list_title">My Surveys - %1$s</string>
+    <string name="patient_survey_list_title">%1$s - %2$s</string>
     <string name="study_data_new_patient">New</string>
     <string name="study_data_followup">Follow-up</string>
     <string name="study_data_final_outcome">Final Outcome</string>
@@ -76,6 +77,7 @@
     <string name="view_variables">View Variables </string>
     <string name="variables">Variables </string>
     <string name="import_study_form">Import Online Study Form </string>
+    <string name="add_variable">Add Variable for a Study</string>
     <string name="title">Title: </string>
     <string name="network_error">Please check your Internet connection</string>
     <string name="login_error">Oops… Looks like some issue with user sync up with server. Please retryOops… Looks like
@@ -129,5 +131,7 @@
     </string>
     <string name="warning_sync_master_variable"> Sync variable before using study form</string>
     <string name="no_result_found">No matching results found</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

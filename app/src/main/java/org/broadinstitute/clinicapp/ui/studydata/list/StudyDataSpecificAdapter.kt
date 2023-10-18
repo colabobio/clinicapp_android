@@ -17,9 +17,9 @@ import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
 import org.broadinstitute.clinicapp.ui.studydata.survey.SurveyActivity
 import org.broadinstitute.clinicapp.util.CommonUtils
 
-class StudyDataAdapter(
+class StudyDataSpecificAdapter(
     private val formDetail: StudyFormDetail
-) : PagedListAdapter<MasterStudyData, StudyDataAdapter.StudyDataViewHolder>(DiffCallback()) {
+) : PagedListAdapter<MasterStudyData, StudyDataSpecificAdapter.StudyDataViewHolder>(DiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudyDataViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return StudyDataViewHolder(layoutInflater, parent, formDetail)
@@ -71,27 +71,27 @@ class StudyDataAdapter(
                 imgSync.visibility = View.INVISIBLE
             }
 
-//            when {
-//                masterStudyData.studyDataWhenAsked == 0 -> {
-//                    txtPatientType.text = parent.context.getString(R.string.when_asked_0)
-//                    txtPatientType.setTextColor(parent.context.getColor(R.color.colorAccent))
-//                }
-//                masterStudyData.studyDataWhenAsked == 1 -> {
-//                    txtPatientType.text = parent.context.getString(R.string.study_data_followup)
-//                    txtPatientType.setTextColor(parent.context.getColor(R.color.colorPrimaryDark))
-//                }
-//                masterStudyData.studyDataWhenAsked == 2 -> {
-//                    txtPatientType.text = parent.context.getString(R.string.study_data_final_outcome)
-//                    txtPatientType.setTextColor(parent.context.getColor(R.color.black))
-//                }
-//            }
+            when {
+                masterStudyData.studyDataWhenAsked == 0 -> {
+                    txtPatientType.text = parent.context.getString(R.string.when_asked_0)
+                    txtPatientType.setTextColor(parent.context.getColor(R.color.colorAccent))
+                }
+                masterStudyData.studyDataWhenAsked == 1 -> {
+                    txtPatientType.text = parent.context.getString(R.string.study_data_followup)
+                    txtPatientType.setTextColor(parent.context.getColor(R.color.colorPrimaryDark))
+                }
+                masterStudyData.studyDataWhenAsked == 2 -> {
+                    txtPatientType.text = parent.context.getString(R.string.study_data_final_outcome)
+                    txtPatientType.setTextColor(parent.context.getColor(R.color.black))
+                }
+            }
 
             itemView.setOnClickListener {
-                val intent = Intent(parent.context, SurveyListSpecificActivity::class.java)
-//                    .putExtra(
-//                        Constants.BundleKey.CREATE_STUDY_DATA_KEY,
-//                        Constants.StudyDataType.UPDATE_STUDY_DATA
-//                    )
+                val intent = Intent(parent.context, SurveyActivity::class.java)
+                    .putExtra(
+                        Constants.BundleKey.CREATE_STUDY_DATA_KEY,
+                        Constants.StudyDataType.UPDATE_STUDY_DATA
+                    )
                     .putExtra(
                         Constants.BundleKey.STUDY_FORM_DETAIL_KEY,
                         formDetail
