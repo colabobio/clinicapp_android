@@ -93,13 +93,13 @@ Setting up the Cloud Console Project
 10. Under Test Users, add the emails of any users that will have access to ClinicApp
 11. Click “Credentials” from the options on the left.
 12. Click “Create Credentials” and select “OAuth Client ID”. Set up the Client ID with the following configurations:
-    a) Application type: Android
-    b) Name: (developer’s choice)
-    c) Package name: org.broadinstitute.clinicapp
-    d) Find the SHA1key by the following steps:
-       i) Open the ClinicApp project in Android Studio
-       ii) Click on “Gradle” on the far right
-      iii) Click on the icon of a rectangle with a green triangle inside (“Execute Gradle Task”
-       iv) Type “signingReport” and press enter.
-        v) The SHA1 key is the sequence generated in the console after “SHA1: ”
-       vi) Copy and paste the SHA1 key into the Client ID
+13. Application type: Android
+14. Name: (developer’s choice)
+15. Package name: org.broadinstitute.clinicapp
+16. Find the SHA1key by the following steps:
+17. Open the ClinicApp project in Android Studio
+18. Click on “Gradle” on the far right
+19. Click on the icon of a rectangle with a green triangle inside (“Execute Gradle Task”
+20. Type “signingReport” and press enter.
+21. The SHA1 key is the sequence generated in the console after “SHA1: ”
+22. Copy and paste the SHA1 key into the Client ID
