@@ -68,3 +68,38 @@ Application Development Environment
     Android Studio 3.4.1
     Target & Compiled Android SDK: 28
     Java 1.8
+
+Setting up the Cloud Console Project
+---------------
+1. Go to the following link - https://console.cloud.google.com/projectcreate
+2. Enter the project name “ClinicApp” and set the location as “No Organization”
+3. In a few seconds, you should be redirected to the “Cloud Overview” of the new project.
+4. Click on the three lines in the top left corner and click on “Enabled APIs & Services” under “APIs & Services”.
+5. Click on “Enable APIs and Services”
+6. Search for the “Google Drive API” and enable the first result.
+7. Click “OAuth Consent Screen” from the options on the left.
+8. Set up the OAuth Consent Screen page with the following configurations:
+   a) User type: External
+   b) App name: ClinicApp
+   c) User support email: developer’s email
+   d) Developer contact information: developer’s email
+9. Search for and select the following scopes from the Scope page:
+   a) /auth/drive.appdata
+   b) /auth/drive.file
+   c) /auth/drive
+   d) /auth/drive.metadata
+   e) /auth/drive.metadata.readonly
+   f) /auth/drive.readonly
+10. Under Test Users, add the emails of any users that will have access to ClinicApp
+11. Click “Credentials” from the options on the left.
+12. Click “Create Credentials” and select “OAuth Client ID”. Set up the Client ID with the following configurations:
+    a) Application type: Android
+    b) Name: (developer’s choice)
+    c) Package name: org.broadinstitute.clinicapp
+    d) Find the SHA1key by the following steps:
+       i) Open the ClinicApp project in Android Studio
+       ii) Click on “Gradle” on the far right
+      iii) Click on the icon of a rectangle with a green triangle inside (“Execute Gradle Task”
+       iv) Type “signingReport” and press enter.
+        v) The SHA1 key is the sequence generated in the console after “SHA1: ”
+       vi) Copy and paste the SHA1 key into the Client ID
