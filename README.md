@@ -18,17 +18,16 @@ This project uses the Gradle build system. To build this project, use the
 `gradlew build` command or use "Import Project" in Android Studio. 
 
 But first, make sure to create the following files in the root of your project:
-    
-    
+
+secrets.properties    
 ```
-secrets.properties
 web_client_id="ID from Google Cloud"
 ```
     
 and
-    
+
+keystore.properties 
 ```
-keystore.properties
 keyAlias=
 keyPassword=
 storeFile=
@@ -87,6 +86,8 @@ Setting up the Cloud Console Project
 29. Type “signingReport” and press enter.
 30. The SHA1 key is the sequence generated in the console after “SHA1: ”
 31. Copy and paste the SHA1 key into the Client ID
+32. Copy the Client ID under "Additional information" under "Credentials | OAuth 2.0 Client IDs" for the ClinicApp project in the Cloud Console
+33. Paste the Client ID in the secrets.properties file, as the value for the web_client parameter
 
 Libraries Used
 --------------
