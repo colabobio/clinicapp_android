@@ -77,7 +77,7 @@
     <string name="view_variables">View Variables </string>
     <string name="variables">Variables </string>
     <string name="import_study_form">Import Online Study Form </string>
-    <string name="add_variable">Add Variable for a Study</string>
+    <string name="add_variable">Add New Variable</string>
     <string name="title">Title: </string>
     <string name="network_error">Please check your Internet connection</string>
     <string name="login_error">Oops… Looks like some issue with user sync up with server. Please retryOops… Looks like

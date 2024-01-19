@@ -30,7 +30,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.ui.login.LoginActivity
-import org.tensorflow.lite.support.metadata.MetadataExtractor
+//import org.tensorflow.lite.support.metadata.MetadataExtractor
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -88,7 +88,9 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         rvModels.layoutManager = linearLayoutManager
         rvModels.adapter = modelListAdapter
 
-        startActivityForResult(LoginActivity.client!!.signInIntent, REQUEST_CODE_SIGN_IN)
+//        startActivityForResult(LoginActivity.client!!.signInIntent, REQUEST_CODE_SIGN_IN)
+
+        findIItems()
 
         return view
     }
@@ -336,13 +338,13 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
 
             val fileOwner = file.path.substringAfter("/files/").substringBefore(" ")
 
-            if (fileOwner.compareTo(email) == 0 && fullName !in fileFullNames)
-            {
+//            if (fileOwner.compareTo(email) == 0 && fullName !in fileFullNames)
+//            {
                 fileFullNames = fileFullNames.plus(fullName)
                 filePaths = filePaths.plus(filePath)
                 fileNames = fileNames.plus(fileName)
                 itemsList.add(fileName)
-            }
+//            }
 
         }
 
@@ -369,31 +371,31 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         return false
     }
     private fun getMetadata(buffer: MappedByteBuffer): Boolean {
-        val metadata = MetadataExtractor(buffer)
-        if (!metadata.hasMetadata()) {
-            val dialogBuilder = AlertDialog.Builder(requireActivity())
-            // set message of alert dialog
-            dialogBuilder.setMessage("No metadata was found in your imported model. Please make sure your model has metadata before importing it.")
-                .setCancelable(true)
-            // create dialog box
-            val alert = dialogBuilder.create()
-            // set title for alert dialog box
-            alert.setTitle("No metadata found.")
-            // show alert dialog
-            alert.show()
-            return false
-        }
-        else {
-            Log.e("TAG", "model metadata" + metadata.modelMetadata.name())
-            Log.e("TAG", "model metadata" + metadata.modelMetadata.author())
-            val inputSize = metadata.inputTensorCount
-            for (i in 0 until inputSize) {
-                val input = metadata.getInputTensorMetadata(i)
-                metadata.getInputTensorMetadata(0)?.name()?.let { Log.e("TAG", it) }
-            }
+//        val metadata = MetadataExtractor(buffer)
+//        if (!metadata.hasMetadata()) {
+//            val dialogBuilder = AlertDialog.Builder(requireActivity())
+//            // set message of alert dialog
+//            dialogBuilder.setMessage("No metadata was found in your imported model. Please make sure your model has metadata before importing it.")
+//                .setCancelable(true)
+//            // create dialog box
+//            val alert = dialogBuilder.create()
+//            // set title for alert dialog box
+//            alert.setTitle("No metadata found.")
+//            // show alert dialog
+//            alert.show()
+//            return false
+//        }
+//        else {
+//            Log.e("TAG", "model metadata" + metadata.modelMetadata.name())
+//            Log.e("TAG", "model metadata" + metadata.modelMetadata.author())
+//            val inputSize = metadata.inputTensorCount
+//            for (i in 0 until inputSize) {
+//                val input = metadata.getInputTensorMetadata(i)
+//                metadata.getInputTensorMetadata(0)?.name()?.let { Log.e("TAG", it) }
+//            }
 
             return true
-        }
+//        }
     }
 
     private fun showCreationFormDialog() {
