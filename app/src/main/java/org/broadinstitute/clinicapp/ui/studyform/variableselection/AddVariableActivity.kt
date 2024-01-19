@@ -91,7 +91,7 @@ class AddVariableActivity : AppCompatActivity() {
             val editTextView = EditText(this)
             val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
             editTextView.layoutParams = params
-            editTextView.hint = "Enter singly selectable choice"
+            editTextView.hint = "Enter choice"
             var variableID = "${variableChoiceTypeId}_choice"
             editTextView.id = variableChoiceTypeId++
 
