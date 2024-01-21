@@ -85,7 +85,7 @@ Setting up the Cloud Console Project
     * Click on the icon of a rectangle with a green triangle inside ("Execute Gradle Task")
     * Type "signingReport" and press enter.
     * The SHA1 key is the sequence generated in the console after "SHA1: "
-14. Copy and paste the SHA1 key into the Client ID
+14. Copy and paste the SHA1 key into the "SHA-1 certificate fingerprint" field under the Client ID page
 15. Copy the Client ID under "Additional information" under "Credentials | OAuth 2.0 Client IDs" for the ClinicApp project in the Cloud Console
 15. Paste the Client ID in the secrets.properties file, as the value for the web_client parameter
 
