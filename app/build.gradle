@@ -29,7 +29,7 @@ android {
 
     compileSdkVersion 33
     defaultConfig {
-        applicationId "org.broadinstitute.clinicapp"
+        applicationId "org.broadinstitute.clinicapp_test"
         minSdkVersion 23
         targetSdkVersion 33
         versionCode 1
