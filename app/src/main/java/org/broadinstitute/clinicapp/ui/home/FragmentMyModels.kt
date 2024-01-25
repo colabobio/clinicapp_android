@@ -306,7 +306,9 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
 
         try {
 
-        val path = "/data/user/0/org.broadinstitute.clinicapp/files"
+
+
+        val path = context?.filesDir?.absolutePath
         val directory = File(path)
         val currentFiles = directory.listFiles()
 
@@ -314,7 +316,7 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
 
             val filePath = file.path
 
-            if (filePath.compareTo("/data/user/0/org.broadinstitute.clinicapp/files/secretPass.txt") == 0) {
+            if (filePath.compareTo(path + "/secretPass.txt") == 0) {
                 continue
             }
             val fullName = file.path.substringAfterLast("/")
