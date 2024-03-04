@@ -31,9 +31,13 @@ class SurveyActivity : BaseActivity() {
         val type: Int = intent.getIntExtra(Constants.BundleKey.CREATE_STUDY_DATA_KEY,0)
         val masterID: MasterStudyData? = intent.getParcelableExtra(Constants.BundleKey.MASTER_STUDY_DATA_KEY)
         val patient: Patient? = intent.getParcelableExtra(Constants.BundleKey.PATIENT_KEY)
+        val yes_or_no_model: String = intent.getStringExtra("CAN_APPLY_MODEL").toString()
         Log.d("patientSurveyActivity", patient.toString())
 
-        form?.let { it1 -> vm.select(it1) }
+        form?.let {
+                it1 -> vm.select(it1)
+            println("select is: $it1")
+        }
         // set value to screen type object and get master variable by providing study form.
         type.let {
             vm.setType(it, pref)
@@ -41,19 +45,29 @@ class SurveyActivity : BaseActivity() {
         }
         // Update or edit study data case it value present otherwise its null
         // set value to Master study data object and get master variable by providing list of temp variable
-        masterID?.let{it -> vm.setMasterStudyDataID(it)}
+        masterID?.let{
+                it -> vm.setMasterStudyDataID(it)
+            println("setMasterStudyDataID is: $it")
+        }
 
         // Follow up & final outcome flow patient value is present, we need create master study data
-        patient?.let{it -> vm.setPatient(it)}
+        patient?.let{
+                it -> vm.setPatient(it)
+            println("setPatient is: $it")
+        }
 
         if(type == Constants.StudyDataType.UPDATE_STUDY_DATA){
-            masterID?.adminId?.let { vm.getPatient(it) }
+            masterID?.adminId?.let {
+                vm.getPatient(it)
+                println("getPatient is: $it")
+            }
         }
 
         val transaction = this.supportFragmentManager.beginTransaction()
+        println("TYPE is again: $type")
         transaction.add(
             R.id.flAddMoreVars,
-            AboutFragment.newInstance(masterID, type))
+            AboutFragment.newInstance(masterID, type, yes_or_no_model))
         transaction.commit()
 
     }

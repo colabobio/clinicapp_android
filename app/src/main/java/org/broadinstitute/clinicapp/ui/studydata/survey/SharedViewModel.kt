@@ -67,6 +67,7 @@ class SharedViewModel : ViewModel() {
                 }
             }
             Constants.StudyDataType.FOLLOWUP_STUDY_DATA -> selected.value?.masterStudyForms?.tempMasterStudyFormsId?.let {
+//                println("FOLLOW Up TYPE is: $selected.value?.masterStudyForms?.tempMasterStudyFormsId")
                 getMasterVariables(
                     it,
                     arrayListOf(1)
@@ -129,10 +130,12 @@ class SharedViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ data ->
                 list = data as ArrayList<StudyFormVariablesDao.StudyFormWithVariable>
+                println("getMasterVariables list is:, ${list}")
                 if (studyDataType.value != Constants.StudyDataType.UPDATE_STUDY_DATA) {
                     data.forEach {
-//                        Log.d("THe datalist is:", it.toString() )
+                        Log.d("THe datalist is:", it.toString() )
                         variableValues[it.formVariables.tempStudyFormVariablesId] = ""
+                        Log.d("variableValues is:", variableValues[it.formVariables.tempStudyFormVariablesId].toString() )
                     }
                 }
             },
@@ -231,21 +234,25 @@ class SharedViewModel : ViewModel() {
         studyType: List<Int>
     ){
         println("getMasterVariablesByFormVariablesForModel method is called")
-        val AboutFragmentClass = AboutFragment()
         compositeDisposable.add(repository.getFormVariables(variablesIds, formId, studyType)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ data ->
+                // Add this line to check if the block is executed
+                Log.d("Inside subscribe block", "Data received: $data")
+
                 list = data as ArrayList<StudyFormVariablesDao.StudyFormWithVariable>
+                Log.d("list is Called ", list.toString())
                 dataForModel = data
-//                Log.d("dataForModel Called Second", dataForModel.toString())
-//                AboutFragmentClass.listStudyFormData(dataForModel)
                 listener?.onDataForModelReceived(dataForModel)
             },
                 { throwable ->
+                    Log.e("Error in getMasterVariablesByFormVariablesForModel", throwable.message ?: "Unknown error")
+                    throwable.printStackTrace()
                     throwable.stackTrace
                 }
             ))
+
     }
 
 }

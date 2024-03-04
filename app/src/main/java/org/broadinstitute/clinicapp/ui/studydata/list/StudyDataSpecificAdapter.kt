@@ -92,6 +92,7 @@ class StudyDataSpecificAdapter(
                         Constants.BundleKey.CREATE_STUDY_DATA_KEY,
                         Constants.StudyDataType.UPDATE_STUDY_DATA
                     )
+                    .putExtra("CAN_APPLY_MODEL", "yes_model")
                     .putExtra(
                         Constants.BundleKey.STUDY_FORM_DETAIL_KEY,
                         formDetail
