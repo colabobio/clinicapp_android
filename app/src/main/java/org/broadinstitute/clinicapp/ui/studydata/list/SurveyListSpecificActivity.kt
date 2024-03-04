@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.paging.PagedList
@@ -38,12 +39,14 @@ class SurveyListSpecificActivity : BaseActivity(), SDListContract.View {
     private lateinit var masterStudyData: MasterStudyData
     private lateinit var presenter: SurveyListPresenter
     private lateinit var patient: Patient
+    private var type: Int = 0
 
     override fun setUp() {
         studyFormDetail =
             intent.extras?.get(Constants.BundleKey.STUDY_FORM_DETAIL_KEY) as StudyFormDetail
         masterStudyData =
             intent.extras?.get(Constants.BundleKey.MASTER_STUDY_DATA_KEY) as MasterStudyData
+        type = intent.getIntExtra(Constants.BundleKey.CREATE_STUDY_DATA_KEY, 0)
 
         presenter.getPatients(masterStudyData.adminId, studyFormDetail.masterStudyForms.tempMasterStudyFormsId!!)
 
@@ -56,6 +59,7 @@ class SurveyListSpecificActivity : BaseActivity(), SDListContract.View {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setContentView(R.layout.activity_specific_survey_list)
+        Log.d("SurveyListSpecificActivity onCreate", "surveylist")
         presenter = SurveyListPresenter(this, this, pref)
         setUp()
 
@@ -92,14 +96,21 @@ class SurveyListSpecificActivity : BaseActivity(), SDListContract.View {
 //        }
 
         mDialogView.pop_create_followup.setOnClickListener {
+            Log.d("SurveyListSpecificActivity follow_up Called", "surveylist")
+            Log.d("SurveyListSpecificActivity follow_up Called", patient.toString())
             mAlertDialog.dismiss()
 //            intent = Intent(this, SearchPatientActivity::class.java)
+            Log.d("SurveyListSpecificActivity after dialog dismiss Called", patient.toString())
             if (patient != null){
+                Log.d("follow_up Called", patient.toString())
                 intent = Intent(this, SurveyActivity::class.java)
                     .putExtra(
                         Constants.BundleKey.CREATE_STUDY_DATA_KEY,
                         Constants.StudyDataType.FOLLOWUP_STUDY_DATA //type = 1
                     )
+                    .putExtra("CAN_APPLY_MODEL", "no_model")
+//                    .putExtra(Constants.BundleKey.PATIENT_KEY, patient)
+//                    .putExtra(Constants.BundleKey.CREATE_STUDY_DATA_KEY, type)
                     .putExtra(
                         Constants.BundleKey.STUDY_FORM_DETAIL_KEY,
                         studyFormDetail
@@ -114,12 +125,14 @@ class SurveyListSpecificActivity : BaseActivity(), SDListContract.View {
         mDialogView.pop_create_final_outcome.setOnClickListener {
             mAlertDialog.dismiss()
 //            intent = Intent(this, SearchPatientActivity::class.java)
+            Log.d("final_outcome Called", patient.toString())
             if (patient != null){
                 intent = Intent(this, SurveyActivity::class.java)
                     .putExtra(
                         Constants.BundleKey.CREATE_STUDY_DATA_KEY,
                         Constants.StudyDataType.FINAL_OUTCOME_STUDY_DATA //type = 2
                     )
+                    .putExtra("CAN_APPLY_MODEL", "no_model")
                     .putExtra(
                         Constants.BundleKey.STUDY_FORM_DETAIL_KEY,
                         studyFormDetail
@@ -127,11 +140,21 @@ class SurveyListSpecificActivity : BaseActivity(), SDListContract.View {
                     .putExtra(Constants.BundleKey.PATIENT_KEY,
                         patient
                     )
+//                startForResult.launch(intent)
                 startActivity(intent)
             }
+
+
         }
 
     }
+
+//    // Define Activity Result contract
+//    val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//        if (result.resultCode == RESULT_OK) {
+//            // Handle the result if needed
+//        }
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 //        val inflater = menuInflater

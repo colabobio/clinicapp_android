@@ -97,9 +97,9 @@ class FillStudiesFragment : BaseFragment() {
 //        println("dataForModel is secondly " + model.dataForModel)
 
         println("FILL_VARIABLEz DATA4MODEL is " + model.dataForModel)
-        println("FILL_VARIABLEz DATA4MODEL LIST is " + model.list)
+        println("FILL_VARIABLEz DATA4MODEL LIST is " + model.list) //===Gives you the list of variables, their labels and ID
         println("FILL_VARIABLEz VALUES LIST is " + model.listForVariableValues)
-        println("FILL_VARIABLEz VALUES 4 MODEL is " + model.variableValues)
+        println("FILL_VARIABLEz VALUES 4 MODEL is " + model.variableValues) //===Gives you the list of variables ID and their values
         model.variableValues.forEach { (key, value) ->
             // Perform operations with key and value
 //            println("KeyVariableValues: $key, Value: $value")
