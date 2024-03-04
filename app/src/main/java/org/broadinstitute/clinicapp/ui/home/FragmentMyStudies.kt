@@ -79,6 +79,8 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
         rvStudyForms.layoutManager = linearLayoutManager
         listAdapter = StudyFormsAdapter(userId, this)
         rvStudyForms.adapter = listAdapter
+
+        listAdapter.notifyDataSetChanged()
         return view
     }
 
