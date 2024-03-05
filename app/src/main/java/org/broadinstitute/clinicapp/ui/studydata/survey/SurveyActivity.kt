@@ -31,7 +31,6 @@ class SurveyActivity : BaseActivity() {
         val type: Int = intent.getIntExtra(Constants.BundleKey.CREATE_STUDY_DATA_KEY,0)
         val masterID: MasterStudyData? = intent.getParcelableExtra(Constants.BundleKey.MASTER_STUDY_DATA_KEY)
         val patient: Patient? = intent.getParcelableExtra(Constants.BundleKey.PATIENT_KEY)
-        Log.d("patientSurveyActivity", patient.toString())
 
         form?.let { it1 -> vm.select(it1) }
         // set value to screen type object and get master variable by providing study form.
