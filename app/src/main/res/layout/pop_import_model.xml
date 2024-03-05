@@ -3,39 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="35dp"
         android:layout_margin="@dimen/padding_25"
         >
+
         <Button
+            android:id="@+id/pop_google_drive"
+            style="@style/loginBtn"
             android:layout_marginTop="@dimen/dimen_15"
-            style="@style/loginBtn" android:padding="@dimen/dimen_5"
-            android:text="Import from Google Drive"
-            android:id="@+id/pop_google_drive"/>
-        <TextView
-            android:text="@string/or" android:gravity="center_horizontal" android:textColor="@color/black"
-            android:layout_width="match_parent" android:padding="@dimen/padding_20" android:textSize="@dimen/text_size_18"
-            android:layout_height="wrap_content" android:textAllCaps="true"/>
-        <Button
-            style="@style/loginBtn"
-            android:text="Import from Other Source" android:id="@+id/pop_other_source"
             android:padding="@dimen/dimen_5"
+            android:text="Import from Google Drive" />
 
-            />
-
-        <TextView
-            android:text="@string/or" android:gravity="center_horizontal" android:textColor="@color/black"
-            android:layout_width="match_parent" android:padding="@dimen/padding_20" android:textSize="@dimen/text_size_18"
-            android:layout_height="wrap_content" android:textAllCaps="true"
-            />
-        <Button
-            style="@style/loginBtn"
-            android:id="@+id/pop_other_source2" android:padding="@dimen/dimen_5" android:text="Import from Other Source 2"
-            android:layout_marginBottom="@dimen/dimen_15"
-            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
