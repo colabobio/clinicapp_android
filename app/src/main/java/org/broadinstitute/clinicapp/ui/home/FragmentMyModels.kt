@@ -306,8 +306,6 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
 
         try {
 
-
-
         val path = context?.filesDir?.absolutePath
         val directory = File(path)
         val currentFiles = directory.listFiles()
@@ -386,40 +384,6 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         mDialogView.pop_google_drive.setOnClickListener {
             mAlertDialog.dismiss()
             openFilePicker()
-        }
-        //cancel button click of custom layout
-        mDialogView.pop_other_source.setOnClickListener {
-            mAlertDialog.dismiss()
-
-            val dialogBuilder = AlertDialog.Builder(requireActivity())
-
-            // set message of alert dialog
-            dialogBuilder.setMessage("Will be used if another source is added.")
-                .setCancelable(true)
-
-            // create dialog box
-            val alert = dialogBuilder.create()
-            // set title for alert dialog box
-            alert.setTitle("Other Source")
-            // show alert dialog
-            alert.show()
-        }
-
-        mDialogView.pop_other_source2.setOnClickListener {
-            mAlertDialog.dismiss()
-
-            val dialogBuilder = AlertDialog.Builder(requireActivity())
-
-            // set message of alert dialog
-            dialogBuilder.setMessage("Will be used if another source is added.")
-                .setCancelable(true)
-
-            // create dialog box
-            val alert = dialogBuilder.create()
-            // set title for alert dialog box
-            alert.setTitle("Other Source 2")
-            // show alert dialog
-            alert.show()
         }
     }
 
