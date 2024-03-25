@@ -29,7 +29,7 @@ android {
 
     compileSdkVersion 33
     defaultConfig {
-        applicationId "org.broadinstitute.clinicapp"
+        applicationId "org.broadinstitute.clinicapp_test"
         minSdkVersion 26
         targetSdkVersion 33
         versionCode 1
@@ -189,4 +189,5 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.5.0'
 
     implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
 }

@@ -3,12 +3,14 @@ package org.broadinstitute.clinicapp.ui.home
 import ModelListAdapter
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -39,7 +41,7 @@ import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
 import java.sql.Timestamp
 import java.util.*
-
+import java.time.ZoneId
 
 class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
 
@@ -95,6 +97,7 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         when (requestCode) {
             REQUEST_CODE_SIGN_IN -> if (resultCode == AppCompatActivity.RESULT_OK && resultData != null) {
@@ -155,6 +158,7 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun openFileFromFilePicker(uri: Uri) {
 
         lateinit var URIName: String
@@ -193,28 +197,65 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
 
                     val stamp = Timestamp(URITime.toLong())
                     var dateTime = DateTime(stamp.time)
+                    
+                    Log.e("TAG", dateTime.toString())
+                    val timeZoneShift = dateTime.toString().substring(24,26).toInt()
+                    val lateNight = 24 - timeZoneShift
+                    Log.e("TAG", timeZoneShift.toString())
 
                     val dateTimeHours = dateTime.toString().substring(11, 13).toInt()
+                    var dateDay = dateTime.toString().substring(8, 10).toInt()
                     var hoursTimeZone: String
+                    var dateDayString: String
 
-                    if (dateTimeHours > 20) {
-                        hoursTimeZone = if (dateTimeHours == 21) {
-                            "01"
-                        } else if (dateTimeHours == 22) {
-                            "02"
-                        } else if (dateTimeHours == 23) {
-                            "03"
-                        } else {
-                            "04"
+                    if (dateTimeHours >= lateNight) {
+                        if (dateTimeHours + timeZoneShift == 24) {
+                            hoursTimeZone = "00"
+                            dateDay = dateDay.toInt() + 1
                         }
-                    } else {
+                        else if (dateTimeHours + timeZoneShift == 25) {
+                            hoursTimeZone = "01"
+                            dateDay = dateDay.toInt() + 1
+                        }
+                        else if (dateTimeHours + timeZoneShift == 26) {
+                            hoursTimeZone = "02"
+                            dateDay = dateDay.toInt() + 1
+
+                        } else if (dateTimeHours + timeZoneShift == 27) {
+                            hoursTimeZone = "03"
+                            dateDay = dateDay.toInt() + 1
+                        }
+                        else {
+                            hoursTimeZone = "04"
+                            dateDay = dateDay.toInt() + 1
+                        }
+                    }
+
+                    else if (dateTimeHours >= 0 && dateTimeHours < 10 - timeZoneShift && timeZoneShift < 10) {
+                        hoursTimeZone = "0" + (dateTimeHours + timeZoneShift).toString()
+                    }
+
+                    else {
                         hoursTimeZone =
-                            (dateTime.toString().substring(11, 13).toInt() + 4).toString()
+                            (dateTime.toString().substring(11, 13).toInt() + timeZoneShift).toString()
+                    }
+
+                    if(dateDay in 0..9) {
+                        dateDayString = "0$dateDay"
+                    }
+
+                    else {
+                        dateDayString = dateDay.toString()
                     }
 
                     val dateTimeString =
-                        dateTime.toString().substring(0, 11) + hoursTimeZone + dateTime.toString()
+                        dateTime.toString().substring(0, 8) + dateDayString + "T" + hoursTimeZone + dateTime.toString()
                             .substring(13, 23)
+
+                    Log.e("TAG", fileName)
+                    Log.e("TAG", URIName)
+                    Log.e("TAG", dateTimeString)
+                    Log.e("TAG", fileModifiedTime)
 
                     if (fileName.compareTo(URIName) == 0 && dateTimeString.compareTo(
                             fileModifiedTime
@@ -244,7 +285,18 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
                         }
 
                         else {
-                            // alert: only tflite models can be downloaded
+                            launch(Dispatchers.Main) {
+                                val dialogBuilder = AlertDialog.Builder(requireActivity())
+                                // set message of alert dialog
+                                dialogBuilder.setMessage("Please make sure to only import .tflite files from your drive. Other file types are not supported..")
+                                    .setCancelable(true)
+                                // create dialog box
+                                val alert = dialogBuilder.create()
+                                // set title for alert dialog box
+                                alert.setTitle("Only tflite models can be downloaded.")
+                                // show alert dialog
+                                alert.show()
+                            }
                         }
                     }
                 }
@@ -252,112 +304,39 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         }
     }
 
-    /*  private fun useModel(
-        pregnancies: String,
-        glucose: String,
-        bloodPressure: String,
-        skinThickness: String,
-        insulin: String,
-        BMI: String,
-        diabetesPedigree: String,
-        age: String
-    ): String? {
-        val input = FloatArray(8)
-        val mean = 44.88812672413793
-        val standardDeviation = 57.37052911308939
-
-        input[0] = pregnancies.toFloat()
-        input[1] = glucose.toFloat()
-        input[2] = bloodPressure.toFloat()
-        input[3] = skinThickness.toFloat()
-        input[4] = insulin.toFloat()
-        input[5] = BMI.toFloat()
-        input[6] = diabetesPedigree.toFloat()
-        input[7] = age.toFloat()
-
-        val output = Array(1) {
-            FloatArray(1)
-        }
-
-        for(i in 0..7) {
-            input[i] = (((input[i] - mean) / standardDeviation).toFloat())
-        }
-
-        Log.e("TAG", "all inputs converted")
-        Log.e("TAG", tflite.toString())
-        try {
-            tflite!!.run(input, output)
-
-            if (output[0][0] >= 0.5) {
-                return "Diabetes detected"
-            }
-
-            else {
-                return "Diabetes not detected"
-            }
-        }
-
-        catch (ex: Exception){
-            val dialogBuilder = AlertDialog.Builder(requireActivity())
-
-            // set message of alert dialog
-            dialogBuilder.setMessage("The model you have chosen does not work for the data in this study.")
-                .setCancelable(true)
-
-            // create dialog box
-            val alert = dialogBuilder.create()
-            // set title for alert dialog box
-            alert.setTitle("Wrong model chosen.")
-            // show alert dialog
-            alert.show()
-
-
-        }
-
-        return "Outputted value"
-    }
-*/
     private fun findIItems() {
-
         try {
 
-        val path = "/data/user/0/org.broadinstitute.clinicapp/files"
+        val path = context?.filesDir?.absolutePath
         val directory = File(path)
         val currentFiles = directory.listFiles()
 
         for (file in currentFiles) {
-
             val filePath = file.path
 
-            if (filePath.compareTo("/data/user/0/org.broadinstitute.clinicapp/files/secretPass.txt") == 0) {
+            if (filePath.compareTo(path + "/secretPass.txt") == 0) {
                 continue
             }
             val fullName = file.path.substringAfterLast("/")
-
             val fileName = fullName.substringBeforeLast(".").substringAfter(" ")
-
             val fileOwner = file.path.substringAfter("/files/").substringBefore(" ")
 
-//            if (fileOwner.compareTo(email) == 0 && fullName !in fileFullNames)
-//            {
+            if (fileOwner.compareTo(email) == 0 && fullName !in fileFullNames)
+            {
                 fileFullNames = fileFullNames.plus(fullName)
                 filePaths = filePaths.plus(filePath)
                 fileNames = fileNames.plus(fileName)
                 itemsList.add(fileName)
-//            }
-
+            }
         }
 
         launch (Dispatchers.Main){
             // Stuff that updates the UI
             modelListAdapter.notifyDataSetChanged()
         }
-
-    }
-
-        catch(ex: java.lang.Exception) {
+    } catch(ex: java.lang.Exception) {
         Log.e("TAG", ex.toString())
-        }
+    }
   }
 
     private fun loadModel(path: String): Boolean {
@@ -370,32 +349,25 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
 
         return false
     }
+    
     private fun getMetadata(buffer: MappedByteBuffer): Boolean {
-//        val metadata = MetadataExtractor(buffer)
-//        if (!metadata.hasMetadata()) {
-//            val dialogBuilder = AlertDialog.Builder(requireActivity())
-//            // set message of alert dialog
-//            dialogBuilder.setMessage("No metadata was found in your imported model. Please make sure your model has metadata before importing it.")
-//                .setCancelable(true)
-//            // create dialog box
-//            val alert = dialogBuilder.create()
-//            // set title for alert dialog box
-//            alert.setTitle("No metadata found.")
-//            // show alert dialog
-//            alert.show()
-//            return false
-//        }
-//        else {
-//            Log.e("TAG", "model metadata" + metadata.modelMetadata.name())
-//            Log.e("TAG", "model metadata" + metadata.modelMetadata.author())
-//            val inputSize = metadata.inputTensorCount
-//            for (i in 0 until inputSize) {
-//                val input = metadata.getInputTensorMetadata(i)
-//                metadata.getInputTensorMetadata(0)?.name()?.let { Log.e("TAG", it) }
-//            }
-
+        val metadata = MetadataExtractor(buffer)
+        if (!metadata.hasMetadata()) {
+            val dialogBuilder = AlertDialog.Builder(requireActivity())
+            // set message of alert dialog
+            dialogBuilder.setMessage("No metadata was found in your imported model. Please make sure your model has metadata before importing it.")
+                .setCancelable(true)
+            // create dialog box
+            val alert = dialogBuilder.create()
+            // set title for alert dialog box
+            alert.setTitle("No metadata found.")
+            // show alert dialog
+            alert.show()
+            return false
+        }
+        else {
             return true
-//        }
+        }
     }
 
     private fun showCreationFormDialog() {
@@ -410,40 +382,6 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         mDialogView.pop_google_drive.setOnClickListener {
             mAlertDialog.dismiss()
             openFilePicker()
-        }
-        //cancel button click of custom layout
-        mDialogView.pop_other_source.setOnClickListener {
-            mAlertDialog.dismiss()
-
-            val dialogBuilder = AlertDialog.Builder(requireActivity())
-
-            // set message of alert dialog
-            dialogBuilder.setMessage("Will be used if another source is added.")
-                .setCancelable(true)
-
-            // create dialog box
-            val alert = dialogBuilder.create()
-            // set title for alert dialog box
-            alert.setTitle("Other Source")
-            // show alert dialog
-            alert.show()
-        }
-
-        mDialogView.pop_other_source2.setOnClickListener {
-            mAlertDialog.dismiss()
-
-            val dialogBuilder = AlertDialog.Builder(requireActivity())
-
-            // set message of alert dialog
-            dialogBuilder.setMessage("Will be used if another source is added.")
-                .setCancelable(true)
-
-            // create dialog box
-            val alert = dialogBuilder.create()
-            // set title for alert dialog box
-            alert.setTitle("Other Source 2")
-            // show alert dialog
-            alert.show()
         }
     }
 

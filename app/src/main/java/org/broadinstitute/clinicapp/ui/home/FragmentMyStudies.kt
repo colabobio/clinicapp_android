@@ -21,6 +21,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.pop_create_studyform.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.broadinstitute.clinicapp.ClinicApp
 import org.broadinstitute.clinicapp.Constants
 import org.broadinstitute.clinicapp.R
@@ -33,7 +37,7 @@ import org.broadinstitute.clinicapp.util.CommonUtils
 import org.broadinstitute.clinicapp.util.NetworkUtils
 import org.broadinstitute.clinicapp.util.SharedPreferenceUtils
 
-class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListener {
+class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListener, CoroutineScope by MainScope() {
     private lateinit var presenter: HomePresenter
     lateinit var storage: SharedPreferences
     lateinit var pref: SharedPreferenceUtils
@@ -58,6 +62,8 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
         pref  =  ClinicApp.instance!!.getPrefStorage()
         userId = pref.readStringFromPref(Constants.PrefKey.PREF_USER_NAME).toString()
         presenter = HomePresenter(this, requireContext().applicationContext, pref)
+
+
     }
 
     override fun onCreateView(
@@ -79,8 +85,8 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
         rvStudyForms.layoutManager = linearLayoutManager
         listAdapter = StudyFormsAdapter(userId, this)
         rvStudyForms.adapter = listAdapter
-
-        listAdapter.notifyDataSetChanged()
+        presenter.getStudyFormsFromDB("")
+        
         return view
     }
 
@@ -100,6 +106,8 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
                 return false
             }
         })
+
+
     }
 
     private fun getStudies(menuItem: MenuItem){
