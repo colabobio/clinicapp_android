@@ -17,6 +17,7 @@ import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.base.BaseFragment
 import org.broadinstitute.clinicapp.data.source.local.dao.StudyFormVariablesDao
 import org.broadinstitute.clinicapp.data.source.local.entities.MasterStudyData
+import org.broadinstitute.clinicapp.data.source.local.entities.StudyData
 import org.broadinstitute.clinicapp.data.source.local.entities.StudyFormDetail
 import org.broadinstitute.clinicapp.ui.home.FragmentMyModels.Companion.email
 import org.broadinstitute.clinicapp.ui.home.FragmentMyModels.Companion.fileFullNames
@@ -34,11 +35,15 @@ class AboutFragment : BaseFragment() {
     var integerListForModel = arrayListOf<Int>()
     var studyFormData: List<StudyFormVariablesDao.StudyFormWithVariable> = emptyList()
     val variableValuesForModels = LinkedHashMap<String, String>()
+    var ListandLabels = arrayListOf<StudyFormVariablesDao.StudyFormWithVariable>()
+    var ListandLabelsandDetails: List<StudyData>? = null
+    lateinit var VariablesOnly: LinkedHashMap<String, String>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         studyFormDetail = model.selected.value
-
+        Log.d("studyFormDetail in ABOUT Fragment is", studyFormDetail.toString())
     }
 
     @SuppressLint("StringFormatInvalid", "CheckResult")
@@ -51,7 +56,8 @@ class AboutFragment : BaseFragment() {
         val view = inflater.inflate(R.layout.fragment_about_study_form, container, false)
         val masterID = arguments?.getParcelable<MasterStudyData>("masterID")
         val studyType = arguments?.getInt("studyType")
-
+        val yes_or_no_model = arguments?.getString("yes_or_no_model")
+        println("studyType is in About Fragment: $studyType")
 
 
         view.txtHeader.text = getString(R.string.about_study_data)
@@ -63,10 +69,12 @@ class AboutFragment : BaseFragment() {
             view.study_form_details_desc.text = studyFormDetail?.masterStudyForms?.description
         }
 
-        if (studyType != 0) {
+        println("studyType for Model is, ${studyType}") //studyType = 3 for first consult, 1 for follow-up and 2 for final outcome
+
+//        if (studyType != 0) {
+        if(yes_or_no_model == "yes_model") {
             view.btn_use_model.visibility = View.VISIBLE
             view.btn_use_model.text = "Apply Model"
-
             if (masterID?.studyDataWhenAsked == Constants.StudyDataType.NEW_PATIENT_STUDY_DATA)
                 integerListForModel = arrayListOf(0, 1)
             else if (masterID?.studyDataWhenAsked == Constants.StudyDataType.FOLLOWUP_STUDY_DATA)
@@ -109,6 +117,26 @@ class AboutFragment : BaseFragment() {
         }
 
         view.btn_use_model.setOnClickListener {
+//            println("ABOUT_VARIABLEz DATA4MODEL LIST is " + model.list) //===Gives you the list of variables, their labels and ID
+//            println("ABOUT_VARIABLEz VALUES LIST is " + model.listForVariableValues) //===Gives you the list of variables ID and their values and other details
+//            println("ABOUT_VARIABLEz VALUES 4 MODEL is " + model.variableValues) //===Gives you the list of variables ID and their values only
+
+            ListandLabels =  model.list
+            ListandLabelsandDetails =  model.listForVariableValues
+            VariablesOnly =  model.variableValues
+
+//            println("LIST LABELS" + ListandLabels)
+
+            VariablesOnly.forEach { (key, value) ->
+                for (item in ListandLabels){
+                    if (key == item.formVariables.tempStudyFormVariablesId) {
+                        println("Key_name_is: ${item.masterVariables.variableName}, Value: $value")
+                        variableValuesForModels[item.masterVariables.variableName] = value
+                    }
+                }
+                println(variableValuesForModels)
+            }
+
 
             chosenPath = choosingPath()
             if (chosenPath == "") {
@@ -233,12 +261,13 @@ class AboutFragment : BaseFragment() {
          * @return A new instance of fragment DetailsFragment.
          */
         @JvmStatic
-        fun newInstance(masterID: MasterStudyData?, type: Int) =
+        fun newInstance(masterID: MasterStudyData?, type: Int, yes_or_no_model: String) =
             AboutFragment().apply {
                 arguments = Bundle().apply {
                     // Pass the MasterStudyData instance to the fragment
                     putParcelable("masterID", masterID)
                     putInt("studyType", type)
+                    putString("yes_or_no_model", yes_or_no_model)
                 }
 
             }

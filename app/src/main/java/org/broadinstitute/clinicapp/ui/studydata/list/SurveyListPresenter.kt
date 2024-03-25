@@ -268,9 +268,10 @@ class SurveyListPresenter(
             if (patients.isNotEmpty()) {
                 view.showPatients(patients)
             }else{
-                if(search.isEmpty())view.showEmptyWarning(true)
+                if(search.isEmpty())
+                    view.showEmptyWarning(true)
                 else {
-                    view.showToastMessage(context.getString(R.string.no_result_found))
+//                    view.showToastMessage(context.getString(R.string.no_result_found))
                 }
             }
         },

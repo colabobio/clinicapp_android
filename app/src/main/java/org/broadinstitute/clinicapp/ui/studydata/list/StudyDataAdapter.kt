@@ -1,6 +1,7 @@
 package org.broadinstitute.clinicapp.ui.studydata.list
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -87,6 +88,7 @@ class StudyDataAdapter(
 //            }
 
             itemView.setOnClickListener {
+                Log.d("SurveyListSpecificActivity Called", "surveylist")
                 val intent = Intent(parent.context, SurveyListSpecificActivity::class.java)
 //                    .putExtra(
 //                        Constants.BundleKey.CREATE_STUDY_DATA_KEY,

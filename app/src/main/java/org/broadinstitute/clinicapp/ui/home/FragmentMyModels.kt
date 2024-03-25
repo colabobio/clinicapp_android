@@ -32,7 +32,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.ui.login.LoginActivity
-import org.tensorflow.lite.support.metadata.MetadataExtractor
+//import org.tensorflow.lite.support.metadata.MetadataExtractor
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -90,7 +90,9 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         rvModels.layoutManager = linearLayoutManager
         rvModels.adapter = modelListAdapter
 
-        startActivityForResult(LoginActivity.client!!.signInIntent, REQUEST_CODE_SIGN_IN)
+//        startActivityForResult(LoginActivity.client!!.signInIntent, REQUEST_CODE_SIGN_IN)
+
+        findIItems()
 
         return view
     }
@@ -303,7 +305,6 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
     }
 
     private fun findIItems() {
-
         try {
 
         val path = context?.filesDir?.absolutePath
@@ -311,7 +312,6 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         val currentFiles = directory.listFiles()
 
         for (file in currentFiles) {
-
             val filePath = file.path
 
             if (filePath.compareTo(path + "/secretPass.txt") == 0) {
@@ -320,6 +320,7 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
             val fullName = file.path.substringAfterLast("/")
             val fileName = fullName.substringBeforeLast(".").substringAfter(" ")
             val fileOwner = file.path.substringAfter("/files/").substringBefore(" ")
+
             if (fileOwner.compareTo(email) == 0 && fullName !in fileFullNames)
             {
                 fileFullNames = fileFullNames.plus(fullName)
@@ -327,19 +328,15 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
                 fileNames = fileNames.plus(fileName)
                 itemsList.add(fileName)
             }
-
         }
 
         launch (Dispatchers.Main){
             // Stuff that updates the UI
             modelListAdapter.notifyDataSetChanged()
         }
-
-    }
-
-        catch(ex: java.lang.Exception) {
+    } catch(ex: java.lang.Exception) {
         Log.e("TAG", ex.toString())
-        }
+    }
   }
 
     private fun loadModel(path: String): Boolean {
@@ -352,6 +349,7 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
 
         return false
     }
+    
     private fun getMetadata(buffer: MappedByteBuffer): Boolean {
         val metadata = MetadataExtractor(buffer)
         if (!metadata.hasMetadata()) {
