@@ -32,7 +32,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.broadinstitute.clinicapp.R
 import org.broadinstitute.clinicapp.ui.login.LoginActivity
-//import org.tensorflow.lite.support.metadata.MetadataExtractor
+import org.tensorflow.lite.support.metadata.MetadataExtractor
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -90,7 +90,7 @@ class FragmentMyModels : Fragment(), CoroutineScope by MainScope() {
         rvModels.layoutManager = linearLayoutManager
         rvModels.adapter = modelListAdapter
 
-//        startActivityForResult(LoginActivity.client!!.signInIntent, REQUEST_CODE_SIGN_IN)
+        startActivityForResult(LoginActivity.client!!.signInIntent, REQUEST_CODE_SIGN_IN)
 
         findIItems()
 

@@ -86,7 +86,7 @@ class FragmentMyStudies : Fragment(), HomeContract.View, OnSyncInteractionListen
         listAdapter = StudyFormsAdapter(userId, this)
         rvStudyForms.adapter = listAdapter
         presenter.getStudyFormsFromDB("")
-        
+
         return view
     }
 
