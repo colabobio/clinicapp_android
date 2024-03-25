@@ -75,6 +75,38 @@ class AboutFragment : BaseFragment() {
         if(yes_or_no_model == "yes_model") {
             view.btn_use_model.visibility = View.VISIBLE
             view.btn_use_model.text = "Apply Model"
+            if (masterID?.studyDataWhenAsked == Constants.StudyDataType.NEW_PATIENT_STUDY_DATA)
+                integerListForModel = arrayListOf(0, 1)
+            else if (masterID?.studyDataWhenAsked == Constants.StudyDataType.FOLLOWUP_STUDY_DATA)
+                integerListForModel = arrayListOf(1)
+            else if (masterID?.studyDataWhenAsked == Constants.StudyDataType.FINAL_OUTCOME_STUDY_DATA)
+                integerListForModel = arrayListOf(1, 2)
+
+            println("integerListForModel DATA4MODEL is $integerListForModel")
+
+            model.getMasterVariablesByFormVariablesForModel(
+                model.variableValues.keys.toList(),
+                model.selected.value?.masterStudyForms!!.tempMasterStudyFormsId!!,
+                integerListForModel
+            )
+
+            model.setCustomObjectListener(object : SharedViewModel.MyCustomObjectListener {
+                override fun onDataForModelReceived(data: List<StudyFormVariablesDao.StudyFormWithVariable>) {
+                    studyFormData = data
+                    println("Listener CALLED: Here are the values $data")
+                    model.variableValues.forEach { (key, value) ->
+                        // Perform operations with key and value
+//                    println("KeyVariableValues: $key, Value: $value")
+                        for (item in data) {
+                            if (key == item.formVariables.tempStudyFormVariablesId) {
+                                println("Key_name_is: ${item.masterVariables.variableName}, Value: $value")
+                                variableValuesForModels[item.masterVariables.variableName] = value
+                            }
+                        }
+                    }
+                    println("Here are the values in a HashMap $variableValuesForModels")
+                }
+            })
         }
 
         view.btn_confirm.setOnClickListener {
@@ -106,54 +138,9 @@ class AboutFragment : BaseFragment() {
             }
 
 
-            var selectedFilePath = filePaths[0]
-            var selectedFileIndex = 0
-
-            var userFilesNames = emptyArray<String>()
-            var userFilePaths = emptyArray<String>()
-
-            var size = fileNames.size
-            Log.e("TAG", fileFullNames[0])
-
-            for (i in 0 until size) {
-                if (email in fileFullNames[i]) {
-                    userFilesNames = userFilesNames.plus(fileNames[i])
-                    userFilePaths = userFilePaths.plus(filePaths[i])
-                }
-            }
-
-            try {
-                MaterialAlertDialogBuilder(requireActivity())
-                    .setTitle("Choose a model")
-                    .setSingleChoiceItems(userFilesNames, selectedFileIndex) { dialog, which ->
-                        selectedFileIndex = which
-                        selectedFilePath = userFilePaths[which]
-                        Log.e("TAG", selectedFilePath)
-                    }
-                    .setPositiveButton("OK") { dialog, which ->
-                        // transition to fragment that displays model output
-                        // take all inputs to new fragment
-                        val transaction = this.activity?.supportFragmentManager?.beginTransaction()
-                        transaction?.addToBackStack("about")
-                        Log.d("APPLY MODEL", "apply model button has been clicked")
-                        if (variableValuesForModels.isNotEmpty()) {
-                            println("SENDING TO MODEL: Here are the values $variableValuesForModels")
-                            transaction?.replace(
-                                R.id.flAddMoreVars,
-                                PatientClassificationFragment.newInstance(
-                                    studyFormDetail,
-                                    variableValuesForModels
-                                )
-                            )
-                            transaction?.commit()
-                        }
-
-                    }
-
-                    .setNeutralButton("CANCEL") { dialog, which ->
-
-                    }.show()
-            } catch (ex: Exception) {
+            chosenPath = choosingPath()
+            if (chosenPath == "") {
+                // send alert
                 val dialogBuilder = AlertDialog.Builder(requireActivity())
 
                 // set message of alert dialog
@@ -168,18 +155,87 @@ class AboutFragment : BaseFragment() {
                 alert.show()
             }
 
-        }
+            else {
+                var selectedFilePath: String
+                var selectedFileIndex = 0
 
-        model.source
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                if (it == true) {
-                    view.btn_confirm.isEnabled = false
-                    progressBar.visibility = View.VISIBLE
-                } else {
-                    view.btn_confirm.isEnabled = true
-                    progressBar.visibility = View.GONE
+                var userFilesNames = emptyArray<String>()
+                var userFilePaths = emptyArray<String>()
+
+                var size = fileNames.size
+                Log.e("TAG", fileFullNames[0])
+
+                for (i in 0 until size) {
+                    if (email in fileFullNames[i]) {
+                        userFilesNames = userFilesNames.plus(fileNames[i])
+                        userFilePaths = userFilePaths.plus(filePaths[i])
+                    }
                 }
+
+                var chosenItem = arrayOf(-1)
+
+
+                try {
+                    MaterialAlertDialogBuilder(requireActivity())
+                        .setTitle("Choose a model")
+                        .setSingleChoiceItems(userFilesNames, chosenItem[0]) { dialog, which ->
+                            chosenItem[0] = which
+                            selectedFilePath = userFilePaths[which]
+                            Log.e("TAG", "chosen path$selectedFilePath")
+                            chosenPath = selectedFilePath
+                        }
+                        .setPositiveButton("OK") { dialog, which ->
+                            // transition to fragment that displays model output
+                            // take all inputs to new fragment
+                            val transaction = this.activity?.supportFragmentManager?.beginTransaction()
+                            transaction?.addToBackStack("about")
+                            Log.d("APPLY MODEL", "apply model button has been clicked")
+                            if (variableValuesForModels.isNotEmpty()) {
+                                println("SENDING TO MODEL: Here are the values $variableValuesForModels")
+                                transaction?.replace(
+                                    R.id.flAddMoreVars,
+                                    PatientClassificationFragment.newInstance(
+                                        studyFormDetail,
+                                        variableValuesForModels
+                                    )
+                                )
+                                transaction?.commit()
+                            }
+
+                        }
+
+                        .setNeutralButton("CANCEL") { dialog, which ->
+
+                        }.show()
+                } catch (ex: Exception) {
+                    val dialogBuilder = AlertDialog.Builder(requireActivity())
+
+                    // set message of alert dialog
+                    dialogBuilder.setMessage("You have not imported any models from your Drive. Please import a model and then try again.")
+                        .setCancelable(true)
+
+                    // create dialog box
+                    val alert = dialogBuilder.create()
+                    // set title for alert dialog box
+                    alert.setTitle("No models imported.")
+                    // show alert dialog
+                    alert.show()
+                }
+
+            }
+
+            model.source
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    if (it == true) {
+                        view.btn_confirm.isEnabled = false
+                        progressBar.visibility = View.VISIBLE
+                    } else {
+                        view.btn_confirm.isEnabled = true
+                        progressBar.visibility = View.GONE
+                    }
+                }
+
             }
 
         return view
@@ -215,5 +271,15 @@ class AboutFragment : BaseFragment() {
                 }
 
             }
+
+        var chosenPath = ""
+        public fun choosingPath(): String {
+            if (filePaths.isNotEmpty()) {
+                return filePaths[0]
+            }
+
+            return ""
+        }
+
     }
 }
